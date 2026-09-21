@@ -7,15 +7,29 @@ context-aware, real-time weather and pest outbreak alerts for farmers.
 import os
 import json
 import random
-import requests
 
-# Load .env automatically if present
 try:
-    from dotenv import load_dotenv
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    load_dotenv(os.path.join(base_dir, '.env'))
+    import requests
 except ImportError:
-    pass
+    requests = None
+
+# Native zero-dependency .env loader
+def _load_env_native():
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    env_path = os.path.join(base_dir, '.env')
+    if os.path.exists(env_path):
+        try:
+            with open(env_path, 'r', encoding='utf-8') as f:
+                for line in f:
+                    line = line.strip()
+                    if line and not line.startswith('#') and '=' in line:
+                        k, v = line.split('=', 1)
+                        if k.strip() not in os.environ:
+                            os.environ[k.strip()] = v.strip()
+        except Exception:
+            pass
+
+_load_env_native()
 
 class DynamicLLMAlertService:
     def __init__(self):
@@ -48,31 +62,39 @@ class DynamicLLMAlertService:
         """
         Calls Google Gemini API via lightweight HTTP REST.
         """
-        # Try current models
-        models_to_try = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]
+        # Prioritize currently active Gemini models
+        models_to_try = ["gemini-3.6-flash", "gemini-3.8-flash", "gemma-4-31b-it", "gemini-2.5-flash"]
         prompt = self._build_prompt(location, crop, weather, risk, language)
-        
-        for model_name in models_to_try:
-            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={api_key}"
-            headers = {"Content-Type": "application/json"}
-            payload = {
-                "contents": [{
-                    "parts": [{"text": prompt}]
-                }],
-                "generationConfig": {
-                    "temperature": 0.7,
-                    "maxOutputTokens": 600
+        payload = {
+            "contents": [{
+                "parts": [{"text": prompt}]
+            }],
+            "generationConfig": {
+                "temperature": 0.7,
+                "maxOutputTokens": 600,
+                "thinkingConfig": {
+                    "thinkingBudget": 0
                 }
             }
+        }
+        
+        for model_name in models_to_try:
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent"
             try:
-                resp = requests.post(url, headers=headers, json=payload, timeout=10)
-                if resp.status_code == 200:
-                    data = resp.json()
-                    candidates = data.get("candidates", [])
-                    if candidates:
-                        content_parts = candidates[0].get("content", {}).get("parts", [])
-                        if content_parts:
-                            return f"✨ **[Live Gemini AI Advisory]**\n\n" + content_parts[0].get("text", "")
+                import urllib.request
+                req_data = json.dumps(payload).encode('utf-8')
+                headers = {
+                    "Content-Type": "application/json",
+                    "x-goog-api-key": api_key
+                }
+                req = urllib.request.Request(url, data=req_data, headers=headers)
+                res = urllib.request.urlopen(req, timeout=25)
+                data = json.loads(res.read().decode('utf-8'))
+                candidates = data.get("candidates", [])
+                if candidates:
+                    content_parts = candidates[0].get("content", {}).get("parts", [])
+                    if content_parts:
+                        return f"✨ **[Live Google Gemini AI Advisory]**\n\n" + content_parts[0].get("text", "")
             except Exception:
                 continue
         return None

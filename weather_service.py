@@ -4,12 +4,34 @@ Fetches live microclimate weather and forecast data for any district/location us
 Requires ZERO API keys.
 """
 
-import requests
+import json
+import urllib.request
+import urllib.parse
+
+try:
+    import requests
+except ImportError:
+    requests = None
 
 class LiveWeatherService:
     def __init__(self):
         self.geo_url = "https://geocoding-api.open-meteo.com/v1/search"
         self.weather_url = "https://api.open-meteo.com/v1/forecast"
+
+    def _fetch_json(self, url, params):
+        query_string = urllib.parse.urlencode(params)
+        full_url = f"{url}?{query_string}"
+        if requests is not None:
+            try:
+                r = requests.get(full_url, timeout=6)
+                if r.status_code == 200:
+                    return r.json()
+            except Exception:
+                pass
+        # Native fallback
+        req = urllib.request.Request(full_url, headers={"User-Agent": "KrishiMitra/1.0"})
+        with urllib.request.urlopen(req, timeout=6) as response:
+            return json.loads(response.read().decode('utf-8'))
 
     def get_weather_by_city(self, city_name="Nashik"):
         """
@@ -19,12 +41,12 @@ class LiveWeatherService:
         try:
             # 1. Geocode city name to lat/lon
             geo_params = {"name": city_name, "count": 1, "language": "en", "format": "json"}
-            geo_resp = requests.get(self.geo_url, params=geo_params, timeout=5)
+            geo_data = self._fetch_json(self.geo_url, geo_params)
             
-            if geo_resp.status_code != 200 or not geo_resp.json().get("results"):
+            if not geo_data or not geo_data.get("results"):
                 return self._fallback_weather(city_name, error="City not found, using regional baseline.")
                 
-            loc_data = geo_resp.json()["results"][0]
+            loc_data = geo_data["results"][0]
             lat = loc_data["latitude"]
             lon = loc_data["longitude"]
             resolved_name = f"{loc_data.get('name')}, {loc_data.get('admin1', '')} ({loc_data.get('country', '')})"
@@ -37,11 +59,10 @@ class LiveWeatherService:
                 "daily": "temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max",
                 "timezone": "auto"
             }
-            w_resp = requests.get(self.weather_url, params=weather_params, timeout=5)
-            if w_resp.status_code != 200:
+            data = self._fetch_json(self.weather_url, weather_params)
+            if not data:
                 return self._fallback_weather(city_name, error="Weather service timeout.")
 
-            data = w_resp.json()
             curr = data.get("current", {})
             daily = data.get("daily", {})
 
