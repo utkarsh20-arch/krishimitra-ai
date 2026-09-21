@@ -1,0 +1,153 @@
+{
+  "crops": {
+    "Tomato": [
+      {
+        "id": "tomato_early_blight",
+        "name": "Early Blight (Alternaria solani)",
+        "symptoms": "Concentric dark brown rings on older leaves forming a 'target board' pattern, yellow halo around lesions, stem cankers.",
+        "weather_triggers": {
+          "min_humidity": 80,
+          "ideal_temp_range": [24, 29],
+          "high_risk_condition": "Frequent rainfall alternating with warm sunny days, extended leaf wetness (> 8 hours)."
+        },
+        "organic_remedies": [
+          "Spray Neem Seed Kernel Extract (NSKE 5%) or 10,000 ppm Cold-pressed Neem Oil @ 3-5 ml/liter water.",
+          "Foliar application of bio-fungicide Trichoderma viride or Pseudomonas fluorescens @ 5g/liter water during morning hours.",
+          "Prune infected lower foliage up to 1 foot above soil surface to stop soil-borne fungal splash."
+        ],
+        "cultural_prevention": [
+          "Maintain proper plant spacing (60 x 45 cm) for airflow.",
+          "Avoid overhead sprinkler irrigation; use drip irrigation to prevent wetting foliage.",
+          "Mulch soil around plants with straw to prevent fungal spores in soil splashing onto leaves."
+        ],
+        "hazard_warning": "Avoid indiscriminate use of Mancozeb or Copper Oxychloride without protective gear. Never spray when honeybees or pollinators are actively foraging."
+      },
+      {
+        "id": "tomato_leaf_curl",
+        "name": "Tomato Leaf Curl Virus (ToLCV) via Whiteflies",
+        "symptoms": "Upward curling, puckering, and crinkling of leaf margins, stunted plant growth, bushy appearance, reduced flowering.",
+        "weather_triggers": {
+          "min_humidity": 55,
+          "ideal_temp_range": [28, 35],
+          "high_risk_condition": "Dry, hot weather with low wind speed favoring whitefly vector multiplication."
+        },
+        "organic_remedies": [
+          "Install Yellow Sticky Traps @ 15-20 traps per acre at crop canopy height to capture adult whiteflies.",
+          "Spray 2% Neem oil solution combined with 1 ml liquid soap per liter as an emulsifier.",
+          "Spray Beauveria bassiana or Verticillium lecanii bio-agent @ 5g/liter water in evening."
+        ],
+        "cultural_prevention": [
+          "Erect 2 rows of barrier crops like Maize, Bajra, or Sorghum around the tomato plot 30 days before transplanting.",
+          "Rogue out and destroy infected viral plants immediately away from the field."
+        ],
+        "hazard_warning": "Viral diseases cannot be cured with chemical fungicides. Do not waste money spraying fungicides for virus infections."
+      }
+    ],
+    "Paddy (Rice)": [
+      {
+        "id": "paddy_blast",
+        "name": "Rice Blast (Magnaporthe oryzae)",
+        "symptoms": "Spindle or diamond-shaped lesions with gray/white centers and brownish margins on leaves, neck blast causing empty panicles.",
+        "weather_triggers": {
+          "min_humidity": 85,
+          "ideal_temp_range": [20, 26],
+          "high_risk_condition": "Overcast days, nighttime dew condensation, cool night temperatures, excessive nitrogen fertilizer."
+        },
+        "organic_remedies": [
+          "Seed treatment with Pseudomonas fluorescens @ 10g/kg of seed before sowing.",
+          "Foliar spray of 5% raw cow urine extract fermented with crushed neem leaves.",
+          "Apply Silica-rich amendments (e.g., rice husk ash) to strengthen plant epidermal cell walls."
+        ],
+        "cultural_prevention": [
+          "Split nitrogenous fertilizer application into 3-4 doses; avoid excessive urea.",
+          "Maintain optimal water level (2-3 cm) in fields during tillering stage."
+        ],
+        "hazard_warning": "Tricyclazole should only be used as a last resort in severe outbreaks. Overuse leads to resistance and chemical residue in food grain."
+      },
+      {
+        "id": "paddy_stem_borer",
+        "name": "Yellow Stem Borer (Scirpophaga incertulas)",
+        "symptoms": "Drying of central tiller leading to 'dead heart' in vegetative phase; empty white panicles ('white head') during reproductive phase.",
+        "weather_triggers": {
+          "min_humidity": 75,
+          "ideal_temp_range": [25, 32],
+          "high_risk_condition": "Warm humid conditions during active tillering with low wind."
+        },
+        "organic_remedies": [
+          "Set up Pheromone traps with 'Scirpolure' lures @ 5-8 traps/acre for monitoring and mass trapping.",
+          "Release egg parasitoid Trichogramma japonicum @ 40,000 to 50,000 parasites/acre at weekly intervals.",
+          "Clip seedling leaf tips before transplanting to eliminate egg masses."
+        ],
+        "cultural_prevention": [
+          "Install 'T' shaped bird perches @ 10-15 per acre to invite insectivorous birds.",
+          "Submerge fields for 24-48 hours after harvest to kill diapausing larvae in stubbles."
+        ],
+        "hazard_warning": "Granular carbofuran or chlorpyrifos severely degrades aquatic life and groundwater in wetlands. Prohibited near fish habitats."
+      }
+    ],
+    "Cotton": [
+      {
+        "id": "cotton_pink_bollworm",
+        "name": "Pink Bollworm (Pectinophora gossypiella)",
+        "symptoms": "Rosetted flowers that fail to open, entry holes on green bolls sealed with excreta, stained lint and damaged seeds inside bolls.",
+        "weather_triggers": {
+          "min_humidity": 70,
+          "ideal_temp_range": [25, 33],
+          "high_risk_condition": "Continuous warm, cloudy weather during squaring and boll formation."
+        },
+        "organic_remedies": [
+          "Install Gossyplure pheromone traps @ 8-10 traps/acre for mass male moth trapping.",
+          "Spray Neem oil (1500 ppm) @ 5 ml/liter water at 45 and 60 days after sowing.",
+          "Release Trichogramma bactrae @ 60,000/acre at weekly intervals starting from 40 DAS."
+        ],
+        "cultural_prevention": [
+          "Plant non-Bt cotton refuge crop along borders.",
+          "Avoid extended crop cultivation beyond 150 days; terminate crop by January to break pest lifecycle."
+        ],
+        "hazard_warning": "Overuse of synthetic pyrethroids has created severe pesticide resistance and secondary resurgence of whiteflies."
+      }
+    ],
+    "Potato": [
+      {
+        "id": "potato_late_blight",
+        "name": "Late Blight (Phytophthora infestans)",
+        "symptoms": "Water-soaked irregular black/purplish lesions on leaf tips and margins, white cottony fungal growth on leaf undersides in high humidity, rotting tubers.",
+        "weather_triggers": {
+          "min_humidity": 90,
+          "ideal_temp_range": [10, 21],
+          "high_risk_condition": "Persistent foggy/cloudy weather, cold night temperatures with heavy morning dew, RH > 90% for 48 consecutive hours."
+        },
+        "organic_remedies": [
+          "Prophylactic spray of Trichoderma viride @ 5g/liter or fermented butter milk (chaas) mixed with copper vessel extract (traditional recipe).",
+          "Spray potassium phosphite or bio-formulations containing Bacillus subtilis @ 3g/liter."
+        ],
+        "cultural_prevention": [
+          "Use certified disease-free seed tubers.",
+          "Ensure proper earthing-up so tubers are deeply covered with soil to prevent spore penetration."
+        ],
+        "hazard_warning": "Late Blight can destroy an entire field within 48-72 hours. Proactive prevention before rain is critical."
+      }
+    ],
+    "Wheat": [
+      {
+        "id": "wheat_yellow_rust",
+        "name": "Stripe / Yellow Rust (Puccinia striiformis)",
+        "symptoms": "Yellow powder stripes parallel to leaf veins that leave yellow residue when touched with fingers.",
+        "weather_triggers": {
+          "min_humidity": 80,
+          "ideal_temp_range": [10, 18],
+          "high_risk_condition": "Cool, humid weather with intermittent drizzles in Northern/North-Western plains."
+        },
+        "organic_remedies": [
+          "Spray 5% sour buttermilk (3-4 days old fermented curd whey) diluted with water.",
+          "Foliar application of bio-agent Ampelomyces quisqualis or Trichoderma harzianum @ 5g/liter."
+        ],
+        "cultural_prevention": [
+          "Sow resistant wheat varieties recommended for the agro-climatic zone (e.g., HD-2967, DBW-187).",
+          "Timely sowing in November to escape late season rust pressure."
+        ],
+        "hazard_warning": "Do not mix chemical fungicides with bio-agents; bio-agents will be killed by chemical fungicides."
+      }
+    ]
+  }
+}

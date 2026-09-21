@@ -1,0 +1,29 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# VS Code / IDEs
+.vscode/
+.idea/
+
+# Model checkpoints and big datasets
+*.pkl
+*.pth
+*.onnx
+*.tar.gz
+!models/weather_model.pkl
+
+# OS files
+.DS_Store
+Thumbs.db
