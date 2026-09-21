@@ -16,11 +16,18 @@ import sys
 # Add project root to sys.path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from models.vision_detector import CropVisionDetector
-from models.weather_risk_predictor import WeatherRiskPredictor
-from models.advisory_engine import GraniteAgriCopilot
-from models.weather_service import LiveWeatherService
-from models.llm_service import DynamicLLMAlertService
+try:
+    from models.vision_detector import CropVisionDetector
+    from models.weather_risk_predictor import WeatherRiskPredictor
+    from models.advisory_engine import GraniteAgriCopilot
+    from models.weather_service import LiveWeatherService
+    from models.llm_service import DynamicLLMAlertService
+except (ModuleNotFoundError, ImportError):
+    from vision_detector import CropVisionDetector
+    from weather_risk_predictor import WeatherRiskPredictor
+    from advisory_engine import GraniteAgriCopilot
+    from weather_service import LiveWeatherService
+    from llm_service import DynamicLLMAlertService
 
 # Page Configuration
 st.set_page_config(
