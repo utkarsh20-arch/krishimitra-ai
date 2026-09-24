@@ -37,97 +37,343 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom Styling with Rich Animations
+# Custom Styling with Anime & Visual Novel Effects
 st.markdown("""
 <style>
-    @keyframes floatWheat {
+    /* Anime Floating & Bobbing Animations */
+    @keyframes animeBob {
         0% { transform: translateY(0px) rotate(0deg); }
-        50% { transform: translateY(-6px) rotate(5deg); }
+        50% { transform: translateY(-7px) rotate(2deg); }
         100% { transform: translateY(0px) rotate(0deg); }
     }
     
-    @keyframes pulseLive {
-        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
-        70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); }
-        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+    @keyframes eyeBlink {
+        0%, 90%, 100% { transform: scaleY(1); }
+        95% { transform: scaleY(0.1); }
     }
     
+    @keyframes animeAura {
+        0% { filter: drop-shadow(0 0 5px rgba(82, 183, 136, 0.5)); }
+        50% { filter: drop-shadow(0 0 16px rgba(82, 183, 136, 0.9)) drop-shadow(0 0 25px rgba(255, 215, 0, 0.6)); }
+        100% { filter: drop-shadow(0 0 5px rgba(82, 183, 136, 0.5)); }
+    }
+    
+    @keyframes superAuraRed {
+        0% { box-shadow: 0 0 10px #E63946, 0 0 20px #FF758F; }
+        50% { box-shadow: 0 0 28px #E63946, 0 0 50px #FF4D6D; transform: scale(1.015); }
+        100% { box-shadow: 0 0 10px #E63946, 0 0 20px #FF758F; }
+    }
+    
+    @keyframes superAuraGold {
+        0% { box-shadow: 0 0 10px #F4A261, 0 0 20px #E76F51; }
+        50% { box-shadow: 0 0 25px #F4A261, 0 0 45px #E9C46A; transform: scale(1.01); }
+        100% { box-shadow: 0 0 10px #F4A261, 0 0 20px #E76F51; }
+    }
+
+    @keyframes superAuraGreen {
+        0% { box-shadow: 0 0 10px #2A9D8F, 0 0 18px #52B788; }
+        50% { box-shadow: 0 0 22px #52B788, 0 0 35px #74C69D; transform: scale(1.01); }
+        100% { box-shadow: 0 0 10px #2A9D8F, 0 0 18px #52B788; }
+    }
+
+    @keyframes laserSweep {
+        0% { top: 2%; opacity: 0.9; }
+        50% { top: 94%; opacity: 1; }
+        100% { top: 2%; opacity: 0.9; }
+    }
+
     @keyframes shimmerTitle {
-        0% { background-position: -200% center; }
-        100% { background-position: 200% center; }
-    }
-    
-    @keyframes cardFadeIn {
-        from { opacity: 0; transform: translateY(12px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    
-    @keyframes riskPulse {
-        0% { transform: scale(1); filter: drop-shadow(0 0 2px rgba(230,57,70,0.4)); }
-        50% { transform: scale(1.03); filter: drop-shadow(0 0 12px rgba(230,57,70,0.8)); }
-        100% { transform: scale(1); filter: drop-shadow(0 0 2px rgba(230,57,70,0.4)); }
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
     }
 
-    .floating-logo {
-        display: inline-block;
-        animation: floatWheat 4s ease-in-out infinite;
-        font-size: 2.4rem;
-        vertical-align: middle;
-        margin-right: 8px;
+    @keyframes hudPulse {
+        0%, 100% { opacity: 0.8; }
+        50% { opacity: 1; filter: drop-shadow(0 0 8px #00FFFF); }
     }
 
-    .main-title {
-        font-size: 2.4rem;
+    /* Falling Anime Leaves / Sakura Particles */
+    @keyframes animeFall1 {
+        0% { top: -8%; transform: translateX(0vw) rotate(0deg); opacity: 0.85; }
+        50% { transform: translateX(10vw) rotate(180deg); opacity: 0.7; }
+        100% { top: 105%; transform: translateX(-4vw) rotate(360deg); opacity: 0; }
+    }
+    @keyframes animeFall2 {
+        0% { top: -8%; transform: translateX(0vw) rotate(0deg); opacity: 0.8; }
+        50% { transform: translateX(-12vw) rotate(220deg); opacity: 0.6; }
+        100% { top: 105%; transform: translateX(6vw) rotate(440deg); opacity: 0; }
+    }
+    @keyframes animeFall3 {
+        0% { top: -8%; transform: translateX(0vw) rotate(0deg); opacity: 0.85; }
+        50% { transform: translateX(14vw) rotate(140deg); opacity: 0.55; }
+        100% { top: 105%; transform: translateX(-8vw) rotate(300deg); opacity: 0; }
+    }
+
+    .anime-particle {
+        position: fixed;
+        z-index: 99999;
+        pointer-events: none;
+        user-select: none;
+        font-size: 1.4rem;
+    }
+    .p1 { left: 12%; animation: animeFall1 12s linear infinite; animation-delay: 0s; }
+    .p2 { left: 42%; animation: animeFall2 15s linear infinite; animation-delay: 2.5s; font-size: 1.6rem; }
+    .p3 { left: 72%; animation: animeFall3 13s linear infinite; animation-delay: 5s; }
+    .p4 { left: 88%; animation: animeFall1 17s linear infinite; animation-delay: 1.5s; font-size: 1.2rem; }
+    .p5 { left: 28%; animation: animeFall2 14s linear infinite; animation-delay: 7s; }
+
+    /* Anime Mascot Styling */
+    .chibi-mascot-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: linear-gradient(135deg, rgba(82, 183, 136, 0.22) 0%, rgba(45, 106, 79, 0.38) 100%);
+        border: 2px solid #52B788;
+        border-radius: 16px;
+        padding: 12px 14px;
+        margin-bottom: 18px;
+        animation: animeAura 4s ease-in-out infinite;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+    .chibi-avatar {
+        animation: animeBob 3.2s ease-in-out infinite;
+        flex-shrink: 0;
+    }
+    .chibi-dialogue {
+        font-size: 0.88rem;
+        color: #E8F5E9;
+        line-height: 1.35;
+    }
+    .chibi-name {
+        font-size: 0.76rem;
         font-weight: 800;
-        background: linear-gradient(90deg, #2D6A4F, #52B788, #74C69D, #2D6A4F);
-        background-size: 200% auto;
+        color: #74C69D;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 2px;
+    }
+
+    /* Cyber-Mecha Scanner HUD for Tab 1 */
+    .hud-scanner-wrapper {
+        position: relative;
+        border-radius: 14px;
+        overflow: hidden;
+        border: 2px solid #52B788;
+        box-shadow: 0 0 20px rgba(82, 183, 136, 0.35);
+        background: rgba(10, 25, 18, 0.6);
+        padding: 6px;
+        margin-top: 10px;
+    }
+    .hud-laser-line {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, transparent, #2ECC71, #00FFFF, #2ECC71, transparent);
+        box-shadow: 0 0 14px #00FFFF, 0 0 28px #2ECC71;
+        animation: laserSweep 2.6s ease-in-out infinite;
+        z-index: 100;
+        pointer-events: none;
+    }
+    .hud-corner {
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        border-color: #00FFFF;
+        border-style: solid;
+        z-index: 99;
+        pointer-events: none;
+    }
+    .corner-tl { top: 8px; left: 8px; border-width: 3px 0 0 3px; }
+    .corner-tr { top: 8px; right: 8px; border-width: 3px 3px 0 0; }
+    .corner-bl { bottom: 8px; left: 8px; border-width: 0 0 3px 3px; }
+    .corner-br { bottom: 8px; right: 8px; border-width: 0 3px 3px 0; }
+    
+    .hud-badge {
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        background: rgba(10, 25, 18, 0.88);
+        color: #00FFFF;
+        font-family: monospace;
+        font-size: 0.72rem;
+        padding: 4px 10px;
+        border-radius: 6px;
+        border: 1px solid #00FFFF;
+        letter-spacing: 1px;
+        z-index: 101;
+        animation: hudPulse 2s infinite;
+    }
+
+    /* Anime Alert Banners */
+    .anime-alert-banner {
+        padding: 14px 18px;
+        border-radius: 14px;
+        margin-bottom: 14px;
+        font-size: 1.02rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+    .danger-alert {
+        background: linear-gradient(135deg, rgba(230, 57, 70, 0.25) 0%, rgba(150, 20, 30, 0.4) 100%);
+        border: 2px solid #E63946;
+        color: #FFCCD5;
+        animation: superAuraRed 2s infinite;
+    }
+    .healthy-alert {
+        background: linear-gradient(135deg, rgba(42, 157, 143, 0.25) 0%, rgba(20, 80, 70, 0.4) 100%);
+        border: 2px solid #2A9D8F;
+        color: #D8F3DC;
+        animation: superAuraGreen 2.5s infinite;
+    }
+    .anime-ability-item {
+        background: rgba(255, 255, 255, 0.05);
+        border-left: 4px solid #52B788;
+        border-radius: 0 10px 10px 0;
+        padding: 10px 14px;
+        margin-bottom: 8px;
+        transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .anime-ability-item:hover {
+        transform: translateX(6px);
+        background: rgba(82, 183, 136, 0.18);
+        border-left-color: #74C69D;
+    }
+
+    /* Anime RPG Visual Novel Dialogue Box */
+    .anime-rpg-dialogue {
+        background: linear-gradient(135deg, rgba(20, 42, 32, 0.95) 0%, rgba(10, 26, 19, 0.98) 100%);
+        border: 2px solid #52B788;
+        border-radius: 16px;
+        padding: 20px 22px;
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(82, 183, 136, 0.18);
+        position: relative;
+        margin-top: 18px;
+        transition: all 0.3s ease;
+    }
+    .anime-rpg-dialogue:hover {
+        border-color: #74C69D;
+        box-shadow: 0 14px 45px rgba(82, 183, 136, 0.3);
+        transform: translateY(-2px);
+    }
+    .rpg-badge {
+        display: inline-block;
+        background: #2D6A4F;
+        color: #D8F3DC;
+        font-size: 0.76rem;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        padding: 4px 12px;
+        border-radius: 20px;
+        border: 1px solid #74C69D;
+    }
+
+    /* Grimoire Codex Styling for Tab 3 */
+    .anime-grimoire-box {
+        background: linear-gradient(135deg, rgba(18, 38, 28, 0.95) 0%, rgba(8, 20, 14, 0.98) 100%);
+        border: 2px solid #52B788;
+        border-radius: 16px;
+        padding: 22px;
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(82, 183, 136, 0.2);
+        margin-top: 18px;
+        position: relative;
+    }
+    .grimoire-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(82, 183, 136, 0.3);
+        padding-bottom: 10px;
+        margin-bottom: 14px;
+    }
+
+    /* Quest Cards for Tab 4 */
+    .quest-card {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.02) 100%);
+        border: 1.5px solid rgba(82, 183, 136, 0.3);
+        border-radius: 14px;
+        padding: 16px 20px;
+        margin-bottom: 14px;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .quest-card:hover {
+        transform: translateY(-4px);
+        border-color: #74C69D;
+        box-shadow: 0 10px 25px rgba(82, 183, 136, 0.25);
+    }
+    .quest-rank {
+        display: inline-block;
+        background: linear-gradient(135deg, #FFB703, #FB8500);
+        color: #000;
+        font-weight: 800;
+        font-size: 0.72rem;
+        padding: 2px 8px;
+        border-radius: 6px;
+        margin-bottom: 6px;
+    }
+
+    /* Outbreak Auras */
+    .danger-aura {
+        animation: superAuraRed 2s infinite ease-in-out !important;
+        border-color: #E63946 !important;
+    }
+    .moderate-aura {
+        animation: superAuraGold 2.2s infinite ease-in-out !important;
+        border-color: #F4A261 !important;
+    }
+    .healthy-aura {
+        animation: superAuraGreen 2.5s infinite ease-in-out !important;
+        border-color: #2A9D8F !important;
+    }
+
+    /* Core Title & Typography */
+    .main-title {
+        font-size: 2.3rem;
+        font-weight: 800;
+        background: linear-gradient(90deg, #52B788, #95D5B2, #74C69D, #00FFFF, #52B788);
+        background-size: 250% auto;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         animation: shimmerTitle 6s linear infinite;
         display: inline-block;
         margin-bottom: 2px;
     }
-    
     .sub-title {
-        font-size: 1.05rem;
-        color: #8D99AE;
+        font-size: 1.01rem;
+        color: #94D2BD;
         margin-bottom: 18px;
-        animation: cardFadeIn 0.8s ease-out;
     }
 
-    /* Weather Live Box - Glassmorphic Animated Ticker */
+    /* Weather Live Box - Glassmorphic */
     .weather-live-box {
-        background: linear-gradient(135deg, rgba(27, 67, 50, 0.45) 0%, rgba(45, 106, 79, 0.35) 100%);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(82, 183, 136, 0.3);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        background: linear-gradient(135deg, rgba(27, 67, 50, 0.5) 0%, rgba(45, 106, 79, 0.4) 100%);
+        backdrop-filter: blur(14px);
+        border: 1px solid rgba(82, 183, 136, 0.35);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
         padding: 18px 22px;
-        border-radius: 14px;
+        border-radius: 16px;
         color: #E8F5E9 !important;
         margin-bottom: 20px;
-        animation: cardFadeIn 0.6s ease-out;
-        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     .weather-live-box:hover {
         transform: translateY(-3px);
-        box-shadow: 0 12px 36px rgba(45, 106, 79, 0.35);
-        border-color: rgba(116, 198, 157, 0.6);
+        border-color: #74C69D;
     }
 
-    /* Live Pulsing Dot */
     .pulse-dot {
         display: inline-block;
         width: 10px;
         height: 10px;
         border-radius: 50%;
         background-color: #2ECC71;
-        animation: pulseLive 1.8s infinite;
+        box-shadow: 0 0 10px #2ECC71;
         margin-right: 7px;
         vertical-align: middle;
     }
 
-    /* Weather Stat Chips */
     .weather-chips-container {
         display: flex;
         flex-wrap: wrap;
@@ -144,51 +390,23 @@ st.markdown("""
         transition: all 0.25s ease;
     }
     .weather-chip:hover {
-        background: rgba(82, 183, 136, 0.25);
+        background: rgba(82, 183, 136, 0.3);
         transform: translateY(-2px);
         border-color: #52B788;
     }
 
-    /* AI Alert Box with Glowing Left Accent */
-    .ai-alert-box {
-        background: rgba(255, 255, 255, 0.04);
-        backdrop-filter: blur(8px);
-        border-left: 5px solid #52B788;
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
-        border-right: 1px solid rgba(255, 255, 255, 0.08);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-        margin-top: 18px;
-        animation: cardFadeIn 0.5s ease-out;
-        transition: all 0.3s ease;
+    .risk-banner {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border-radius: 14px;
+        padding: 22px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: transform 0.3s ease;
     }
-    .ai-alert-box:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 30px rgba(82, 183, 136, 0.2);
-        border-left-color: #74C69D;
-    }
-
-    /* Metric Cards */
-    .metric-card {
-        background: rgba(255, 255, 255, 0.04);
-        border-left: 4px solid #40916C;
-        border-top: 1px solid rgba(255, 255, 255, 0.06);
-        border-right: 1px solid rgba(255, 255, 255, 0.06);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        padding: 16px;
-        border-radius: 10px;
-        margin-bottom: 14px;
-        transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-    .metric-card:hover {
+    .risk-banner:hover {
         transform: translateY(-3px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        border-left-color: #52B788;
     }
 
-    /* SDG Badges */
     .badge-sdg {
         background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%);
         color: #D8F3DC;
@@ -203,40 +421,35 @@ st.markdown("""
         transition: transform 0.2s ease;
     }
     .badge-sdg:hover {
-        transform: scale(1.05);
+        transform: scale(1.06);
     }
 
-    /* Outbreak Risk Display */
-    .risk-banner {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
-        border-radius: 14px;
-        padding: 22px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        transition: transform 0.3s ease;
+    /* Shiny Anime Buttons */
+    .stButton > button {
+        background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%) !important;
+        color: #D8F3DC !important;
+        border: 1.5px solid #52B788 !important;
+        border-radius: 12px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.5px !important;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
     }
-    .risk-banner:hover {
-        transform: translateY(-3px);
+    .stButton > button:hover {
+        transform: translateY(-2px) scale(1.03) !important;
+        box-shadow: 0 0 18px rgba(82, 183, 136, 0.8), 0 0 30px rgba(0, 255, 200, 0.4) !important;
+        border-color: #74C69D !important;
     }
-    .risk-score-pulse {
-        display: inline-block;
-        animation: riskPulse 2.5s infinite ease-in-out;
-    }
-
-    /* Streamlit Tab Enhancement */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 8px;
-    }
-    .stTabs [data-baseweb="tab"] {
-        border-radius: 10px 10px 0 0;
-        padding: 10px 18px;
-        transition: all 0.25s ease;
-    }
-    .stTabs [data-baseweb="tab"]:hover {
-        background: rgba(45, 106, 79, 0.15);
-        transform: translateY(-2px);
+    .stButton > button:active {
+        transform: scale(0.98) !important;
     }
 </style>
+
+<!-- Anime Falling Sakura & Nature Particles -->
+<div class="anime-particle p1">🍃</div>
+<div class="anime-particle p2">🌸</div>
+<div class="anime-particle p3">🌿</div>
+<div class="anime-particle p4">✨</div>
+<div class="anime-particle p5">🌾</div>
 """, unsafe_allow_html=True)
 
 # Initialize Models & Services
@@ -260,7 +473,49 @@ if "dynamic_alert" not in st.session_state:
 
 # --- SIDEBAR ---
 with st.sidebar:
-    st.image("https://img.icons8.com/color/96/000000/wheat.png", width=70)
+    # Anime Chibi Mascot: Kisan-chan
+    st.markdown("""
+    <div class="chibi-mascot-container">
+        <div class="chibi-avatar">
+            <svg width="60" height="68" viewBox="0 0 80 85" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Straw Hat -->
+                <ellipse cx="40" cy="22" rx="36" ry="12" fill="#E9C46A" stroke="#D4A373" stroke-width="2"/>
+                <path d="M22,22 C22,8 58,8 58,22 Z" fill="#F4A261"/>
+                <path d="M20,22 Q40,26 60,22" stroke="#BC6C25" stroke-width="3"/>
+                <!-- Green Sprout on Hat -->
+                <path d="M40,10 C46,2 54,6 40,10 Z" fill="#52B788"/>
+                <path d="M40,10 C34,2 26,6 40,10 Z" fill="#74C69D"/>
+                <!-- Head -->
+                <ellipse cx="40" cy="46" rx="25" ry="22" fill="#FFE5D9"/>
+                <!-- Anime Hair Bangs -->
+                <path d="M19,38 Q28,50 36,40 Q44,52 52,40 Q57,48 61,38" fill="#583101"/>
+                <!-- Eyes with Sparkles -->
+                <ellipse cx="30" cy="46" rx="4.5" ry="6" fill="#1B4332"/>
+                <circle cx="31.5" cy="44" r="2.2" fill="#FFFFFF"/>
+                <ellipse cx="50" cy="46" rx="4.5" ry="6" fill="#1B4332"/>
+                <circle cx="51.5" cy="44" r="2.2" fill="#FFFFFF"/>
+                <!-- Anime Blush -->
+                <ellipse cx="23" cy="53" rx="4.5" ry="2.5" fill="#FF8FA3" opacity="0.65"/>
+                <ellipse cx="57" cy="53" rx="4.5" ry="2.5" fill="#FF8FA3" opacity="0.65"/>
+                <!-- Cheerful Mouth -->
+                <path d="M36,54 Q40,59 44,54" stroke="#583101" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+                <!-- Farmer Overalls -->
+                <path d="M20,68 Q40,62 60,68 L58,84 L22,84 Z" fill="#2D6A4F"/>
+                <!-- Straps & Button -->
+                <line x1="28" y1="65" x2="28" y2="82" stroke="#1B4332" stroke-width="3"/>
+                <line x1="52" y1="65" x2="52" y2="82" stroke="#1B4332" stroke-width="3"/>
+                <circle cx="28" cy="72" r="2.5" fill="#E9C46A"/>
+                <circle cx="52" cy="72" r="2.5" fill="#E9C46A"/>
+                <text x="35" y="81" font-size="11">🌾</text>
+            </svg>
+        </div>
+        <div class="chibi-dialogue">
+            <div class="chibi-name">✨ Kisan-chan (किसान-चान)</div>
+            <span>"Konnichiwa! नमस्ते! Fasal bachane ke liye taiyar? Let's go! 🌾⚡"</span>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
     st.markdown("### 🌾 KrishiMitra AI")
     st.caption("**1M1B – IBM SkillsBuild Virtual Internship**")
     
@@ -367,8 +622,18 @@ with tab1:
                 d.ellipse((100, 100, 280, 280), fill=(180, 190, 50), outline=(220, 220, 70))
         
         if test_image:
-            st.image(test_image, caption="Field Capture", use_container_width=True)
-            scan_btn = st.button("🔍 Analyze Leaf Symptoms", type="primary")
+            st.markdown("""
+            <div class='hud-scanner-wrapper'>
+                <div class='hud-laser-line'></div>
+                <div class='hud-corner corner-tl'></div>
+                <div class='hud-corner corner-tr'></div>
+                <div class='hud-corner corner-bl'></div>
+                <div class='hud-corner corner-br'></div>
+                <div class='hud-badge'>⚡ SPECTRAL LOCK: ACTIVE</div>
+            """, unsafe_allow_html=True)
+            st.image(test_image, caption="Field Capture Target", use_container_width=True)
+            st.markdown("</div>", unsafe_allow_html=True)
+            scan_btn = st.button("🔍 Launch Cyber Leaf Scan", type="primary")
         else:
             scan_btn = False
             st.info("Upload an image or pick a sample above to test the vision model.")
@@ -378,7 +643,22 @@ with tab1:
             with st.spinner("Analyzing spectral patterns & lesion distribution..."):
                 result = vision_model.analyze_image(test_image, selected_crop=selected_crop)
             
-            st.markdown("### 📋 Diagnostic Report")
+            if not result['is_healthy']:
+                st.markdown(f"""
+                <div class='anime-alert-banner danger-alert'>
+                    🚨 <b>BIO-HAZARD DETECTED:</b> {result['detected_condition'].upper()}!
+                    <div style='font-size: 0.85rem; font-weight: normal; margin-top: 4px;'>Severity: {result['severity']} | Immediate ICAR bio-shield recommended.</div>
+                </div>
+                """, unsafe_allow_html=True)
+            else:
+                st.markdown("""
+                <div class='anime-alert-banner healthy-alert'>
+                    ✨ <b>OPTIMAL CROP HEALTH DETECTED!</b>
+                    <div style='font-size: 0.85rem; font-weight: normal; margin-top: 4px;'>No pathogenic spores found. Crop foliage shows peak vitality!</div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            st.markdown("### 📋 Diagnostic HUD Telemetry")
             c_res1, c_res2 = st.columns(2)
             c_res1.metric("Identified Condition", result['detected_condition'])
             c_res1.metric("Detection Confidence", f"{int(result['confidence'] * 100)}%")
@@ -388,9 +668,13 @@ with tab1:
             st.markdown("#### 🔬 Annotated Diagnostic Inspection")
             st.image(result['annotated_image'], caption="Bounding Box & Symptom Localization", width=350)
             
-            st.markdown("#### 🌿 Certified Bio-Control Measures (ICAR)")
+            st.markdown("#### 🌿 Certified Bio-Control Techniques (ICAR)")
             for remedy in result['organic_remedies']:
-                st.markdown(f"• **Bio-remedy**: {remedy}")
+                st.markdown(f"""
+                <div class='anime-ability-item'>
+                    <b style='color: #74C69D;'>🌟 ICAR Bio-Defense:</b> {remedy}
+                </div>
+                """, unsafe_allow_html=True)
                 
             st.markdown("#### ⚠️ Responsible AI Safety Advisory")
             st.warning(result['hazard_warning'])
@@ -432,19 +716,29 @@ with tab2:
             crop_stage=stage_idx
         )
         
-        risk_color = "#E63946" if prediction['risk_level'] == "High Risk" else ("#F4A261" if prediction['risk_level'] == "Moderate Risk" else "#2A9D8F")
+        if prediction['risk_level'] == "High Risk":
+            risk_color = "#E63946"
+            aura_class = "danger-aura"
+            status_text = "💥 CRITICAL OUTBREAK THREAT DETECTED!"
+        elif prediction['risk_level'] == "Moderate Risk":
+            risk_color = "#F4A261"
+            aura_class = "moderate-aura"
+            status_text = "⚡ ELEVATED RISK WARNING"
+        else:
+            risk_color = "#2A9D8F"
+            aura_class = "healthy-aura"
+            status_text = "🍃 ZEN HARMONY: LOW RISK"
         
-        pulse_class = "risk-score-pulse" if prediction['risk_level'] == "High Risk" else ""
         st.markdown(f"""
-        <div class='risk-banner' style='border-top: 5px solid {risk_color}; box-shadow: 0 8px 24px rgba(0,0,0,0.25);'>
+        <div class='risk-banner {aura_class}' style='border-top: 5px solid {risk_color}; box-shadow: 0 8px 24px rgba(0,0,0,0.25);'>
             <div style='display: flex; justify-content: space-between; align-items: baseline;'>
-                <h3 style='margin:0; color:{risk_color}; font-size:1.25rem;'>Outbreak Risk: {prediction['risk_level']}</h3>
-                <span style='font-size: 0.85rem; opacity: 0.8; background: rgba(255,255,255,0.08); padding: 3px 10px; border-radius: 12px;'>⚡ XGBoost ML</span>
+                <h3 style='margin:0; color:{risk_color}; font-size:1.25rem;'>{status_text}</h3>
+                <span style='font-size: 0.85rem; opacity: 0.85; background: rgba(255,255,255,0.08); padding: 3px 10px; border-radius: 12px;'>⚡ XGBoost ML</span>
             </div>
-            <div class='{pulse_class}' style='color:{risk_color}; font-size:3.2rem; font-weight:800; margin:10px 0;'>
+            <div style='color:{risk_color}; font-size:3.4rem; font-weight:900; margin:10px 0; text-shadow: 0 0 20px {risk_color}88;'>
                 {prediction['risk_percentage']}%
             </div>
-            <p style='margin:0; font-size: 0.95rem; opacity: 0.9;'><b>🔍 Primary Climatic Trigger:</b> {prediction['primary_driver']}</p>
+            <p style='margin:0; font-size: 0.95rem; opacity: 0.9;'><b>🎯 Primary Microclimate Driver:</b> {prediction['primary_driver']}</p>
         </div>
         """, unsafe_allow_html=True)
         
@@ -469,7 +763,20 @@ with tab2:
                 )
         
         st.markdown("#### 🤖 Dynamic AI Agronomic Alert (Real-Time Generated)")
-        st.markdown(f"<div class='ai-alert-box'>{st.session_state.dynamic_alert}</div>", unsafe_allow_html=True)
+        st.markdown(f"""
+        <div class='anime-rpg-dialogue'>
+            <div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;'>
+                <span class='rpg-badge'>📡 TACTICAL CLIMATE TRANSMISSION</span>
+                <span style='color: #74C69D; font-size: 0.82rem; font-weight: 700;'>● LIVE VIA {ai_provider.upper()}</span>
+            </div>
+            <div style='display: flex; gap: 14px; align-items: flex-start;'>
+                <div style='font-size: 2.2rem; filter: drop-shadow(0 0 10px rgba(82, 183, 136, 0.8));'>🌾</div>
+                <div style='font-size: 0.98rem; line-height: 1.6; color: #E8F5E9;'>
+                    {st.session_state.dynamic_alert}
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
 # ====================================================================
 # TAB 3: IBM GRANITE COPILOT & RAG
@@ -521,7 +828,17 @@ with tab3:
                 api_key=user_api_key
             )
         st.markdown("---")
-        st.markdown(advisory)
+        st.markdown(f"""
+        <div class='anime-grimoire-box'>
+            <div class='grimoire-header'>
+                <span class='rpg-badge'>📜 ICAR TACTICAL AGRONOMY CODEX</span>
+                <span style='color: #74C69D; font-weight: 700; font-size: 0.85rem;'>★ RANK S ADVISORY ★</span>
+            </div>
+            <div style='line-height: 1.6; color: #E8F5E9;'>
+                {advisory}
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
 # ====================================================================
 # TAB 4: RESPONSIBLE AI & IMPACT ASSESSMENT
@@ -534,28 +851,32 @@ with tab4:
     
     with r_col1:
         st.markdown("""
-        <div class='metric-card'>
-            <h4>1. ⚖️ Fairness & Inclusivity</h4>
-            <p>• Unbiased recommendations: Never favors commercial chemical brands over affordable homemade bio-remedies.<br>
+        <div class='quest-card'>
+            <span class='quest-rank'>RANK S MISSION</span>
+            <h4 style='margin: 4px 0 8px 0; color: #74C69D;'>1. ⚖️ Fairness & Inclusivity</h4>
+            <p style='margin: 0; font-size: 0.92rem; line-height: 1.5;'>• Unbiased recommendations: Never favors commercial chemical brands over affordable homemade bio-remedies.<br>
             • Accessible to low-literacy farmers through vernacular language and straightforward instructions.</p>
         </div>
-        <div class='metric-card'>
-            <h4>2. 🔍 Transparency & Explainability</h4>
-            <p>• Every alert explains the climatic reasoning (e.g., 'Risk increased due to 88% humidity').<br>
+        <div class='quest-card'>
+            <span class='quest-rank'>RANK S MISSION</span>
+            <h4 style='margin: 4px 0 8px 0; color: #74C69D;'>2. 🔍 Transparency & Explainability</h4>
+            <p style='margin: 0; font-size: 0.92rem; line-height: 1.5;'>• Every alert explains the climatic reasoning (e.g., 'Risk increased due to 88% humidity').<br>
             • Explicitly cites reference sources: ICAR, KVK, and National IPM guidelines.</p>
         </div>
         """, unsafe_allow_html=True)
 
     with r_col2:
         st.markdown("""
-        <div class='metric-card'>
-            <h4>3. 🛡️ Ethics & Safety</h4>
-            <p>• Strict bio-first policy: Recommends non-toxic biological remedies (Neem, Trichoderma) first.<br>
+        <div class='quest-card'>
+            <span class='quest-rank'>RANK S MISSION</span>
+            <h4 style='margin: 4px 0 8px 0; color: #74C69D;'>3. 🛡️ Ethics & Safety Shield</h4>
+            <p style='margin: 0; font-size: 0.92rem; line-height: 1.5;'>• Strict bio-first policy: Recommends non-toxic biological remedies (Neem, Trichoderma) first.<br>
             • Flags dangerous chemical pesticides (WHO Class Ia/Ib) with explicit toxicity hazard warnings.</p>
         </div>
-        <div class='metric-card'>
-            <h4>4. 🔒 Privacy & Data Minimization</h4>
-            <p>• Zero sensitive personal data collected (no Aadhaar, phone numbers, or land ownership records required).<br>
+        <div class='quest-card'>
+            <span class='quest-rank'>RANK S MISSION</span>
+            <h4 style='margin: 4px 0 8px 0; color: #74C69D;'>4. 🔒 Privacy & Data Minimization</h4>
+            <p style='margin: 0; font-size: 0.92rem; line-height: 1.5;'>• Zero sensitive personal data collected (no Aadhaar, phone numbers, or land ownership records required).<br>
             • Operates only on regional agro-climatic coordinates and crop symptoms.</p>
         </div>
         """, unsafe_allow_html=True)
