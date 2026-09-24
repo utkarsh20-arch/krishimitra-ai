@@ -41,6 +41,22 @@ st.set_page_config(
 # Custom Styling with Anime & Visual Novel Effects
 st.markdown("""
 <style>
+    /* Forest & Agricultural Farm Landscape Background */
+    [data-testid="stAppViewContainer"] {
+        background: 
+            linear-gradient(135deg, rgba(8, 24, 16, 0.88) 0%, rgba(4, 14, 9, 0.94) 100%),
+            url("https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=1920&auto=format&fit=crop") center center / cover no-repeat fixed !important;
+    }
+    [data-testid="stSidebar"] {
+        background: 
+            linear-gradient(180deg, rgba(9, 25, 16, 0.94) 0%, rgba(4, 15, 9, 0.97) 100%),
+            url("https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=1920&auto=format&fit=crop") center center / cover no-repeat fixed !important;
+        border-right: 1px solid rgba(82, 183, 136, 0.3) !important;
+    }
+    [data-testid="stHeader"] {
+        background: transparent !important;
+    }
+
     /* Anime Floating & Bobbing Animations */
     @keyframes animeBob {
         0% { transform: translateY(0px) rotate(0deg); }
@@ -583,15 +599,15 @@ st.markdown("""
     }
 </style>
 
-<!-- Anime Falling Sakura & Nature Particles -->
+<!-- Nature Falling Leaves & Sprout Particles (Zero Pink) -->
 <div class="anime-particle p1">🍃</div>
-<div class="anime-particle p2">🌸</div>
+<div class="anime-particle p2">🌱</div>
 <div class="anime-particle p3">🌿</div>
 <div class="anime-particle p4">✨</div>
 <div class="anime-particle p5">🌾</div>
 """, unsafe_allow_html=True)
 
-# --- INTERACTIVE NATURE MOUSE LEAF FOLLOWER & CLICK BURST (JAVASCRIPT) ---
+# --- INTERACTIVE LUMINOUS GREEN LIGHT MOUSE FOLLOWER & CLICK BURST (JAVASCRIPT) ---
 INTERACTIVE_FX_JS = """
 <script>
 (function() {
@@ -603,20 +619,36 @@ INTERACTIVE_FX_JS = """
                 return;
             }
 
-            if (parentDoc.getElementById('krishi-leaf-follower')) return;
+            if (parentDoc.getElementById('krishi-green-light')) return;
 
-            const leaf = parentDoc.createElement('div');
-            leaf.id = 'krishi-leaf-follower';
+            // Luminous Green Light Halo (प्यारी सी हरी रोशनी)
+            const lightOrb = parentDoc.createElement('div');
+            lightOrb.id = 'krishi-green-light';
+            lightOrb.style.position = 'fixed';
+            lightOrb.style.pointerEvents = 'none';
+            lightOrb.style.zIndex = '99999999';
+            lightOrb.style.width = '64px';
+            lightOrb.style.height = '64px';
+            lightOrb.style.borderRadius = '50%';
+            lightOrb.style.background = 'radial-gradient(circle, rgba(46, 234, 128, 0.45) 0%, rgba(82, 183, 136, 0.22) 42%, rgba(46, 204, 113, 0) 70%)';
+            lightOrb.style.boxShadow = '0 0 25px rgba(46, 234, 128, 0.65), 0 0 55px rgba(0, 255, 170, 0.35)';
+            lightOrb.style.display = 'flex';
+            lightOrb.style.alignItems = 'center';
+            lightOrb.style.justifyContent = 'center';
+            lightOrb.style.transform = 'translate(-50%, -50%)';
+            lightOrb.style.transition = 'opacity 0.25s ease, width 0.2s ease, height 0.2s ease, box-shadow 0.2s ease';
+            lightOrb.style.opacity = '0';
+
+            const leaf = parentDoc.createElement('span');
+            leaf.id = 'krishi-leaf-core';
             leaf.innerHTML = '🍃';
-            leaf.style.position = 'fixed';
-            leaf.style.pointerEvents = 'none';
-            leaf.style.zIndex = '99999999';
-            leaf.style.fontSize = '26px';
-            leaf.style.filter = 'drop-shadow(0 0 8px rgba(82, 183, 136, 0.95)) drop-shadow(0 0 16px rgba(0, 255, 200, 0.6))';
-            leaf.style.transition = 'opacity 0.3s ease, filter 0.2s ease';
-            leaf.style.transform = 'translate(-50%, -50%)';
-            leaf.style.opacity = '0';
-            parentDoc.body.appendChild(leaf);
+            leaf.style.fontSize = '22px';
+            leaf.style.filter = 'drop-shadow(0 0 6px #00FF88) drop-shadow(0 0 12px rgba(82, 183, 136, 0.95))';
+            leaf.style.display = 'inline-block';
+            leaf.style.transition = 'transform 0.08s ease-out';
+            lightOrb.appendChild(leaf);
+
+            parentDoc.body.appendChild(lightOrb);
 
             let mouseX = -200, mouseY = -200;
             let leafX = -200, leafY = -200;
@@ -626,7 +658,7 @@ INTERACTIVE_FX_JS = """
             parentDoc.addEventListener('mousemove', function(e) {
                 mouseX = e.clientX;
                 mouseY = e.clientY;
-                leaf.style.opacity = '1';
+                lightOrb.style.opacity = '1';
 
                 const target = e.target;
                 if (target && (
@@ -644,43 +676,47 @@ INTERACTIVE_FX_JS = """
                 )) {
                     if (!isHoveringInteractive) {
                         isHoveringInteractive = true;
-                        leaf.style.filter = 'drop-shadow(0 0 12px #FFD166) drop-shadow(0 0 22px #52B788)';
-                        leaf.style.fontSize = '32px';
+                        lightOrb.style.width = '84px';
+                        lightOrb.style.height = '84px';
+                        lightOrb.style.boxShadow = '0 0 35px rgba(46, 234, 128, 0.85), 0 0 70px rgba(0, 255, 200, 0.5)';
+                        leaf.style.fontSize = '26px';
                     }
                 } else {
                     if (isHoveringInteractive) {
                         isHoveringInteractive = false;
-                        leaf.style.filter = 'drop-shadow(0 0 8px rgba(82, 183, 136, 0.95)) drop-shadow(0 0 16px rgba(0, 255, 200, 0.6))';
-                        leaf.style.fontSize = '26px';
+                        lightOrb.style.width = '64px';
+                        lightOrb.style.height = '64px';
+                        lightOrb.style.boxShadow = '0 0 25px rgba(46, 234, 128, 0.65), 0 0 55px rgba(0, 255, 170, 0.35)';
+                        leaf.style.fontSize = '22px';
                     }
                 }
 
                 const now = Date.now();
                 if (now - lastPollenTime > 45) {
                     lastPollenTime = now;
-                    spawnPollenTrail(e.clientX, e.clientY);
+                    spawnGreenFireflySpark(e.clientX, e.clientY);
                 }
             }, { passive: true });
 
             parentDoc.addEventListener('mouseleave', function() {
-                leaf.style.opacity = '0';
+                lightOrb.style.opacity = '0';
             });
 
             parentDoc.addEventListener('click', function(e) {
-                triggerNatureBurst(e.clientX, e.clientY);
+                triggerGreenLightBurst(e.clientX, e.clientY);
             });
 
             parentDoc.addEventListener('touchstart', function(e) {
                 if (e.touches && e.touches[0]) {
                     mouseX = e.touches[0].clientX;
                     mouseY = e.touches[0].clientY;
-                    triggerNatureBurst(mouseX, mouseY);
+                    triggerGreenLightBurst(mouseX, mouseY);
                 }
             }, { passive: true });
 
-            function spawnPollenTrail(x, y) {
+            function spawnGreenFireflySpark(x, y) {
                 const p = parentDoc.createElement('div');
-                const icons = ['✨', '🌱', '•', '🌸', '🌾'];
+                const icons = ['✨', '🌱', '•', '🍃', '🌾'];
                 p.innerText = icons[Math.floor(Math.random() * icons.length)];
                 p.style.position = 'fixed';
                 p.style.left = (x + (Math.random() * 16 - 8)) + 'px';
@@ -689,7 +725,8 @@ INTERACTIVE_FX_JS = """
                 p.style.zIndex = '99999998';
                 p.style.fontSize = (Math.random() * 6 + 10) + 'px';
                 p.style.color = '#74C69D';
-                p.style.opacity = '0.85';
+                p.style.opacity = '0.9';
+                p.style.filter = 'drop-shadow(0 0 4px #00FF88)';
                 p.style.transition = 'all 0.55s cubic-bezier(0.2, 0.8, 0.3, 1)';
                 parentDoc.body.appendChild(p);
 
@@ -703,16 +740,16 @@ INTERACTIVE_FX_JS = """
                 setTimeout(function() { p.remove(); }, 560);
             }
 
-            function triggerNatureBurst(x, y) {
+            function triggerGreenLightBurst(x, y) {
                 const ring = parentDoc.createElement('div');
                 ring.style.position = 'fixed';
                 ring.style.left = x + 'px';
                 ring.style.top = y + 'px';
-                ring.style.width = '12px';
-                ring.style.height = '12px';
+                ring.style.width = '14px';
+                ring.style.height = '14px';
                 ring.style.borderRadius = '50%';
-                ring.style.border = '2.5px solid #52B788';
-                ring.style.boxShadow = '0 0 14px #00FFFF, inset 0 0 10px #52B788';
+                ring.style.border = '2.5px solid #2ECC71';
+                ring.style.boxShadow = '0 0 20px #00FF88, inset 0 0 12px #2ECC71';
                 ring.style.transform = 'translate(-50%, -50%)';
                 ring.style.pointerEvents = 'none';
                 ring.style.zIndex = '99999999';
@@ -720,15 +757,15 @@ INTERACTIVE_FX_JS = """
                 parentDoc.body.appendChild(ring);
 
                 requestAnimationFrame(function() {
-                    ring.style.width = '85px';
-                    ring.style.height = '85px';
+                    ring.style.width = '90px';
+                    ring.style.height = '90px';
                     ring.style.opacity = '0';
                     ring.style.borderColor = '#00FFFF';
                 });
                 setTimeout(function() { ring.remove(); }, 520);
 
                 const count = 7;
-                const items = ['🍃', '✨', '🌸', '🌾', '🌱', '🌿', '⚡'];
+                const items = ['🍃', '✨', '🌿', '🌾', '🌱', '⚡'];
                 for (let i = 0; i < count; i++) {
                     const part = parentDoc.createElement('div');
                     part.innerText = items[i % items.length];
@@ -738,6 +775,7 @@ INTERACTIVE_FX_JS = """
                     part.style.pointerEvents = 'none';
                     part.style.zIndex = '99999999';
                     part.style.fontSize = '16px';
+                    part.style.filter = 'drop-shadow(0 0 5px #00FF88)';
                     part.style.transform = 'translate(-50%, -50%)';
                     part.style.transition = 'all 0.65s cubic-bezier(0.12, 0.82, 0.32, 1.25)';
                     parentDoc.body.appendChild(part);
@@ -769,16 +807,16 @@ INTERACTIVE_FX_JS = """
                     angle += sway;
                 }
 
-                leaf.style.left = leafX + 'px';
-                leaf.style.top = leafY + 'px';
-                leaf.style.transform = 'translate(-50%, -50%) rotate(' + angle + 'deg)';
+                lightOrb.style.left = leafX + 'px';
+                lightOrb.style.top = leafY + 'px';
+                leaf.style.transform = 'rotate(' + angle + 'deg)';
 
                 requestAnimationFrame(animateFollower);
             }
             requestAnimationFrame(animateFollower);
 
         } catch (err) {
-            console.warn('KrishiMitra Interactive FX:', err);
+            console.warn('KrishiMitra Green Light FX:', err);
         }
     }
 
@@ -850,8 +888,8 @@ with st.sidebar:
             </svg>
         </div>
         <div class="chibi-dialogue">
-            <div class="chibi-name">✨ Kisan-chan (किसान-चान)</div>
-            <span>"Konnichiwa! नमस्ते! Fasal bachane ke liye taiyar? Let's go! 🌾⚡"</span>
+            <div class="chibi-name" style="font-size: 0.86rem; color: #74C69D; font-weight: 700;">🌾 किसान मित्र (KrishiMitra)</div>
+            <div style="font-size: 1.15rem; font-weight: 700; color: #FFFFFF; margin-top: 3px;">"नमस्ते! 🙏🌾"</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
