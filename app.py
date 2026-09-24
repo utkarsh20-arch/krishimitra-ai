@@ -7,6 +7,7 @@ Aligned with UN SDGs: SDG 2 (Zero Hunger), SDG 13 (Climate Action), SDG 15 (Life
 """
 
 import streamlit as st
+import streamlit.components.v1 as components
 import numpy as np
 import pandas as pd
 from PIL import Image
@@ -432,15 +433,153 @@ st.markdown("""
         border-radius: 12px !important;
         font-weight: 700 !important;
         letter-spacing: 0.5px !important;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+        transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+        cursor: pointer !important;
     }
     .stButton > button:hover {
         transform: translateY(-2px) scale(1.03) !important;
-        box-shadow: 0 0 18px rgba(82, 183, 136, 0.8), 0 0 30px rgba(0, 255, 200, 0.4) !important;
+        box-shadow: 0 0 18px rgba(82, 183, 136, 0.85), 0 0 32px rgba(0, 255, 200, 0.45) !important;
         border-color: #74C69D !important;
     }
     .stButton > button:active {
-        transform: scale(0.98) !important;
+        transform: scale(0.96) !important;
+    }
+
+    /* Handcrafted Nature Scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background: rgba(10, 25, 18, 0.95);
+    }
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, #2D6A4F, #52B788);
+        border-radius: 8px;
+        border: 1px solid rgba(116, 198, 157, 0.3);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(180deg, #52B788, #74C69D);
+        box-shadow: 0 0 10px #52B788;
+    }
+
+    /* Floating Glass Tabs */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 8px;
+        background: rgba(15, 35, 25, 0.65);
+        padding: 8px;
+        border-radius: 16px;
+        border: 1px solid rgba(82, 183, 136, 0.3);
+        backdrop-filter: blur(12px);
+        margin-bottom: 22px;
+    }
+    .stTabs [data-baseweb="tab"] {
+        border-radius: 10px;
+        padding: 9px 18px !important;
+        font-weight: 700;
+        color: #A7C4B5 !important;
+        border: 1px solid transparent;
+        transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        cursor: pointer !important;
+    }
+    .stTabs [data-baseweb="tab"]:hover {
+        background: rgba(82, 183, 136, 0.16) !important;
+        color: #D8F3DC !important;
+        transform: translateY(-2px);
+        border-color: rgba(82, 183, 136, 0.4);
+    }
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%) !important;
+        color: #FFFFFF !important;
+        border: 1px solid #52B788 !important;
+        box-shadow: 0 4px 18px rgba(82, 183, 136, 0.4) !important;
+        transform: translateY(-2px);
+    }
+    .stTabs [data-baseweb="tab-highlight"] {
+        background-color: #52B788 !important;
+        height: 3px;
+        border-radius: 3px;
+        box-shadow: 0 0 10px #52B788;
+    }
+
+    /* Bespoke Input, Select & Textarea Styling */
+    div[data-baseweb="select"] > div, div[data-baseweb="input"] > div, .stTextArea textarea, .stTextInput input {
+        background: rgba(14, 32, 23, 0.8) !important;
+        border: 1.5px solid rgba(82, 183, 136, 0.35) !important;
+        border-radius: 12px !important;
+        color: #E8F5E9 !important;
+        transition: all 0.25s ease;
+    }
+    div[data-baseweb="select"] > div:hover, div[data-baseweb="input"] > div:hover, .stTextArea textarea:hover, .stTextInput input:hover {
+        border-color: #52B788 !important;
+        box-shadow: 0 0 12px rgba(82, 183, 136, 0.35) !important;
+    }
+    div[data-baseweb="select"]:focus-within > div, div[data-baseweb="input"]:focus-within > div, .stTextArea textarea:focus, .stTextInput input:focus {
+        border-color: #74C69D !important;
+        box-shadow: 0 0 16px rgba(116, 198, 157, 0.5) !important;
+    }
+
+    /* Neon Emerald Sliders */
+    .stSlider div[data-baseweb="slider"] div[role="slider"] {
+        background-color: #52B788 !important;
+        border: 2px solid #D8F3DC !important;
+        box-shadow: 0 0 12px #52B788 !important;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        cursor: grab !important;
+    }
+    .stSlider div[data-baseweb="slider"] div[role="slider"]:hover {
+        transform: scale(1.25) !important;
+        box-shadow: 0 0 18px #74C69D, 0 0 30px #52B788 !important;
+    }
+
+    /* Custom Radio Pill Badges */
+    .stRadio div[role="radiogroup"] {
+        gap: 10px;
+    }
+    .stRadio label {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(82, 183, 136, 0.25);
+        padding: 5px 14px;
+        border-radius: 20px;
+        transition: all 0.2s ease;
+        cursor: pointer !important;
+    }
+    .stRadio label:hover {
+        background: rgba(82, 183, 136, 0.22);
+        border-color: #52B788;
+        transform: translateY(-2px);
+    }
+
+    /* Glossy Card Sheen Reflection */
+    .weather-live-box, .risk-banner, .quest-card, .anime-rpg-dialogue, .anime-grimoire-box {
+        position: relative;
+        overflow: hidden;
+    }
+    .weather-live-box::after, .risk-banner::after, .quest-card::after, .anime-rpg-dialogue::after, .anime-grimoire-box::after {
+        content: '';
+        position: absolute;
+        top: -60%;
+        left: -60%;
+        width: 220%;
+        height: 220%;
+        background: linear-gradient(60deg, transparent 40%, rgba(255, 255, 255, 0.05) 50%, transparent 60%);
+        transform: rotate(25deg);
+        transition: transform 0.8s ease;
+        pointer-events: none;
+    }
+    .weather-live-box:hover::after, .risk-banner:hover::after, .quest-card:hover::after, .anime-rpg-dialogue:hover::after, .anime-grimoire-box:hover::after {
+        transform: rotate(25deg) translate(30%, 30%);
+    }
+
+    /* Hide iframe container of custom script */
+    iframe[title="streamlit.components.v1.html"], [data-testid="stCustomComponentV1"] {
+        position: fixed !important;
+        top: -200px !important;
+        left: -200px !important;
+        width: 1px !important;
+        height: 1px !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
     }
 </style>
 
@@ -451,6 +590,207 @@ st.markdown("""
 <div class="anime-particle p4">✨</div>
 <div class="anime-particle p5">🌾</div>
 """, unsafe_allow_html=True)
+
+# --- INTERACTIVE NATURE MOUSE LEAF FOLLOWER & CLICK BURST (JAVASCRIPT) ---
+INTERACTIVE_FX_JS = """
+<script>
+(function() {
+    function initKrishiInteractive() {
+        try {
+            const parentDoc = (window.parent && window.parent.document) ? window.parent.document : document;
+            if (!parentDoc || !parentDoc.body) {
+                setTimeout(initKrishiInteractive, 200);
+                return;
+            }
+
+            if (parentDoc.getElementById('krishi-leaf-follower')) return;
+
+            const leaf = parentDoc.createElement('div');
+            leaf.id = 'krishi-leaf-follower';
+            leaf.innerHTML = '🍃';
+            leaf.style.position = 'fixed';
+            leaf.style.pointerEvents = 'none';
+            leaf.style.zIndex = '99999999';
+            leaf.style.fontSize = '26px';
+            leaf.style.filter = 'drop-shadow(0 0 8px rgba(82, 183, 136, 0.95)) drop-shadow(0 0 16px rgba(0, 255, 200, 0.6))';
+            leaf.style.transition = 'opacity 0.3s ease, filter 0.2s ease';
+            leaf.style.transform = 'translate(-50%, -50%)';
+            leaf.style.opacity = '0';
+            parentDoc.body.appendChild(leaf);
+
+            let mouseX = -200, mouseY = -200;
+            let leafX = -200, leafY = -200;
+            let lastPollenTime = 0;
+            let isHoveringInteractive = false;
+
+            parentDoc.addEventListener('mousemove', function(e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                leaf.style.opacity = '1';
+
+                const target = e.target;
+                if (target && (
+                    target.tagName === 'BUTTON' || 
+                    target.tagName === 'INPUT' || 
+                    target.tagName === 'SELECT' || 
+                    target.tagName === 'A' || 
+                    target.closest('button') || 
+                    target.closest('[role="tab"]') ||
+                    target.closest('.stButton') ||
+                    target.closest('.stSelectbox') ||
+                    target.closest('.stRadio') ||
+                    target.closest('.risk-banner') ||
+                    target.closest('.quest-card')
+                )) {
+                    if (!isHoveringInteractive) {
+                        isHoveringInteractive = true;
+                        leaf.style.filter = 'drop-shadow(0 0 12px #FFD166) drop-shadow(0 0 22px #52B788)';
+                        leaf.style.fontSize = '32px';
+                    }
+                } else {
+                    if (isHoveringInteractive) {
+                        isHoveringInteractive = false;
+                        leaf.style.filter = 'drop-shadow(0 0 8px rgba(82, 183, 136, 0.95)) drop-shadow(0 0 16px rgba(0, 255, 200, 0.6))';
+                        leaf.style.fontSize = '26px';
+                    }
+                }
+
+                const now = Date.now();
+                if (now - lastPollenTime > 45) {
+                    lastPollenTime = now;
+                    spawnPollenTrail(e.clientX, e.clientY);
+                }
+            }, { passive: true });
+
+            parentDoc.addEventListener('mouseleave', function() {
+                leaf.style.opacity = '0';
+            });
+
+            parentDoc.addEventListener('click', function(e) {
+                triggerNatureBurst(e.clientX, e.clientY);
+            });
+
+            parentDoc.addEventListener('touchstart', function(e) {
+                if (e.touches && e.touches[0]) {
+                    mouseX = e.touches[0].clientX;
+                    mouseY = e.touches[0].clientY;
+                    triggerNatureBurst(mouseX, mouseY);
+                }
+            }, { passive: true });
+
+            function spawnPollenTrail(x, y) {
+                const p = parentDoc.createElement('div');
+                const icons = ['✨', '🌱', '•', '🌸', '🌾'];
+                p.innerText = icons[Math.floor(Math.random() * icons.length)];
+                p.style.position = 'fixed';
+                p.style.left = (x + (Math.random() * 16 - 8)) + 'px';
+                p.style.top = (y + (Math.random() * 16 - 8)) + 'px';
+                p.style.pointerEvents = 'none';
+                p.style.zIndex = '99999998';
+                p.style.fontSize = (Math.random() * 6 + 10) + 'px';
+                p.style.color = '#74C69D';
+                p.style.opacity = '0.85';
+                p.style.transition = 'all 0.55s cubic-bezier(0.2, 0.8, 0.3, 1)';
+                parentDoc.body.appendChild(p);
+
+                requestAnimationFrame(function() {
+                    const driftX = (Math.random() * 24 - 12);
+                    const driftY = -(Math.random() * 26 + 12);
+                    p.style.transform = 'translate(' + driftX + 'px, ' + driftY + 'px) scale(0.3) rotate(' + (Math.random() * 120) + 'deg)';
+                    p.style.opacity = '0';
+                });
+
+                setTimeout(function() { p.remove(); }, 560);
+            }
+
+            function triggerNatureBurst(x, y) {
+                const ring = parentDoc.createElement('div');
+                ring.style.position = 'fixed';
+                ring.style.left = x + 'px';
+                ring.style.top = y + 'px';
+                ring.style.width = '12px';
+                ring.style.height = '12px';
+                ring.style.borderRadius = '50%';
+                ring.style.border = '2.5px solid #52B788';
+                ring.style.boxShadow = '0 0 14px #00FFFF, inset 0 0 10px #52B788';
+                ring.style.transform = 'translate(-50%, -50%)';
+                ring.style.pointerEvents = 'none';
+                ring.style.zIndex = '99999999';
+                ring.style.transition = 'all 0.5s cubic-bezier(0.1, 0.7, 0.1, 1)';
+                parentDoc.body.appendChild(ring);
+
+                requestAnimationFrame(function() {
+                    ring.style.width = '85px';
+                    ring.style.height = '85px';
+                    ring.style.opacity = '0';
+                    ring.style.borderColor = '#00FFFF';
+                });
+                setTimeout(function() { ring.remove(); }, 520);
+
+                const count = 7;
+                const items = ['🍃', '✨', '🌸', '🌾', '🌱', '🌿', '⚡'];
+                for (let i = 0; i < count; i++) {
+                    const part = parentDoc.createElement('div');
+                    part.innerText = items[i % items.length];
+                    part.style.position = 'fixed';
+                    part.style.left = x + 'px';
+                    part.style.top = y + 'px';
+                    part.style.pointerEvents = 'none';
+                    part.style.zIndex = '99999999';
+                    part.style.fontSize = '16px';
+                    part.style.transform = 'translate(-50%, -50%)';
+                    part.style.transition = 'all 0.65s cubic-bezier(0.12, 0.82, 0.32, 1.25)';
+                    parentDoc.body.appendChild(part);
+
+                    const angle = (i / count) * 2 * Math.PI + (Math.random() * 0.3);
+                    const dist = Math.random() * 60 + 35;
+                    const destX = Math.cos(angle) * dist;
+                    const destY = Math.sin(angle) * dist;
+
+                    requestAnimationFrame(function() {
+                        part.style.transform = 'translate(calc(-50% + ' + destX + 'px), calc(-50% + ' + destY + 'px)) scale(0.35) rotate(' + (Math.random() * 360) + 'deg)';
+                        part.style.opacity = '0';
+                    });
+                    setTimeout(function() { part.remove(); }, 680);
+                }
+            }
+
+            function animateFollower() {
+                const dx = mouseX - leafX;
+                const dy = mouseY - leafY;
+                leafX += dx * 0.18;
+                leafY += dy * 0.18;
+
+                const speed = Math.sqrt(dx * dx + dy * dy);
+                let angle = Math.atan2(dy, dx) * (180 / Math.PI) + 45;
+                
+                if (speed < 2) {
+                    const sway = Math.sin(Date.now() / 260) * 12;
+                    angle += sway;
+                }
+
+                leaf.style.left = leafX + 'px';
+                leaf.style.top = leafY + 'px';
+                leaf.style.transform = 'translate(-50%, -50%) rotate(' + angle + 'deg)';
+
+                requestAnimationFrame(animateFollower);
+            }
+            requestAnimationFrame(animateFollower);
+
+        } catch (err) {
+            console.warn('KrishiMitra Interactive FX:', err);
+        }
+    }
+
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        initKrishiInteractive();
+    } else {
+        document.addEventListener('DOMContentLoaded', initKrishiInteractive);
+    }
+})();
+</script>
+"""
+components.html(INTERACTIVE_FX_JS, height=0, width=0)
 
 # Initialize Models & Services
 @st.cache_resource
@@ -556,12 +896,28 @@ with st.sidebar:
 
 # --- MAIN CONTENT HEADER ---
 st.markdown("""
-<div style='display: flex; align-items: center; margin-bottom: 4px;'>
-    <span class='floating-logo'>🌾</span>
-    <h1 class='main-title'>KrishiMitra: Climate & Pest Advisory Copilot</h1>
+<div style='background: linear-gradient(135deg, rgba(20, 48, 35, 0.45) 0%, rgba(10, 25, 18, 0.65) 100%); border: 1px solid rgba(82, 183, 136, 0.35); border-radius: 18px; padding: 22px 26px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); backdrop-filter: blur(12px);'>
+    <div style='display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;'>
+        <div style='display: flex; align-items: center; gap: 14px;'>
+            <span style='font-size: 2.8rem; filter: drop-shadow(0 0 12px rgba(82, 183, 136, 0.8));'>🌾</span>
+            <div>
+                <h1 class='main-title' style='margin: 0; font-size: 2.2rem;'>KrishiMitra AI</h1>
+                <div style='font-size: 0.95rem; color: #94D2BD; font-weight: 500; margin-top: 2px;'>
+                    Resilient Microclimate & Bio-Pest Advisory Copilot
+                </div>
+            </div>
+        </div>
+        <div style='display: flex; gap: 8px; flex-wrap: wrap;'>
+            <span style='background: rgba(82, 183, 136, 0.15); border: 1px solid #52B788; color: #D8F3DC; font-size: 0.76rem; font-weight: 700; padding: 4px 12px; border-radius: 20px;'>🌿 ICAR CERTIFIED KB</span>
+            <span style='background: rgba(0, 255, 255, 0.1); border: 1px solid #00FFFF; color: #A0F0ED; font-size: 0.76rem; font-weight: 700; padding: 4px 12px; border-radius: 20px;'>🛰️ SATELLITE TELEMETRY</span>
+            <span style='background: rgba(255, 183, 3, 0.15); border: 1px solid #FFB703; color: #FFE3A8; font-size: 0.76rem; font-weight: 700; padding: 4px 12px; border-radius: 20px;'>⚡ GEMINI 3.6 FLASH</span>
+        </div>
+    </div>
+    <div style='margin-top: 12px; font-size: 0.92rem; color: #C7E8D6; border-top: 1px solid rgba(82, 183, 136, 0.2); padding-top: 10px;'>
+        Empowering smallholder farmers with proactive bio-control advisories grounded in real-time microclimate feeds, automated XGBoost outbreak forecasting, and responsible AI safety rails.
+    </div>
 </div>
 """, unsafe_allow_html=True)
-st.markdown("<p class='sub-title'>Empowering smallholder farmers with proactive bio-control advisories grounded in real-time climate telemetry & Google Gemini AI.</p>", unsafe_allow_html=True)
 
 # Live Weather Banner with Animated Chips & Live Radar Dot
 lw = st.session_state.live_weather
