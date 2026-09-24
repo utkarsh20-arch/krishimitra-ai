@@ -37,51 +37,204 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom Styling
+# Custom Styling with Rich Animations
 st.markdown("""
 <style>
+    @keyframes floatWheat {
+        0% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-6px) rotate(5deg); }
+        100% { transform: translateY(0px) rotate(0deg); }
+    }
+    
+    @keyframes pulseLive {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
+        70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+    }
+    
+    @keyframes shimmerTitle {
+        0% { background-position: -200% center; }
+        100% { background-position: 200% center; }
+    }
+    
+    @keyframes cardFadeIn {
+        from { opacity: 0; transform: translateY(12px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes riskPulse {
+        0% { transform: scale(1); filter: drop-shadow(0 0 2px rgba(230,57,70,0.4)); }
+        50% { transform: scale(1.03); filter: drop-shadow(0 0 12px rgba(230,57,70,0.8)); }
+        100% { transform: scale(1); filter: drop-shadow(0 0 2px rgba(230,57,70,0.4)); }
+    }
+
+    .floating-logo {
+        display: inline-block;
+        animation: floatWheat 4s ease-in-out infinite;
+        font-size: 2.4rem;
+        vertical-align: middle;
+        margin-right: 8px;
+    }
+
     .main-title {
-        font-size: 2.3rem;
-        font-weight: 700;
-        color: #2D6A4F;
-        margin-bottom: 0px;
+        font-size: 2.4rem;
+        font-weight: 800;
+        background: linear-gradient(90deg, #2D6A4F, #52B788, #74C69D, #2D6A4F);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shimmerTitle 6s linear infinite;
+        display: inline-block;
+        margin-bottom: 2px;
     }
+    
     .sub-title {
-        font-size: 1.1rem;
-        color: #52796F;
-        margin-bottom: 15px;
+        font-size: 1.05rem;
+        color: #8D99AE;
+        margin-bottom: 18px;
+        animation: cardFadeIn 0.8s ease-out;
     }
-    .badge-sdg {
-        background-color: #D8F3DC;
-        color: #1B4332;
-        padding: 4px 10px;
+
+    /* Weather Live Box - Glassmorphic Animated Ticker */
+    .weather-live-box {
+        background: linear-gradient(135deg, rgba(27, 67, 50, 0.45) 0%, rgba(45, 106, 79, 0.35) 100%);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(82, 183, 136, 0.3);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        padding: 18px 22px;
+        border-radius: 14px;
+        color: #E8F5E9 !important;
+        margin-bottom: 20px;
+        animation: cardFadeIn 0.6s ease-out;
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+    }
+    .weather-live-box:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 36px rgba(45, 106, 79, 0.35);
+        border-color: rgba(116, 198, 157, 0.6);
+    }
+
+    /* Live Pulsing Dot */
+    .pulse-dot {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #2ECC71;
+        animation: pulseLive 1.8s infinite;
+        margin-right: 7px;
+        vertical-align: middle;
+    }
+
+    /* Weather Stat Chips */
+    .weather-chips-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 10px;
+    }
+    .weather-chip {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        color: #F1FAEE;
+        transition: all 0.25s ease;
+    }
+    .weather-chip:hover {
+        background: rgba(82, 183, 136, 0.25);
+        transform: translateY(-2px);
+        border-color: #52B788;
+    }
+
+    /* AI Alert Box with Glowing Left Accent */
+    .ai-alert-box {
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(8px);
+        border-left: 5px solid #52B788;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 20px;
         border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        margin-top: 18px;
+        animation: cardFadeIn 0.5s ease-out;
+        transition: all 0.3s ease;
+    }
+    .ai-alert-box:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(82, 183, 136, 0.2);
+        border-left-color: #74C69D;
+    }
+
+    /* Metric Cards */
+    .metric-card {
+        background: rgba(255, 255, 255, 0.04);
+        border-left: 4px solid #40916C;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        border-right: 1px solid rgba(255, 255, 255, 0.06);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        padding: 16px;
+        border-radius: 10px;
+        margin-bottom: 14px;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .metric-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        border-left-color: #52B788;
+    }
+
+    /* SDG Badges */
+    .badge-sdg {
+        background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%);
+        color: #D8F3DC;
+        border: 1px solid #40916C;
+        padding: 5px 12px;
+        border-radius: 14px;
         font-size: 0.85rem;
         font-weight: 600;
         display: inline-block;
-        margin-right: 5px;
+        margin-right: 6px;
+        margin-bottom: 6px;
+        transition: transform 0.2s ease;
     }
-    .metric-card {
-        background-color: #F8F9FA;
-        border-left: 4px solid #40916C;
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 12px;
+    .badge-sdg:hover {
+        transform: scale(1.05);
     }
-    .weather-live-box {
-        background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
-        padding: 15px;
-        border-radius: 10px;
-        border: 1px solid #81C784;
-        margin-bottom: 15px;
+
+    /* Outbreak Risk Display */
+    .risk-banner {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border-radius: 14px;
+        padding: 22px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: transform 0.3s ease;
     }
-    .ai-alert-box {
-        background: #FAF9F6;
-        border-left: 5px solid #2D6A4F;
-        padding: 18px;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        margin-top: 15px;
+    .risk-banner:hover {
+        transform: translateY(-3px);
+    }
+    .risk-score-pulse {
+        display: inline-block;
+        animation: riskPulse 2.5s infinite ease-in-out;
+    }
+
+    /* Streamlit Tab Enhancement */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 8px;
+    }
+    .stTabs [data-baseweb="tab"] {
+        border-radius: 10px 10px 0 0;
+        padding: 10px 18px;
+        transition: all 0.25s ease;
+    }
+    .stTabs [data-baseweb="tab"]:hover {
+        background: rgba(45, 106, 79, 0.15);
+        transform: translateY(-2px);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -147,18 +300,33 @@ with st.sidebar:
     )
 
 # --- MAIN CONTENT HEADER ---
-st.markdown("<h1 class='main-title'>🌾 KrishiMitra: Climate & Pest Advisory Copilot</h1>", unsafe_allow_html=True)
-st.markdown("<p class='sub-title'>Empowering smallholder farmers with proactive, low-cost bio-control advisories grounded in real-time climate data & generative AI.</p>", unsafe_allow_html=True)
+st.markdown("""
+<div style='display: flex; align-items: center; margin-bottom: 4px;'>
+    <span class='floating-logo'>🌾</span>
+    <h1 class='main-title'>KrishiMitra: Climate & Pest Advisory Copilot</h1>
+</div>
+""", unsafe_allow_html=True)
+st.markdown("<p class='sub-title'>Empowering smallholder farmers with proactive bio-control advisories grounded in real-time climate telemetry & Google Gemini AI.</p>", unsafe_allow_html=True)
 
-# Live Weather Banner
+# Live Weather Banner with Animated Chips & Live Radar Dot
 lw = st.session_state.live_weather
 st.markdown(f"""
 <div class='weather-live-box'>
-    <b>📡 Real-Time Microclimate Feed:</b> {lw['location']} &nbsp;|&nbsp; 
-    <b>🌡️ Temp:</b> {lw['temp_current']}°C (High: {lw['temp_max']}°C, Low: {lw['temp_min']}°C) &nbsp;|&nbsp; 
-    <b>💧 Humidity:</b> {lw['humidity_morning']}% &nbsp;|&nbsp; 
-    <b>🌧️ Rain Probability:</b> {lw['rain_probability']}% ({lw['rainfall_mm']} mm) &nbsp;|&nbsp; 
-    <b>💨 Wind:</b> {lw['wind_speed_kmh']} km/h
+    <div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;'>
+        <div>
+            <span class='pulse-dot'></span>
+            <b style='letter-spacing: 0.5px;'>LIVE CLIMATE RADAR:</b> {lw['location']}
+        </div>
+        <div style='font-size: 0.82rem; opacity: 0.85; background: rgba(0,0,0,0.2); padding: 3px 10px; border-radius: 12px;'>
+            🛰️ Open-Meteo Satellite Feed
+        </div>
+    </div>
+    <div class='weather-chips-container'>
+        <div class='weather-chip'>🌡️ <b>Temp:</b> {lw['temp_current']}°C <small>({lw['temp_min']}°C - {lw['temp_max']}°C)</small></div>
+        <div class='weather-chip'>💧 <b>Morning Humidity:</b> {lw['humidity_morning']}%</div>
+        <div class='weather-chip'>🌧️ <b>Rain Chance:</b> {lw['rain_probability']}% ({lw['rainfall_mm']} mm)</div>
+        <div class='weather-chip'>💨 <b>Wind:</b> {lw['wind_speed_kmh']} km/h</div>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -266,11 +434,17 @@ with tab2:
         
         risk_color = "#E63946" if prediction['risk_level'] == "High Risk" else ("#F4A261" if prediction['risk_level'] == "Moderate Risk" else "#2A9D8F")
         
+        pulse_class = "risk-score-pulse" if prediction['risk_level'] == "High Risk" else ""
         st.markdown(f"""
-        <div style="background-color: #F8F9FA; padding: 20px; border-radius: 10px; border-top: 5px solid {risk_color};">
-            <h3 style="margin-top:0; color:{risk_color};">Outbreak Risk for {lw['location'].split(',')[0]}: {prediction['risk_level']}</h3>
-            <h1 style="color:{risk_color}; font-size:3rem; margin:0;">{prediction['risk_percentage']}%</h1>
-            <p><b>Primary Climatic Driver:</b> {prediction['primary_driver']}</p>
+        <div class='risk-banner' style='border-top: 5px solid {risk_color}; box-shadow: 0 8px 24px rgba(0,0,0,0.25);'>
+            <div style='display: flex; justify-content: space-between; align-items: baseline;'>
+                <h3 style='margin:0; color:{risk_color}; font-size:1.25rem;'>Outbreak Risk: {prediction['risk_level']}</h3>
+                <span style='font-size: 0.85rem; opacity: 0.8; background: rgba(255,255,255,0.08); padding: 3px 10px; border-radius: 12px;'>⚡ XGBoost ML</span>
+            </div>
+            <div class='{pulse_class}' style='color:{risk_color}; font-size:3.2rem; font-weight:800; margin:10px 0;'>
+                {prediction['risk_percentage']}%
+            </div>
+            <p style='margin:0; font-size: 0.95rem; opacity: 0.9;'><b>🔍 Primary Climatic Trigger:</b> {prediction['primary_driver']}</p>
         </div>
         """, unsafe_allow_html=True)
         
