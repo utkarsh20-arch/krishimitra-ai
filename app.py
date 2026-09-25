@@ -1122,47 +1122,85 @@ with tab3:
     col_m3.metric("Projected Demand Trend", "Bullish Demand", "Optimal harvesting returns")
 
 # ====================================================================
-# TAB 4: IBM GRANITE COPILOT & RAG ASSISTANT
+# TAB 4: INTERACTIVE AGRONOMY CHATBOT & RAG ASSISTANT
 # ====================================================================
 with tab4:
-    st.markdown(f"### KrishiMitra Agronomy Copilot (Grounded in {lw['location'].split(',')[0]} Weather)")
-    st.write("Consult the intelligent copilot for pest management, bio-fertilizers, and weather-resilient farming techniques.")
-    
-    q_col1, q_col2 = st.columns([2, 1])
-    
-    with q_col1:
-        default_queries = [
-            f"Can I grow {selected_crop} in {active_soil['soil_type']} in {lw['location'].split(',')[0]}? What soil conditioning is needed?",
-            f"My {selected_crop} leaves have spots and current humidity is high in {lw['location'].split(',')[0]}. What organic remedy should I apply?",
-            f"Rain is expected in my area tomorrow. Should I spray neem oil for pest control on my {selected_crop} today?",
-            f"What organic bio-fertilizers should I add to my {active_soil['texture']} for better yield?"
-        ]
-        sample_q = st.selectbox("Quick Query Presets:", ["-- Custom Input --"] + default_queries)
-        
-        user_prompt = st.text_area(
-            "Enter your farming, soil, or crop protection question:",
-            value=sample_q if sample_q != "-- Custom Input --" else "",
-            placeholder="e.g. Can I grow carrots in Mumbai heavy soil? What should I mix to prepare the beds?",
-            height=130
-        )
-        
-        ask_btn = st.button("Ask KrishiMitra Copilot", type="primary", use_container_width=True)
+    loc_short = lw['location'].split(',')[0]
+    st.markdown(f"### KrishiMitra Agronomy Copilot | Chatbot ({loc_short})")
+    st.caption("Consult your bilingual agricultural AI assistant for weather emergencies, crop protection, soil nutrition, and ICAR guidelines.")
 
-    with q_col2:
+    # Initialize chat history
+    if "copilot_messages" not in st.session_state:
+        st.session_state.copilot_messages = [
+            {
+                "role": "assistant",
+                "content": (
+                    f"**Namaste Kisan Bhai!** Main KrishiMitra AI Agronomy Copilot hoon.\n\n"
+                    f"Main aapke khet (**{selected_crop}** in **{loc_short}**), sthaniye mausam (**{lw['temp_current']}°C**, Barish ki sambhavna: **{lw['rain_probability']}%**) "
+                    f"aur mitti (**{active_soil['soil_type']}**, pH {active_soil['ph']}) ke anusaar sahayata ke liye taiyar hoon.\n\n"
+                    f"Aap mujhse Hindi, English ya Hinglish me 'Hi/Hello' bol kar ya kheti/mausam ka koi bhi sawal pooch sakte hain!"
+                )
+            }
+        ]
+
+    chat_col, info_col = st.columns([2.5, 1])
+
+    with info_col:
         st.markdown("""
         <div class='km-card'>
-            <h4 style='color: #38BDF8; margin-top: 0;'>Copilot Status</h4>
+            <h4 style='color: #38BDF8; margin-top: 0;'>Copilot Telemetry</h4>
         """, unsafe_allow_html=True)
         st.write(f"• **Target Crop:** {selected_crop}")
-        st.write(f"• **Soil Type:** {active_soil['soil_type']} (pH {active_soil['ph']})")
-        st.write(f"• **Language:** {language}")
-        st.write(f"• **Active Engine:** {ai_provider}")
-        st.write(f"• **Location:** {lw['location'].split(',')[0]}")
-        st.write(f"• **Cloud Status:** Connected")
+        st.write(f"• **Location:** {loc_short}")
+        st.write(f"• **Live Weather:** {lw['temp_current']}°C | Rain {lw['rain_probability']}%")
+        st.write(f"• **Soil Order:** {active_soil['soil_type']} (pH {active_soil['ph']})")
+        st.write(f"• **Active AI Engine:** {ai_provider}")
+        st.write(f"• **Language Mode:** {language}")
+        st.write("• **Cloud Status:** Connected")
         st.markdown("</div>", unsafe_allow_html=True)
 
-    if ask_btn and user_prompt:
+        if st.button("Clear Chat / Nayi Baat Shuru Karein", use_container_width=True):
+            st.session_state.copilot_messages = [
+                {
+                    "role": "assistant",
+                    "content": (
+                        f"**Namaste!** Naya chat shuru ho chuka hai. Main aapke **{selected_crop}** farm in **{loc_short}** ke liye taiyar hoon. "
+                        "Kheti, mausam me savdhani ya mitti se juda koi bhi sawal poonchein!"
+                    )
+                }
+            ]
+            st.rerun()
+
+    query_to_process = None
+
+    with chat_col:
+        # Quick suggestion chips
+        st.markdown("<p style='font-size: 0.85rem; color: #94A3B8; margin-bottom: 6px;'>Quick Questions / Turant Sawal:</p>", unsafe_allow_html=True)
+        preset_cols = st.columns(3)
+        if preset_cols[0].button(f"Rain in {loc_short}: What to do?", use_container_width=True):
+            query_to_process = f"its raining here at {loc_short} i have {selected_crop} farm what to do?"
+        if preset_cols[1].button("Namaste / Kaise ho?", use_container_width=True):
+            query_to_process = "namaste kaise ho bhai"
+        if preset_cols[2].button(f"Can I grow {selected_crop} now?", use_container_width=True):
+            query_to_process = f"can i grow {selected_crop} now in {loc_short}?"
+
+        # Render conversation messages
+        for msg in st.session_state.copilot_messages:
+            with st.chat_message(msg["role"]):
+                st.markdown(msg["content"])
+
+        # Chat text input
+        chat_user_prompt = st.chat_input(f"Poochiye {selected_crop} ya kheti se juda sawal (Hindi / English)...")
+        if chat_user_prompt:
+            query_to_process = chat_user_prompt
+
+    # Process query if submitted via chat_input or preset buttons
+    if query_to_process:
+        # Add user message
+        st.session_state.copilot_messages.append({"role": "user", "content": query_to_process})
+        
         weather_ctx = {
+            'location': loc_short,
             'temp': lw['temp_current'],
             'humidity': lw['humidity_morning'],
             'rain_prob': lw['rain_probability'],
@@ -1170,26 +1208,19 @@ with tab4:
             'soil_type': active_soil['soil_type'],
             'soil_ph': active_soil['ph']
         }
-        with st.spinner(f"Querying ICAR Knowledge Base & Synthesizing via {ai_provider}..."):
+        
+        with st.spinner(f"KrishiMitra is thinking ({ai_provider})..."):
             advisory = copilot_model.generate_advisory(
                 crop=selected_crop,
-                user_query=user_prompt,
+                user_query=query_to_process,
                 weather_context=weather_ctx,
                 language=language,
                 api_key=user_api_key
             )
-        st.markdown("---")
-        st.markdown(f"""
-        <div class='codex-box'>
-            <div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;'>
-                <span class='intel-badge'>CERTIFIED AGRONOMY CODEX</span>
-                <span style='color: #38BDF8; font-weight: 700; font-size: 0.82rem;'>ICAR GROUNDED ADVISORY</span>
-            </div>
-            <div style='line-height: 1.6; color: #F1F5F9;'>
-                {advisory}
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+            
+        st.session_state.copilot_messages.append({"role": "assistant", "content": advisory})
+        st.rerun()
+
 
 # ====================================================================
 # TAB 5: RESPONSIBLE AI & SUSTAINABILITY IMPACT
