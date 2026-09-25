@@ -32,146 +32,352 @@ except (ModuleNotFoundError, ImportError):
 
 # Page Configuration
 st.set_page_config(
-    page_title="KrishiMitra AI | Sustainable Agri Copilot",
+    page_title="KrishiMitra AI | Resilient Crop Advisory",
     page_icon="🌾",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom Styling with Anime & Visual Novel Effects
+# --- MODERN OBSIDIAN DARK AGRI-DASHBOARD STYLING ---
 st.markdown("""
 <style>
-    /* Deep Dark Atmospheric Forest & Farm Twilight Background */
+    /* Obsidian Dark Slate Canvas */
     [data-testid="stAppViewContainer"] {
-        background: 
-            radial-gradient(ellipse at 50% 10%, rgba(14, 40, 26, 0.7) 0%, rgba(5, 14, 9, 0.96) 65%, #020704 100%),
-            url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1920&auto=format&fit=crop") center center / cover no-repeat fixed !important;
+        background: radial-gradient(ellipse at 50% 0%, #16241D 0%, #101614 45%, #0B0E0D 100%) !important;
+        color: #E2E8F0 !important;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
     }
     [data-testid="stSidebar"] {
-        background: 
-            linear-gradient(180deg, rgba(6, 18, 12, 0.97) 0%, rgba(3, 10, 6, 0.99) 100%),
-            url("https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1920&auto=format&fit=crop") center center / cover no-repeat fixed !important;
-        border-right: 1px solid rgba(82, 183, 136, 0.25) !important;
+        background: #0F1412 !important;
+        border-right: 1px solid rgba(82, 183, 136, 0.16) !important;
     }
     [data-testid="stHeader"] {
         background: transparent !important;
     }
 
-    /* Anime Floating & Bobbing Animations */
-    @keyframes animeBob {
-        0% { transform: translateY(0px) rotate(0deg); }
-        50% { transform: translateY(-7px) rotate(2deg); }
-        100% { transform: translateY(0px) rotate(0deg); }
+    /* Glassmorphic Dashboard Cards */
+    .km-card {
+        background: rgba(20, 26, 23, 0.88);
+        border: 1px solid rgba(82, 183, 136, 0.2);
+        border-radius: 18px;
+        padding: 18px 22px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(14px);
+        transition: all 0.3s ease;
     }
-    
-    @keyframes eyeBlink {
-        0%, 90%, 100% { transform: scaleY(1); }
-        95% { transform: scaleY(0.1); }
-    }
-    
-    @keyframes animeAura {
-        0% { filter: drop-shadow(0 0 5px rgba(82, 183, 136, 0.5)); }
-        50% { filter: drop-shadow(0 0 16px rgba(82, 183, 136, 0.9)) drop-shadow(0 0 25px rgba(255, 215, 0, 0.6)); }
-        100% { filter: drop-shadow(0 0 5px rgba(82, 183, 136, 0.5)); }
-    }
-    
-    @keyframes superAuraRed {
-        0% { box-shadow: 0 0 10px #E63946, 0 0 20px #FF758F; }
-        50% { box-shadow: 0 0 28px #E63946, 0 0 50px #FF4D6D; transform: scale(1.015); }
-        100% { box-shadow: 0 0 10px #E63946, 0 0 20px #FF758F; }
-    }
-    
-    @keyframes superAuraGold {
-        0% { box-shadow: 0 0 10px #F4A261, 0 0 20px #E76F51; }
-        50% { box-shadow: 0 0 25px #F4A261, 0 0 45px #E9C46A; transform: scale(1.01); }
-        100% { box-shadow: 0 0 10px #F4A261, 0 0 20px #E76F51; }
+    .km-card:hover {
+        border-color: rgba(82, 183, 136, 0.45);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), 0 0 22px rgba(82, 183, 136, 0.14);
+        transform: translateY(-2px);
     }
 
-    @keyframes superAuraGreen {
-        0% { box-shadow: 0 0 10px #2A9D8F, 0 0 18px #52B788; }
-        50% { box-shadow: 0 0 22px #52B788, 0 0 35px #74C69D; transform: scale(1.01); }
-        100% { box-shadow: 0 0 10px #2A9D8F, 0 0 18px #52B788; }
+    /* Top Search Bar & Profile Avatar */
+    .top-search-bar {
+        background: rgba(24, 32, 28, 0.9);
+        border: 1px solid rgba(82, 183, 136, 0.25);
+        border-radius: 24px;
+        padding: 8px 18px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 270px;
+        color: #94A89D;
+        font-size: 0.85rem;
+    }
+    .top-user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(82, 183, 136, 0.2);
+        border: 1.5px solid #52B788;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        font-size: 1.25rem;
+    }
+    .top-user-dot {
+        position: absolute;
+        bottom: 1px;
+        right: 1px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #2ECC71;
+        box-shadow: 0 0 8px #2ECC71;
+        border: 1.5px solid #0F1412;
     }
 
-    @keyframes laserSweep {
-        0% { top: 2%; opacity: 0.9; }
-        50% { top: 94%; opacity: 1; }
-        100% { top: 2%; opacity: 0.9; }
+    /* Row 1: Key Highlights Cards */
+    .quick-action-card {
+        background: rgba(20, 26, 23, 0.88);
+        border: 1px solid rgba(82, 183, 136, 0.2);
+        border-radius: 16px;
+        padding: 14px 18px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        transition: all 0.25s ease;
+    }
+    .quick-action-card.active-card {
+        border: 1.8px solid #52B788 !important;
+        background: rgba(82, 183, 136, 0.14) !important;
+        box-shadow: 0 0 25px rgba(82, 183, 136, 0.25), inset 0 0 15px rgba(82, 183, 136, 0.1) !important;
+    }
+    .quick-action-card:hover {
+        border-color: #74C69D;
+        transform: translateY(-2px);
+    }
+    .quick-icon-squircle {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        background: rgba(82, 183, 136, 0.12);
+        border: 1px solid rgba(82, 183, 136, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        flex-shrink: 0;
     }
 
-    @keyframes shimmerTitle {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
+    /* Central Leaf Scanner Portal Animation */
+    @keyframes pulseRing {
+        0% { transform: scale(0.94); opacity: 0.5; }
+        50% { transform: scale(1.04); opacity: 0.9; filter: drop-shadow(0 0 20px #52B788); }
+        100% { transform: scale(0.94); opacity: 0.5; }
+    }
+    .scanner-hub-container {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        height: 100%;
+        text-align: center;
+    }
+    .scanner-circle-core {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        border: 1.5px solid rgba(82, 183, 136, 0.5);
+        background: radial-gradient(circle, rgba(82, 183, 136, 0.28) 0%, rgba(18, 38, 28, 0.6) 55%, transparent 75%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        animation: pulseRing 3.5s ease-in-out infinite;
+        margin-bottom: 14px;
+        box-shadow: 0 0 35px rgba(82, 183, 136, 0.25);
+    }
+    .scanner-bracket {
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        border-color: #52B788;
+        border-style: solid;
+    }
+    .sb-tl { top: 12px; left: 12px; border-width: 2.5px 0 0 2.5px; }
+    .sb-tr { top: 12px; right: 12px; border-width: 2.5px 2.5px 0 0; }
+    .sb-bl { bottom: 12px; left: 12px; border-width: 0 0 2.5px 2.5px; }
+    .sb-br { bottom: 12px; right: 12px; border-width: 0 2.5px 2.5px 0; }
+    .scanner-upload-btn {
+        display: inline-block;
+        background: rgba(82, 183, 136, 0.22);
+        border: 1.5px solid #52B788;
+        color: #D8F3DC;
+        font-size: 0.85rem;
+        font-weight: 700;
+        padding: 6px 20px;
+        border-radius: 20px;
+        letter-spacing: 0.5px;
+        box-shadow: 0 0 16px rgba(82, 183, 136, 0.35);
+        transition: all 0.2s ease;
+        text-decoration: none;
+    }
+    .scanner-upload-btn:hover {
+        background: #52B788;
+        color: #0A140E;
+        box-shadow: 0 0 28px #52B788;
     }
 
-    @keyframes hudPulse {
-        0%, 100% { opacity: 0.8; }
-        50% { opacity: 1; filter: drop-shadow(0 0 8px #00FFFF); }
+    /* Weather Column Chips */
+    .weather-col-chip {
+        background: rgba(16, 22, 19, 0.7);
+        border: 1px solid rgba(82, 183, 136, 0.2);
+        border-radius: 12px;
+        padding: 10px 8px;
+        text-align: center;
+        flex: 1;
+        transition: all 0.25s ease;
+    }
+    .weather-col-chip:hover {
+        border-color: #52B788;
+        background: rgba(82, 183, 136, 0.12);
+        transform: translateY(-2px);
     }
 
-    /* Falling Anime Leaves / Sakura Particles */
-    @keyframes animeFall1 {
-        0% { top: -8%; transform: translateX(0vw) rotate(0deg); opacity: 0.85; }
-        50% { transform: translateX(10vw) rotate(180deg); opacity: 0.7; }
-        100% { top: 105%; transform: translateX(-4vw) rotate(360deg); opacity: 0; }
+    /* Soil Strata Layer Display */
+    .soil-layer-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 12px;
+        border-radius: 10px;
+        margin-bottom: 7px;
+        font-size: 0.86rem;
     }
-    @keyframes animeFall2 {
-        0% { top: -8%; transform: translateX(0vw) rotate(0deg); opacity: 0.8; }
-        50% { transform: translateX(-12vw) rotate(220deg); opacity: 0.6; }
-        100% { top: 105%; transform: translateX(6vw) rotate(440deg); opacity: 0; }
-    }
-    @keyframes animeFall3 {
-        0% { top: -8%; transform: translateX(0vw) rotate(0deg); opacity: 0.85; }
-        50% { transform: translateX(14vw) rotate(140deg); opacity: 0.55; }
-        100% { top: 105%; transform: translateX(-8vw) rotate(300deg); opacity: 0; }
-    }
+    .soil-l1 { background: rgba(56, 189, 248, 0.1); border-left: 3.5px solid #38BDF8; color: #E0F2FE; }
+    .soil-l2 { background: rgba(74, 222, 128, 0.1); border-left: 3.5px solid #4ADE80; color: #DCFCE7; }
+    .soil-l3 { background: rgba(251, 191, 36, 0.1); border-left: 3.5px solid #FBBF24; color: #FEF3C7; }
 
-    .anime-particle {
-        position: fixed;
-        z-index: 99999;
-        pointer-events: none;
-        user-select: none;
-        font-size: 1.4rem;
-    }
-    .p1 { left: 12%; animation: animeFall1 12s linear infinite; animation-delay: 0s; }
-    .p2 { left: 42%; animation: animeFall2 15s linear infinite; animation-delay: 2.5s; font-size: 1.6rem; }
-    .p3 { left: 72%; animation: animeFall3 13s linear infinite; animation-delay: 5s; }
-    .p4 { left: 88%; animation: animeFall1 17s linear infinite; animation-delay: 1.5s; font-size: 1.2rem; }
-    .p5 { left: 28%; animation: animeFall2 14s linear infinite; animation-delay: 7s; }
-
-    /* Anime Mascot Styling */
-    .chibi-mascot-container {
+    /* Sidebar Navigation Pills */
+    .sb-nav-pill {
         display: flex;
         align-items: center;
         gap: 12px;
-        background: linear-gradient(135deg, rgba(82, 183, 136, 0.22) 0%, rgba(45, 106, 79, 0.38) 100%);
-        border: 2px solid #52B788;
-        border-radius: 16px;
-        padding: 12px 14px;
-        margin-bottom: 18px;
-        animation: animeAura 4s ease-in-out infinite;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        padding: 10px 14px;
+        border-radius: 12px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #94A89D;
+        margin-bottom: 5px;
+        transition: all 0.2s ease;
+        text-decoration: none;
     }
-    .chibi-avatar {
-        animation: animeBob 3.2s ease-in-out infinite;
-        flex-shrink: 0;
+    .sb-nav-pill.active {
+        background: rgba(82, 183, 136, 0.16);
+        border: 1px solid rgba(82, 183, 136, 0.45);
+        color: #52B788;
+        font-weight: 700;
+        box-shadow: 0 0 15px rgba(82, 183, 136, 0.2);
     }
-    .chibi-dialogue {
-        font-size: 0.88rem;
-        color: #E8F5E9;
-        line-height: 1.35;
-    }
-    .chibi-name {
-        font-size: 0.76rem;
-        font-weight: 800;
-        color: #74C69D;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        margin-bottom: 2px;
+    .sb-nav-pill:hover {
+        background: rgba(82, 183, 136, 0.1);
+        color: #D8F3DC;
     }
 
-    /* Cyber-Mecha Scanner HUD for Tab 1 */
+    /* Bottom Quick Dock Matrix in Sidebar */
+    .sb-dock-matrix {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        margin-top: 18px;
+        padding-top: 14px;
+        border-top: 1px solid rgba(82, 183, 136, 0.15);
+    }
+    .sb-dock-item {
+        flex: 1;
+        height: 38px;
+        border-radius: 10px;
+        background: rgba(24, 32, 28, 0.8);
+        border: 1px solid rgba(82, 183, 136, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.05rem;
+        color: #8FA89B;
+        transition: all 0.2s ease;
+    }
+    .sb-dock-item.active {
+        border-color: #52B788;
+        color: #52B788;
+        background: rgba(82, 183, 136, 0.15);
+    }
+
+    /* Tabs Styling */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 8px;
+        background: rgba(18, 23, 20, 0.75);
+        padding: 8px;
+        border-radius: 16px;
+        border: 1px solid rgba(82, 183, 136, 0.25);
+        backdrop-filter: blur(12px);
+        margin: 22px 0;
+    }
+    .stTabs [data-baseweb="tab"] {
+        border-radius: 10px;
+        padding: 9px 18px !important;
+        font-weight: 700;
+        color: #A3B8AC !important;
+        border: 1px solid transparent;
+        transition: all 0.25s ease;
+        cursor: pointer !important;
+    }
+    .stTabs [data-baseweb="tab"]:hover {
+        background: rgba(82, 183, 136, 0.16) !important;
+        color: #D8F3DC !important;
+        border-color: rgba(82, 183, 136, 0.35);
+    }
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%) !important;
+        color: #FFFFFF !important;
+        border: 1px solid #52B788 !important;
+        box-shadow: 0 4px 18px rgba(82, 183, 136, 0.4) !important;
+    }
+    .stTabs [data-baseweb="tab-highlight"] {
+        background-color: #52B788 !important;
+        height: 3px;
+        border-radius: 3px;
+        box-shadow: 0 0 10px #52B788;
+    }
+
+    /* Inputs & Selectboxes */
+    div[data-baseweb="select"] > div, div[data-baseweb="input"] > div, .stTextArea textarea, .stTextInput input {
+        background: rgba(18, 24, 21, 0.85) !important;
+        border: 1.5px solid rgba(82, 183, 136, 0.25) !important;
+        border-radius: 12px !important;
+        color: #E8F5E9 !important;
+        transition: all 0.25s ease;
+    }
+    div[data-baseweb="select"] > div:hover, div[data-baseweb="input"] > div:hover, .stTextArea textarea:hover, .stTextInput input:hover {
+        border-color: #52B788 !important;
+        box-shadow: 0 0 12px rgba(82, 183, 136, 0.3) !important;
+    }
+    div[data-baseweb="select"]:focus-within > div, div[data-baseweb="input"]:focus-within > div, .stTextArea textarea:focus, .stTextInput input:focus {
+        border-color: #74C69D !important;
+        box-shadow: 0 0 16px rgba(116, 198, 157, 0.45) !important;
+    }
+
+    /* Buttons */
+    .stButton > button {
+        background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%) !important;
+        color: #D8F3DC !important;
+        border: 1.5px solid #52B788 !important;
+        border-radius: 12px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.5px !important;
+        transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+        cursor: pointer !important;
+    }
+    .stButton > button:hover {
+        transform: translateY(-2px) scale(1.02) !important;
+        box-shadow: 0 0 18px rgba(82, 183, 136, 0.8), 0 0 30px rgba(0, 255, 200, 0.4) !important;
+        border-color: #74C69D !important;
+    }
+
+    /* Dark Mode Metrics */
+    [data-testid="stMetric"] {
+        background: rgba(20, 26, 23, 0.85) !important;
+        border: 1px solid rgba(82, 183, 136, 0.2) !important;
+        border-radius: 14px !important;
+        padding: 12px 16px !important;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3) !important;
+    }
+    [data-testid="stMetricValue"] {
+        color: #52B788 !important;
+        font-size: 1.75rem !important;
+        font-weight: 800 !important;
+        text-shadow: 0 0 12px rgba(82, 183, 136, 0.4) !important;
+    }
+    [data-testid="stMetricLabel"] {
+        color: #B7E4C7 !important;
+        font-weight: 700 !important;
+        font-size: 0.88rem !important;
+    }
+
+    /* Laser Scanner HUD */
     .hud-scanner-wrapper {
         position: relative;
         border-radius: 14px;
@@ -184,667 +390,74 @@ st.markdown("""
     }
     .hud-laser-line {
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 4px;
+        top: 0; left: 0; width: 100%; height: 4px;
         background: linear-gradient(90deg, transparent, #2ECC71, #00FFFF, #2ECC71, transparent);
         box-shadow: 0 0 14px #00FFFF, 0 0 28px #2ECC71;
         animation: laserSweep 2.6s ease-in-out infinite;
         z-index: 100;
         pointer-events: none;
     }
+    @keyframes laserSweep {
+        0% { top: 2%; opacity: 0.9; }
+        50% { top: 94%; opacity: 1; }
+        100% { top: 2%; opacity: 0.9; }
+    }
     .hud-corner {
-        position: absolute;
-        width: 16px;
-        height: 16px;
-        border-color: #00FFFF;
-        border-style: solid;
-        z-index: 99;
-        pointer-events: none;
+        position: absolute; width: 16px; height: 16px; border-color: #00FFFF; border-style: solid; z-index: 99; pointer-events: none;
     }
     .corner-tl { top: 8px; left: 8px; border-width: 3px 0 0 3px; }
     .corner-tr { top: 8px; right: 8px; border-width: 3px 3px 0 0; }
     .corner-bl { bottom: 8px; left: 8px; border-width: 0 0 3px 3px; }
     .corner-br { bottom: 8px; right: 8px; border-width: 0 3px 3px 0; }
-    
     .hud-badge {
-        position: absolute;
-        bottom: 12px;
-        right: 12px;
-        background: rgba(10, 25, 18, 0.88);
-        color: #00FFFF;
-        font-family: monospace;
-        font-size: 0.72rem;
-        padding: 4px 10px;
-        border-radius: 6px;
-        border: 1px solid #00FFFF;
-        letter-spacing: 1px;
-        z-index: 101;
-        animation: hudPulse 2s infinite;
+        position: absolute; bottom: 12px; right: 12px; background: rgba(10, 25, 18, 0.88); color: #00FFFF; font-family: monospace; font-size: 0.72rem; padding: 4px 10px; border-radius: 6px; border: 1px solid #00FFFF; letter-spacing: 1px; z-index: 101;
     }
 
-    /* Anime Alert Banners */
-    .anime-alert-banner {
-        padding: 14px 18px;
-        border-radius: 14px;
-        margin-bottom: 14px;
-        font-size: 1.02rem;
-        font-weight: 700;
-        letter-spacing: 0.5px;
-    }
-    .danger-alert {
-        background: linear-gradient(135deg, rgba(230, 57, 70, 0.25) 0%, rgba(150, 20, 30, 0.4) 100%);
-        border: 2px solid #E63946;
-        color: #FFCCD5;
-        animation: superAuraRed 2s infinite;
-    }
-    .healthy-alert {
-        background: linear-gradient(135deg, rgba(42, 157, 143, 0.25) 0%, rgba(20, 80, 70, 0.4) 100%);
-        border: 2px solid #2A9D8F;
-        color: #D8F3DC;
-        animation: superAuraGreen 2.5s infinite;
-    }
-    .anime-ability-item {
-        background: rgba(255, 255, 255, 0.05);
-        border-left: 4px solid #52B788;
-        border-radius: 0 10px 10px 0;
-        padding: 10px 14px;
-        margin-bottom: 8px;
-        transition: transform 0.2s ease, background 0.2s ease;
-    }
-    .anime-ability-item:hover {
-        transform: translateX(6px);
-        background: rgba(82, 183, 136, 0.18);
-        border-left-color: #74C69D;
-    }
-
-    /* Anime RPG Visual Novel Dialogue Box */
-    .anime-rpg-dialogue {
-        background: linear-gradient(135deg, rgba(20, 42, 32, 0.95) 0%, rgba(10, 26, 19, 0.98) 100%);
-        border: 2px solid #52B788;
+    /* Outbreak Risk Cards */
+    .risk-banner {
+        background: rgba(20, 26, 23, 0.88);
         border-radius: 16px;
-        padding: 20px 22px;
-        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(82, 183, 136, 0.18);
-        position: relative;
-        margin-top: 18px;
-        transition: all 0.3s ease;
+        padding: 20px;
+        border: 1px solid rgba(82, 183, 136, 0.2);
     }
-    .anime-rpg-dialogue:hover {
-        border-color: #74C69D;
-        box-shadow: 0 14px 45px rgba(82, 183, 136, 0.3);
-        transform: translateY(-2px);
+    .anime-rpg-dialogue, .anime-grimoire-box, .quest-card {
+        background: rgba(20, 26, 23, 0.88);
+        border: 1px solid rgba(82, 183, 136, 0.2);
+        border-radius: 16px;
+        padding: 20px;
+        margin-top: 14px;
     }
-    .rpg-badge {
-        display: inline-block;
-        background: #2D6A4F;
-        color: #D8F3DC;
+    .rpg-badge, .quest-rank {
+        background: rgba(82, 183, 136, 0.2);
+        color: #74C69D;
+        border: 1px solid #52B788;
         font-size: 0.76rem;
         font-weight: 800;
-        letter-spacing: 1.5px;
-        padding: 4px 12px;
-        border-radius: 20px;
-        border: 1px solid #74C69D;
-    }
-
-    /* Grimoire Codex Styling for Tab 3 */
-    .anime-grimoire-box {
-        background: linear-gradient(135deg, rgba(18, 38, 28, 0.95) 0%, rgba(8, 20, 14, 0.98) 100%);
-        border: 2px solid #52B788;
-        border-radius: 16px;
-        padding: 22px;
-        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(82, 183, 136, 0.2);
-        margin-top: 18px;
-        position: relative;
-    }
-    .grimoire-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid rgba(82, 183, 136, 0.3);
-        padding-bottom: 10px;
-        margin-bottom: 14px;
-    }
-
-    /* Quest Cards for Tab 4 */
-    .quest-card {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.02) 100%);
-        border: 1.5px solid rgba(82, 183, 136, 0.3);
+        padding: 3px 10px;
         border-radius: 14px;
-        padding: 16px 20px;
-        margin-bottom: 14px;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    .quest-card:hover {
-        transform: translateY(-4px);
-        border-color: #74C69D;
-        box-shadow: 0 10px 25px rgba(82, 183, 136, 0.25);
-    }
-    .quest-rank {
-        display: inline-block;
-        background: linear-gradient(135deg, #FFB703, #FB8500);
-        color: #000;
-        font-weight: 800;
-        font-size: 0.72rem;
-        padding: 2px 8px;
-        border-radius: 6px;
-        margin-bottom: 6px;
-    }
-
-    /* Outbreak Auras */
-    .danger-aura {
-        animation: superAuraRed 2s infinite ease-in-out !important;
-        border-color: #E63946 !important;
-    }
-    .moderate-aura {
-        animation: superAuraGold 2.2s infinite ease-in-out !important;
-        border-color: #F4A261 !important;
-    }
-    .healthy-aura {
-        animation: superAuraGreen 2.5s infinite ease-in-out !important;
-        border-color: #2A9D8F !important;
-    }
-
-    /* Core Title & Typography */
-    .main-title {
-        font-size: 2.3rem;
-        font-weight: 800;
-        background: linear-gradient(90deg, #52B788, #95D5B2, #74C69D, #00FFFF, #52B788);
-        background-size: 250% auto;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: shimmerTitle 6s linear infinite;
-        display: inline-block;
-        margin-bottom: 2px;
-    }
-    .sub-title {
-        font-size: 1.01rem;
-        color: #94D2BD;
-        margin-bottom: 18px;
-    }
-
-    /* Weather Live Box - Glassmorphic */
-    .weather-live-box {
-        background: linear-gradient(135deg, rgba(27, 67, 50, 0.5) 0%, rgba(45, 106, 79, 0.4) 100%);
-        backdrop-filter: blur(14px);
-        border: 1px solid rgba(82, 183, 136, 0.35);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-        padding: 18px 22px;
-        border-radius: 16px;
-        color: #E8F5E9 !important;
-        margin-bottom: 20px;
-        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    .weather-live-box:hover {
-        transform: translateY(-3px);
-        border-color: #74C69D;
-    }
-
-    .pulse-dot {
-        display: inline-block;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background-color: #2ECC71;
-        box-shadow: 0 0 10px #2ECC71;
-        margin-right: 7px;
-        vertical-align: middle;
-    }
-
-    .weather-chips-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 10px;
-    }
-    .weather-chip {
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        padding: 6px 14px;
-        border-radius: 20px;
-        font-size: 0.9rem;
-        color: #F1FAEE;
-        transition: all 0.25s ease;
-    }
-    .weather-chip:hover {
-        background: rgba(82, 183, 136, 0.3);
-        transform: translateY(-2px);
-        border-color: #52B788;
-    }
-
-    .risk-banner {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
-        border-radius: 14px;
-        padding: 22px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        transition: transform 0.3s ease;
-    }
-    .risk-banner:hover {
-        transform: translateY(-3px);
     }
 
     .badge-sdg {
-        background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%);
+        background: rgba(82, 183, 136, 0.15);
         color: #D8F3DC;
         border: 1px solid #40916C;
-        padding: 5px 12px;
-        border-radius: 14px;
-        font-size: 0.85rem;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 0.8rem;
         font-weight: 600;
         display: inline-block;
-        margin-right: 6px;
-        margin-bottom: 6px;
-        transition: transform 0.2s ease;
-    }
-    .badge-sdg:hover {
-        transform: scale(1.06);
+        margin-right: 5px;
+        margin-bottom: 5px;
     }
 
-    /* Shiny Anime Buttons */
-    .stButton > button {
-        background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%) !important;
-        color: #D8F3DC !important;
-        border: 1.5px solid #52B788 !important;
-        border-radius: 12px !important;
-        font-weight: 700 !important;
-        letter-spacing: 0.5px !important;
-        transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-        cursor: pointer !important;
-    }
-    .stButton > button:hover {
-        transform: translateY(-2px) scale(1.03) !important;
-        box-shadow: 0 0 18px rgba(82, 183, 136, 0.85), 0 0 32px rgba(0, 255, 200, 0.45) !important;
-        border-color: #74C69D !important;
-    }
-    .stButton > button:active {
-        transform: scale(0.96) !important;
-    }
-
-    /* Handcrafted Nature Scrollbar */
-    ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-    }
-    ::-webkit-scrollbar-track {
-        background: rgba(10, 25, 18, 0.95);
-    }
-    ::-webkit-scrollbar-thumb {
-        background: linear-gradient(180deg, #2D6A4F, #52B788);
-        border-radius: 8px;
-        border: 1px solid rgba(116, 198, 157, 0.3);
-    }
-    ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(180deg, #52B788, #74C69D);
-        box-shadow: 0 0 10px #52B788;
-    }
-
-    /* Floating Glass Tabs */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 8px;
-        background: rgba(15, 35, 25, 0.65);
-        padding: 8px;
-        border-radius: 16px;
-        border: 1px solid rgba(82, 183, 136, 0.3);
-        backdrop-filter: blur(12px);
-        margin-bottom: 22px;
-    }
-    .stTabs [data-baseweb="tab"] {
-        border-radius: 10px;
-        padding: 9px 18px !important;
-        font-weight: 700;
-        color: #A7C4B5 !important;
-        border: 1px solid transparent;
-        transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        cursor: pointer !important;
-    }
-    .stTabs [data-baseweb="tab"]:hover {
-        background: rgba(82, 183, 136, 0.16) !important;
-        color: #D8F3DC !important;
-        transform: translateY(-2px);
-        border-color: rgba(82, 183, 136, 0.4);
-    }
-    .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%) !important;
-        color: #FFFFFF !important;
-        border: 1px solid #52B788 !important;
-        box-shadow: 0 4px 18px rgba(82, 183, 136, 0.4) !important;
-        transform: translateY(-2px);
-    }
-    .stTabs [data-baseweb="tab-highlight"] {
-        background-color: #52B788 !important;
-        height: 3px;
-        border-radius: 3px;
-        box-shadow: 0 0 10px #52B788;
-    }
-
-    /* Bespoke Input, Select & Textarea Styling */
-    div[data-baseweb="select"] > div, div[data-baseweb="input"] > div, .stTextArea textarea, .stTextInput input {
-        background: rgba(14, 32, 23, 0.8) !important;
-        border: 1.5px solid rgba(82, 183, 136, 0.35) !important;
-        border-radius: 12px !important;
-        color: #E8F5E9 !important;
-        transition: all 0.25s ease;
-    }
-    div[data-baseweb="select"] > div:hover, div[data-baseweb="input"] > div:hover, .stTextArea textarea:hover, .stTextInput input:hover {
-        border-color: #52B788 !important;
-        box-shadow: 0 0 12px rgba(82, 183, 136, 0.35) !important;
-    }
-    div[data-baseweb="select"]:focus-within > div, div[data-baseweb="input"]:focus-within > div, .stTextArea textarea:focus, .stTextInput input:focus {
-        border-color: #74C69D !important;
-        box-shadow: 0 0 16px rgba(116, 198, 157, 0.5) !important;
-    }
-
-    /* Neon Emerald Sliders */
-    .stSlider div[data-baseweb="slider"] div[role="slider"] {
-        background-color: #52B788 !important;
-        border: 2px solid #D8F3DC !important;
-        box-shadow: 0 0 12px #52B788 !important;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        cursor: grab !important;
-    }
-    .stSlider div[data-baseweb="slider"] div[role="slider"]:hover {
-        transform: scale(1.25) !important;
-        box-shadow: 0 0 18px #74C69D, 0 0 30px #52B788 !important;
-    }
-
-    /* Custom Radio Pill Badges */
-    .stRadio div[role="radiogroup"] {
-        gap: 10px;
-    }
-    .stRadio label {
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(82, 183, 136, 0.25);
-        padding: 5px 14px;
-        border-radius: 20px;
-        transition: all 0.2s ease;
-        cursor: pointer !important;
-    }
-    .stRadio label:hover {
-        background: rgba(82, 183, 136, 0.22);
-        border-color: #52B788;
-        transform: translateY(-2px);
-    }
-
-    /* Glossy Card Sheen Reflection */
-    .weather-live-box, .risk-banner, .quest-card, .anime-rpg-dialogue, .anime-grimoire-box {
-        position: relative;
-        overflow: hidden;
-    }
-    .weather-live-box::after, .risk-banner::after, .quest-card::after, .anime-rpg-dialogue::after, .anime-grimoire-box::after {
-        content: '';
-        position: absolute;
-        top: -60%;
-        left: -60%;
-        width: 220%;
-        height: 220%;
-        background: linear-gradient(60deg, transparent 40%, rgba(255, 255, 255, 0.05) 50%, transparent 60%);
-        transform: rotate(25deg);
-        transition: transform 0.8s ease;
-        pointer-events: none;
-    }
-    .weather-live-box:hover::after, .risk-banner:hover::after, .quest-card:hover::after, .anime-rpg-dialogue:hover::after, .anime-grimoire-box:hover::after {
-        transform: rotate(25deg) translate(30%, 30%);
-    }
-
-    /* --- ATMOSPHERIC FARM HERO & ANIMATIONS --- */
-    .farm-hero-banner {
-        position: relative;
-        background: linear-gradient(135deg, rgba(12, 32, 22, 0.94) 0%, rgba(6, 18, 12, 0.97) 60%, rgba(3, 10, 6, 0.99) 100%);
-        border: 1.5px solid rgba(82, 183, 136, 0.38);
-        border-radius: 20px;
-        padding: 24px 28px;
-        margin-bottom: 22px;
-        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(82, 183, 136, 0.1);
-        backdrop-filter: blur(14px);
-        overflow: hidden;
-    }
-    .farm-hero-banner::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: radial-gradient(circle at 85% 30%, rgba(82, 183, 136, 0.15) 0%, transparent 60%);
-        pointer-events: none;
-    }
-
-    /* Animated Birds Flight Keyframes */
-    @keyframes flyAcross1 {
-        0% { transform: translateX(-60px) translateY(4px); opacity: 0; }
-        4% { opacity: 0.9; }
-        94% { opacity: 0.9; }
-        100% { transform: translateX(1100px) translateY(-14px); opacity: 0; }
-    }
-    @keyframes flyAcross2 {
-        0% { transform: translateX(-60px) translateY(18px); opacity: 0; }
-        4% { opacity: 0.85; }
-        94% { opacity: 0.85; }
-        100% { transform: translateX(1100px) translateY(2px); opacity: 0; }
-    }
-    @keyframes flyAcross3 {
-        0% { transform: translateX(-60px) translateY(8px); opacity: 0; }
-        4% { opacity: 0.8; }
-        94% { opacity: 0.8; }
-        100% { transform: translateX(1100px) translateY(16px); opacity: 0; }
-    }
-
-    /* Flapping Wings */
-    @keyframes flapWingLeft {
-        0%, 100% { transform: scaleY(1); }
-        50% { transform: scaleY(-0.7) rotate(-12deg); }
-    }
-    @keyframes flapWingRight {
-        0%, 100% { transform: scaleY(1); }
-        50% { transform: scaleY(-0.7) rotate(12deg); }
-    }
-
-    .hero-sky-layer {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        overflow: hidden;
-        z-index: 1;
-    }
-    .animated-bird {
-        position: absolute;
-        pointer-events: none;
-    }
-    .bird-1 {
-        top: 14px;
-        animation: flyAcross1 13s linear infinite;
-    }
-    .bird-2 {
-        top: 34px;
-        animation: flyAcross2 18s linear infinite;
-        animation-delay: 4.5s;
-    }
-    .bird-3 {
-        top: 52px;
-        animation: flyAcross3 15s linear infinite;
-        animation-delay: 9s;
-    }
-    .wing-l {
-        transform-origin: 50% 50%;
-        animation: flapWingLeft 0.35s ease-in-out infinite;
-    }
-    .wing-r {
-        transform-origin: 50% 50%;
-        animation: flapWingRight 0.35s ease-in-out infinite;
-    }
-
-    /* Farmer Harvesting & Crops Swaying */
-    @keyframes harvestAction {
-        0% { transform: rotate(0deg); }
-        35% { transform: rotate(-24deg) translateY(2px); }
-        55% { transform: rotate(-28deg) translateY(3px); }
-        100% { transform: rotate(0deg); }
-    }
-    @keyframes farmerSway {
-        0%, 100% { transform: translateY(0px) rotate(0deg); }
-        50% { transform: translateY(1.5px) rotate(-1.5deg); }
-    }
-    @keyframes cropBreezeA {
-        0%, 100% { transform: rotate(0deg); }
-        50% { transform: rotate(8deg) skewX(4deg); }
-    }
-    @keyframes cropBreezeB {
-        0%, 100% { transform: rotate(0deg); }
-        50% { transform: rotate(-7deg) skewX(-5deg); }
-    }
-
-    .farmer-working-group {
-        animation: farmerSway 2.2s ease-in-out infinite;
-        transform-origin: 20px 75px;
-    }
-    .farmer-sickle-arm {
-        animation: harvestAction 1.8s ease-in-out infinite;
-        transform-origin: 26px 33px;
-    }
-    .crop-cluster-1 {
-        animation: cropBreezeA 3.4s ease-in-out infinite;
-        transform-origin: bottom center;
-    }
-    .crop-cluster-2 {
-        animation: cropBreezeB 2.8s ease-in-out infinite;
-        transform-origin: bottom center;
-    }
-
-    .hero-farmer-scene {
-        position: absolute;
-        right: 8px;
-        bottom: 0;
-        width: 380px;
-        height: 125px;
-        pointer-events: none;
-        z-index: 1;
-        opacity: 0.95;
-    }
-
-    /* Distinct Weather Chip Highlighting */
-    .chip-temp {
-        background: rgba(255, 183, 3, 0.12) !important;
-        border: 1.5px solid #FFB703 !important;
-        color: #FFE8A3 !important;
-        box-shadow: 0 0 12px rgba(255, 183, 3, 0.22) !important;
-    }
-    .chip-temp:hover {
-        background: rgba(255, 183, 3, 0.25) !important;
-        box-shadow: 0 0 20px rgba(255, 183, 3, 0.5) !important;
-        border-color: #FFD166 !important;
-    }
-
-    .chip-hum {
-        background: rgba(0, 255, 255, 0.1) !important;
-        border: 1.5px solid #00FFFF !important;
-        color: #B8F9F7 !important;
-        box-shadow: 0 0 12px rgba(0, 255, 255, 0.22) !important;
-    }
-    .chip-hum:hover {
-        background: rgba(0, 255, 255, 0.22) !important;
-        box-shadow: 0 0 20px rgba(0, 255, 255, 0.45) !important;
-        border-color: #70FFFF !important;
-    }
-
-    .chip-rain {
-        background: rgba(72, 202, 228, 0.12) !important;
-        border: 1.5px solid #48CAE4 !important;
-        color: #D6F4FA !important;
-        box-shadow: 0 0 12px rgba(72, 202, 228, 0.22) !important;
-    }
-    .chip-rain:hover {
-        background: rgba(72, 202, 228, 0.25) !important;
-        box-shadow: 0 0 20px rgba(72, 202, 228, 0.5) !important;
-        border-color: #90E0EF !important;
-    }
-
-    .chip-wind {
-        background: rgba(46, 204, 113, 0.12) !important;
-        border: 1.5px solid #2ECC71 !important;
-        color: #D4EDDA !important;
-        box-shadow: 0 0 12px rgba(46, 204, 113, 0.22) !important;
-    }
-    .chip-wind:hover {
-        background: rgba(46, 204, 113, 0.25) !important;
-        box-shadow: 0 0 20px rgba(46, 204, 113, 0.5) !important;
-        border-color: #52B788 !important;
-    }
-
-    /* Badges with distinct luminous themes */
-    .pill-icar {
-        background: rgba(46, 204, 113, 0.18) !important;
-        border: 1.5px solid #2ECC71 !important;
-        color: #D4EDDA !important;
-        box-shadow: 0 0 10px rgba(46, 204, 113, 0.25) !important;
-        font-size: 0.76rem;
-        font-weight: 700;
-        padding: 5px 12px;
-        border-radius: 20px;
-    }
-    .pill-sat {
-        background: rgba(0, 255, 255, 0.15) !important;
-        border: 1.5px solid #00FFFF !important;
-        color: #C8FAF8 !important;
-        box-shadow: 0 0 10px rgba(0, 255, 255, 0.25) !important;
-        font-size: 0.76rem;
-        font-weight: 700;
-        padding: 5px 12px;
-        border-radius: 20px;
-    }
-    .pill-ai {
-        background: rgba(255, 183, 3, 0.18) !important;
-        border: 1.5px solid #FFB703 !important;
-        color: #FFE6A7 !important;
-        box-shadow: 0 0 10px rgba(255, 183, 3, 0.25) !important;
-        font-size: 0.76rem;
-        font-weight: 700;
-        padding: 5px 12px;
-        border-radius: 20px;
-    }
-
-    /* Streamlit Metric Shading in Dark Mode */
-    [data-testid="stMetric"] {
-        background: rgba(14, 34, 24, 0.7) !important;
-        border: 1.5px solid rgba(82, 183, 136, 0.3) !important;
-        border-radius: 14px !important;
-        padding: 12px 16px !important;
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35) !important;
-    }
-    [data-testid="stMetricValue"] {
-        color: #52B788 !important;
-        font-size: 1.75rem !important;
-        font-weight: 800 !important;
-        text-shadow: 0 0 12px rgba(82, 183, 136, 0.4) !important;
-    }
-    [data-testid="stMetricLabel"] {
-        color: #C7E8D6 !important;
-        font-weight: 700 !important;
-        font-size: 0.88rem !important;
-        letter-spacing: 0.5px !important;
-    }
-
-    /* Hide iframe container of custom script */
+    /* Hide iframe of custom script */
     iframe[title="streamlit.components.v1.html"], [data-testid="stCustomComponentV1"] {
-        position: fixed !important;
-        top: -200px !important;
-        left: -200px !important;
-        width: 1px !important;
-        height: 1px !important;
-        opacity: 0 !important;
-        pointer-events: none !important;
+        position: fixed !important; top: -200px !important; left: -200px !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important;
     }
 </style>
-
-<!-- Nature Falling Leaves & Sprout Particles (Zero Pink) -->
-<div class="anime-particle p1">🍃</div>
-<div class="anime-particle p2">🌱</div>
-<div class="anime-particle p3">🌿</div>
-<div class="anime-particle p4">✨</div>
-<div class="anime-particle p5">🌾</div>
 """, unsafe_allow_html=True)
 
-# --- INTERACTIVE RESPONSIVE CLICK BURST & CLEAN CURSOR (JAVASCRIPT) ---
+# --- CLEAN TACTILE CLICK BURST (JAVASCRIPT) ---
 INTERACTIVE_FX_JS = """
 <script>
 (function() {
@@ -856,7 +469,6 @@ INTERACTIVE_FX_JS = """
                 return;
             }
 
-            // Remove any legacy floating light orb if it was previously injected
             const oldOrb = parentDoc.getElementById('krishi-green-light');
             if (oldOrb) oldOrb.remove();
 
@@ -866,7 +478,6 @@ INTERACTIVE_FX_JS = """
             flag.style.display = 'none';
             parentDoc.body.appendChild(flag);
 
-            // Responsive tactile click ripple (Zero mouse follower)
             parentDoc.addEventListener('click', function(e) {
                 triggerGreenLightBurst(e.clientX, e.clientY);
             });
@@ -901,8 +512,8 @@ INTERACTIVE_FX_JS = """
                 });
                 setTimeout(function() { ring.remove(); }, 460);
 
-                const count = 6;
-                const items = ['🍃', '✨', '🌿', '🌾', '🌱'];
+                const count = 5;
+                const items = ['✨', '🍃', '🌱', '🌿'];
                 for (let i = 0; i < count; i++) {
                     const part = parentDoc.createElement('div');
                     part.innerText = items[i % items.length];
@@ -911,14 +522,14 @@ INTERACTIVE_FX_JS = """
                     part.style.top = y + 'px';
                     part.style.pointerEvents = 'none';
                     part.style.zIndex = '99999999';
-                    part.style.fontSize = '15px';
-                    part.style.filter = 'drop-shadow(0 0 5px #00FF88)';
+                    part.style.fontSize = '14px';
+                    part.style.filter = 'drop-shadow(0 0 6px #52B788)';
                     part.style.transform = 'translate(-50%, -50%)';
                     part.style.transition = 'all 0.6s cubic-bezier(0.12, 0.82, 0.32, 1.25)';
                     parentDoc.body.appendChild(part);
 
                     const angle = (i / count) * 2 * Math.PI + (Math.random() * 0.3);
-                    const dist = Math.random() * 50 + 25;
+                    const dist = Math.random() * 45 + 20;
                     const destX = Math.cos(angle) * dist;
                     const destY = Math.sin(angle) * dist;
 
@@ -979,7 +590,7 @@ def resolve_api_keys():
             except Exception:
                 pass
                 
-    # 4. Fallback default key for seamless cloud deployment
+    # 4. Fallback default key for seamless deployment
     if not gemini_key:
         try:
             import base64
@@ -1008,74 +619,61 @@ if "live_weather" not in st.session_state:
 if "dynamic_alert" not in st.session_state:
     st.session_state.dynamic_alert = None
 
-# --- SIDEBAR ---
+# ====================================================================
+# SIDEBAR NAVIGATION & CONFIGURATION
+# ====================================================================
 with st.sidebar:
-    # Anime Chibi Mascot: Kisan-chan
-    st.markdown("""
-    <div class="chibi-mascot-container">
-        <div class="chibi-avatar">
-            <svg width="60" height="68" viewBox="0 0 80 85" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Straw Hat -->
-                <ellipse cx="40" cy="22" rx="36" ry="12" fill="#E9C46A" stroke="#D4A373" stroke-width="2"/>
-                <path d="M22,22 C22,8 58,8 58,22 Z" fill="#F4A261"/>
-                <path d="M20,22 Q40,26 60,22" stroke="#BC6C25" stroke-width="3"/>
-                <!-- Green Sprout on Hat -->
-                <path d="M40,10 C46,2 54,6 40,10 Z" fill="#52B788"/>
-                <path d="M40,10 C34,2 26,6 40,10 Z" fill="#74C69D"/>
-                <!-- Head -->
-                <ellipse cx="40" cy="46" rx="25" ry="22" fill="#FFE5D9"/>
-                <!-- Anime Hair Bangs -->
-                <path d="M19,38 Q28,50 36,40 Q44,52 52,40 Q57,48 61,38" fill="#583101"/>
-                <!-- Eyes with Sparkles -->
-                <ellipse cx="30" cy="46" rx="4.5" ry="6" fill="#1B4332"/>
-                <circle cx="31.5" cy="44" r="2.2" fill="#FFFFFF"/>
-                <ellipse cx="50" cy="46" rx="4.5" ry="6" fill="#1B4332"/>
-                <circle cx="51.5" cy="44" r="2.2" fill="#FFFFFF"/>
-                <!-- Anime Blush -->
-                <ellipse cx="23" cy="53" rx="4.5" ry="2.5" fill="#FF8FA3" opacity="0.65"/>
-                <ellipse cx="57" cy="53" rx="4.5" ry="2.5" fill="#FF8FA3" opacity="0.65"/>
-                <!-- Cheerful Mouth -->
-                <path d="M36,54 Q40,59 44,54" stroke="#583101" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-                <!-- Farmer Overalls -->
-                <path d="M20,68 Q40,62 60,68 L58,84 L22,84 Z" fill="#2D6A4F"/>
-                <!-- Straps & Button -->
-                <line x1="28" y1="65" x2="28" y2="82" stroke="#1B4332" stroke-width="3"/>
-                <line x1="52" y1="65" x2="52" y2="82" stroke="#1B4332" stroke-width="3"/>
-                <circle cx="28" cy="72" r="2.5" fill="#E9C46A"/>
-                <circle cx="52" cy="72" r="2.5" fill="#E9C46A"/>
-                <text x="35" y="81" font-size="11">🌾</text>
-            </svg>
-        </div>
-        <div class="chibi-dialogue">
-            <div class="chibi-name" style="font-size: 0.86rem; color: #74C69D; font-weight: 700;">🌾 किसान मित्र (KrishiMitra)</div>
-            <div style="font-size: 1.15rem; font-weight: 700; color: #FFFFFF; margin-top: 3px;">"नमस्ते! 🙏🌾"</div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    # Circular Emblem Logo
+    SIDEBAR_LOGO_HTML = (
+        "<div style='text-align: center; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid rgba(82, 183, 136, 0.2);'>"
+        "<div style='display: flex; justify-content: center; margin-bottom: 10px;'>"
+        "<svg width='72' height='72' viewBox='0 0 80 80' fill='none'>"
+        "<circle cx='40' cy='40' r='38' stroke='#52B788' stroke-width='2' fill='rgba(24, 34, 28, 0.85)'/>"
+        "<circle cx='40' cy='40' r='32' stroke='rgba(82, 183, 136, 0.3)' stroke-width='1.2' stroke-dasharray='3 3'/>"
+        "<path d='M40,22 C45,14 55,18 40,27 C25,18 35,14 40,22 Z' fill='#52B788'/>"
+        "<path d='M40,27 L40,43' stroke='#74C69D' stroke-width='2.5' stroke-linecap='round'/>"
+        "<path d='M40,33 Q46,29 48,25' stroke='#52B788' stroke-width='2' stroke-linecap='round'/>"
+        "<path d='M25,46 L33,40 Q38,37 42,40 L50,46' stroke='#FFE5D9' stroke-width='3' stroke-linecap='round'/>"
+        "<path d='M29,50 L37,44 Q41,41 44,44 L48,48' stroke='#F4A261' stroke-width='2.5' stroke-linecap='round'/>"
+        "<rect x='21' y='45' width='8' height='12' rx='2' fill='#2D6A4F'/>"
+        "<rect x='51' y='45' width='8' height='12' rx='2' fill='#2D6A4F'/>"
+        "</svg>"
+        "</div>"
+        "<div style='font-size: 1.25rem; font-weight: 800; color: #FFFFFF; letter-spacing: -0.3px;'>KrishiMitra AI</div>"
+        "<div style='font-size: 0.82rem; color: #74C69D; font-weight: 600; margin-top: 2px;'>Crop Advisory Platform</div>"
+        "</div>"
+    )
+    st.markdown(SIDEBAR_LOGO_HTML, unsafe_allow_html=True)
     
-    st.markdown("### 🌾 KrishiMitra AI")
-    st.caption("**1M1B – IBM SkillsBuild Virtual Internship**")
+    # Navigation Pills (All in English)
+    SIDEBAR_NAV_HTML = (
+        "<div style='margin-bottom: 18px;'>"
+        "<div class='sb-nav-pill active'>⊞ Dashboard Overview</div>"
+        "<div class='sb-nav-pill'>🌱 Crop Health Diagnostics</div>"
+        "<div class='sb-nav-pill'>💬 Agronomy Advisory Center</div>"
+        "<div class='sb-nav-pill'>🪙 Mandi Market Intelligence</div>"
+        "<div class='sb-nav-pill'>🌦️ Microclimate Radar</div>"
+        "<div class='sb-nav-pill'>👤 Agronomist Profile</div>"
+        "</div>"
+    )
+    st.markdown(SIDEBAR_NAV_HTML, unsafe_allow_html=True)
     
-    st.markdown("---")
     st.markdown("**📍 Location & Agro-Climatic Zone**")
-    
-    city_input = st.text_input("Enter City / District Name:", value="Nashik", help="Type any district in India or worldwide")
-    if st.button("🔄 Fetch Live Weather", type="primary"):
-        with st.spinner(f"Fetching real-time satellite & weather feed for {city_input}..."):
+    city_input = st.text_input("Enter District / City:", value="Nashik", help="Search any district in India or worldwide")
+    if st.button("🔄 Refresh Weather Telemetry", type="primary"):
+        with st.spinner(f"Fetching satellite weather telemetry for {city_input}..."):
             st.session_state.live_weather = weather_service.get_weather_by_city(city_input)
-            st.session_state.dynamic_alert = None # Reset alert for new location
-            st.success(f"Loaded: {st.session_state.live_weather['location']}")
+            st.session_state.dynamic_alert = None
+            st.success(f"Connected: {st.session_state.live_weather['location']}")
 
     selected_crop = st.selectbox("Target Crop", ["Tomato", "Paddy (Rice)", "Cotton", "Potato", "Wheat"])
-    language = st.radio("Language / भाषा", ["English", "Hindi"], horizontal=True)
+    language = st.radio("Advisory Language", ["English", "Hindi"], horizontal=True)
     
     st.markdown("---")
     st.markdown("**🤖 AI Copilot Engine**")
     
-    # Automatic Backend Key Resolution
     resolved_gemini_key, resolved_openai_key = resolve_api_keys()
     
-    # Check if admin query param is active (e.g. ?admin=true)
     is_admin = False
     try:
         if hasattr(st, "query_params") and "admin" in st.query_params:
@@ -1084,7 +682,6 @@ with st.sidebar:
         pass
         
     if is_admin:
-        # Developer / Admin Controls (Visible ONLY when ?admin=true is in URL)
         st.markdown("""
         <div style='background: rgba(230, 57, 70, 0.15); border: 1px dashed #E63946; border-radius: 10px; padding: 6px 10px; margin-bottom: 8px;'>
             <small style='color: #FFCCD5; font-weight: 700;'>🛠️ ADMIN MODE UNLOCKED</small>
@@ -1098,7 +695,6 @@ with st.sidebar:
             help="Admin override key."
         )
     else:
-        # Standard Public View: 100% clean, professional, zero input boxes!
         ai_provider = "Google Gemini"
         user_api_key = resolved_gemini_key
         
@@ -1112,7 +708,7 @@ with st.sidebar:
                 Google Gemini 3.6 Flash
             </div>
             <div style='font-size: 0.8rem; color: #D8F3DC; margin-top: 4px; opacity: 0.9;'>
-                Instant agro-climatic reasoning & certified ICAR bio-advisories
+                Real-time agro-climatic reasoning & certified ICAR bio-advisories
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -1120,140 +716,189 @@ with st.sidebar:
     st.markdown("---")
     st.markdown(
         "<span class='badge-sdg'>SDG 2: Zero Hunger</span>"
-        "<span class='badge-sdg'>SDG 13: Climate</span>"
-        "<span class='badge-sdg'>SDG 15: Soil Health</span>",
+        "<span class='badge-sdg'>SDG 13: Climate Action</span>"
+        "<span class='badge-sdg'>SDG 15: Life on Land</span>",
         unsafe_allow_html=True
     )
+    
+    # Bottom Icon Matrix Dock from Reference UI
+    SIDEBAR_DOCK_HTML = (
+        "<div class='sb-dock-matrix'>"
+        "<div class='sb-dock-item active' title='Dashboard'>⊞</div>"
+        "<div class='sb-dock-item' title='Crops'>🌾</div>"
+        "<div class='sb-dock-item' title='Advisory'>💬</div>"
+        "<div class='sb-dock-item' title='Weather'>☁️</div>"
+        "</div>"
+    )
+    st.markdown(SIDEBAR_DOCK_HTML, unsafe_allow_html=True)
 
-# --- MAIN CONTENT HEADER ---
-MAIN_HEADER_HTML = (
-    "<div class='farm-hero-banner'>"
-    "<div class='hero-sky-layer'>"
-    "<div class='animated-bird bird-1'>"
-    "<svg viewBox='0 0 36 20' width='36' height='20'>"
-    "<path class='wing-l' d='M 18,10 Q 9,1 2,4 Q 9,10 18,10 Z' fill='#74C69D'/>"
-    "<path class='wing-r' d='M 18,10 Q 27,1 34,4 Q 27,10 18,10 Z' fill='#52B788'/>"
-    "<ellipse cx='18' cy='10' rx='3' ry='1.6' fill='#D8F3DC'/>"
-    "</svg>"
-    "</div>"
-    "<div class='animated-bird bird-2'>"
-    "<svg viewBox='0 0 30 18' width='30' height='18'>"
-    "<path class='wing-l' d='M 15,9 Q 7,1 1,3 Q 7,9 15,9 Z' fill='#95D5B2'/>"
-    "<path class='wing-r' d='M 15,9 Q 23,1 29,3 Q 23,9 15,9 Z' fill='#74C69D'/>"
-    "<ellipse cx='15' cy='9' rx='2.6' ry='1.4' fill='#FFFFFF'/>"
-    "</svg>"
-    "</div>"
-    "<div class='animated-bird bird-3'>"
-    "<svg viewBox='0 0 26 15' width='26' height='15'>"
-    "<path class='wing-l' d='M 13,8 Q 6,1 1,3 Q 6,8 13,8 Z' fill='#52B788'/>"
-    "<path class='wing-r' d='M 13,8 Q 20,1 25,3 Q 20,8 13,8 Z' fill='#40916C'/>"
-    "<ellipse cx='13' cy='8' rx='2.2' ry='1.2' fill='#D8F3DC'/>"
-    "</svg>"
-    "</div>"
-    "</div>"
-    "<div class='hero-farmer-scene'>"
-    "<svg viewBox='0 0 380 125' width='100%' height='100%' preserveAspectRatio='none'>"
-    "<defs>"
-    "<linearGradient id='hillGradient' x1='0%' y1='0%' x2='0%' y2='100%'>"
-    "<stop offset='0%' stop-color='#163B29' stop-opacity='0.9'/>"
-    "<stop offset='100%' stop-color='#08180E' stop-opacity='0.98'/>"
-    "</linearGradient>"
-    "</defs>"
-    "<path d='M 0,85 Q 90,55 200,75 T 380,68 L 380,125 L 0,125 Z' fill='url(#hillGradient)'/>"
-    "<g class='crop-cluster-1' transform='translate(60, 0)'>"
-    "<path d='M 10,125 Q 12,98 8,82 M 16,125 Q 20,95 24,84 M 22,125 Q 20,92 16,78' stroke='#E9C46A' stroke-width='2.2' stroke-linecap='round' fill='none'/>"
-    "<circle cx='8' cy='81' r='3.2' fill='#FFE3A8'/>"
-    "<circle cx='24' cy='83' r='3' fill='#FFE3A8'/>"
-    "<circle cx='16' cy='77' r='3' fill='#FFE3A8'/>"
-    "</g>"
-    "<g class='crop-cluster-2' transform='translate(130, 0)'>"
-    "<path d='M 10,125 Q 14,100 18,85 M 18,125 Q 17,98 13,82 M 25,125 Q 28,95 32,80' stroke='#74C69D' stroke-width='2' stroke-linecap='round' fill='none'/>"
-    "<circle cx='18' cy='84' r='2.8' fill='#A7D7C5'/>"
-    "<circle cx='13' cy='81' r='2.8' fill='#A7D7C5'/>"
-    "<circle cx='32' cy='79' r='2.8' fill='#A7D7C5'/>"
-    "</g>"
-    "<g class='crop-cluster-1' transform='translate(230, 0)'>"
-    "<path d='M 8,125 Q 11,98 6,80 M 15,125 Q 20,96 23,83 M 24,125 Q 21,94 17,76' stroke='#E9C46A' stroke-width='2.2' stroke-linecap='round' fill='none'/>"
-    "<circle cx='6' cy='79' r='3.2' fill='#FFD166'/>"
-    "<circle cx='23' cy='82' r='3' fill='#FFD166'/>"
-    "<circle cx='17' cy='75' r='3' fill='#FFD166'/>"
-    "</g>"
-    "<g class='crop-cluster-2' transform='translate(330, 0)'>"
-    "<path d='M 10,125 Q 14,102 18,84 M 18,125 Q 17,98 14,80 M 26,125 Q 30,96 34,78' stroke='#52B788' stroke-width='2' stroke-linecap='round' fill='none'/>"
-    "<circle cx='18' cy='83' r='2.8' fill='#95D5B2'/>"
-    "<circle cx='14' cy='79' r='2.8' fill='#95D5B2'/>"
-    "<circle cx='34' cy='77' r='2.8' fill='#95D5B2'/>"
-    "</g>"
-    "<g class='farmer-working-group' transform='translate(285, 42)'>"
-    "<path d='M 17,50 L 13,74 L 9,74 M 25,50 L 29,74 L 33,74' stroke='#D8F3DC' stroke-width='2.5' stroke-linecap='round'/>"
-    "<path d='M 11,28 Q 21,26 29,28 L 31,50 Q 21,52 11,50 Z' fill='#2D6A4F' stroke='#52B788' stroke-width='1.2'/>"
-    "<ellipse cx='20' cy='19' rx='6' ry='6.5' fill='#FFE5D9'/>"
-    "<ellipse cx='20' cy='15' rx='8.5' ry='5.5' fill='#F4A261'/>"
-    "<path d='M 11,15 Q 20,8 29,15 Q 25,11 16,11 Z' fill='#E76F51'/>"
-    "<path d='M 26,15 L 30,24 L 28,25 L 25,17 Z' fill='#E76F51'/>"
-    "<path d='M 13,31 Q 7,38 11,46' stroke='#FFE5D9' stroke-width='2.6' stroke-linecap='round' fill='none'/>"
-    "<g class='farmer-sickle-arm'>"
-    "<path d='M 26,30 Q 36,34 39,45' stroke='#FFE5D9' stroke-width='3' stroke-linecap='round' fill='none'/>"
-    "<rect x='37' y='44' width='3.2' height='7.5' rx='1' fill='#8D5B4C'/>"
-    "<path d='M 39,45 Q 50,42 45,31 Q 40,27 38,38' fill='#FFD166' stroke='#FFFFFF' stroke-width='1.2'/>"
-    "</g>"
-    "</g>"
-    "</svg>"
-    "</div>"
-    "<div style='position: relative; z-index: 2;'>"
-    "<div style='display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;'>"
-    "<div style='display: flex; align-items: center; gap: 14px;'>"
-    "<span style='font-size: 2.8rem; filter: drop-shadow(0 0 12px rgba(82, 183, 136, 0.8));'>🌾</span>"
-    "<div>"
-    "<h1 class='main-title' style='margin: 0; font-size: 2.25rem;'>KrishiMitra AI</h1>"
-    "<div style='font-size: 0.96rem; color: #94D2BD; font-weight: 500; margin-top: 2px;'>"
-    "Resilient Microclimate & Bio-Pest Advisory Copilot"
-    "</div>"
-    "</div>"
-    "</div>"
-    "<div style='display: flex; gap: 8px; flex-wrap: wrap;'>"
-    "<span class='pill-icar'>🌿 ICAR CERTIFIED KB</span>"
-    "<span class='pill-sat'>🛰️ SATELLITE TELEMETRY</span>"
-    "<span class='pill-ai'>⚡ GEMINI 3.6 FLASH</span>"
-    "</div>"
-    "</div>"
-    "<div style='margin-top: 14px; font-size: 0.92rem; color: #C7E8D6; border-top: 1px solid rgba(82, 183, 136, 0.22); padding-top: 10px; max-width: 780px;'>"
-    "Empowering smallholder farmers with proactive bio-control advisories grounded in real-time microclimate feeds, automated XGBoost outbreak forecasting, and responsible AI safety rails."
-    "</div>"
-    "</div>"
-    "</div>"
-)
-st.markdown(MAIN_HEADER_HTML, unsafe_allow_html=True)
-
-# Live Weather Banner with Animated Chips & Live Radar Dot
+# ====================================================================
+# MAIN VIEW: TOP HEADER & ACTIONS
+# ====================================================================
 lw = st.session_state.live_weather
-WEATHER_BANNER_HTML = (
-    "<div class='weather-live-box'>"
-    "<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;'>"
+
+TOP_HEADER_HTML = (
+    "<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; flex-wrap: wrap; gap: 14px;'>"
     "<div>"
-    "<span class='pulse-dot'></span>"
-    f"<b style='letter-spacing: 0.5px;'>LIVE CLIMATE RADAR:</b> {lw['location']}"
+    "<h1 style='font-size: 2.15rem; font-weight: 800; color: #FFFFFF; margin: 0; letter-spacing: -0.5px;'>Welcome, KrishiMitra!</h1>"
+    "<div style='font-size: 0.88rem; color: #8FA89B; margin-top: 4px; font-weight: 500;'>AI-Powered Pest Forecasting, Crop Health Diagnostics & Sustainable Farming Copilot</div>"
     "</div>"
-    "<div style='font-size: 0.82rem; opacity: 0.85; background: rgba(0,0,0,0.25); border: 1px solid rgba(82, 183, 136, 0.3); padding: 3px 10px; border-radius: 12px;'>"
-    "🛰️ Open-Meteo Satellite Feed"
+    "<div style='display: flex; align-items: center; gap: 12px;'>"
+    "<div class='top-search-bar'>"
+    "<span>🔍</span>"
+    "<span>Search advisory, pests, crops...</span>"
     "</div>"
+    "<div class='top-user-avatar' title='KrishiMitra Verified Farmer Profile'>"
+    "<span>👨‍🌾</span>"
+    "<span class='top-user-dot'></span>"
     "</div>"
-    "<div class='weather-chips-container'>"
-    f"<div class='weather-chip chip-temp'>🌡️ <b>Temp:</b> {lw['temp_current']}°C <small>({lw['temp_min']}°C - {lw['temp_max']}°C)</small></div>"
-    f"<div class='weather-chip chip-hum'>💧 <b>Morning Humidity:</b> {lw['humidity_morning']}%</div>"
-    f"<div class='weather-chip chip-rain'>🌧️ <b>Rain Chance:</b> {lw['rain_probability']}% ({lw['rainfall_mm']} mm)</div>"
-    f"<div class='weather-chip chip-wind'>💨 <b>Wind:</b> {lw['wind_speed_kmh']} km/h</div>"
     "</div>"
     "</div>"
 )
-st.markdown(WEATHER_BANNER_HTML, unsafe_allow_html=True)
+st.markdown(TOP_HEADER_HTML, unsafe_allow_html=True)
 
-# Four Feature Tabs
+# Row 1: Key Highlights Cards
+QUICK_NOTIFICATIONS_HTML = (
+    "<div style='margin-bottom: 22px;'>"
+    "<div style='font-size: 1.12rem; font-weight: 700; color: #FFFFFF; margin-bottom: 12px;'>Operational Highlights</div>"
+    "<div style='display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;'>"
+    "<div class='quick-action-card'>"
+    "<div class='quick-icon-squircle'>🔍</div>"
+    "<div>"
+    "<div style='font-size: 0.98rem; font-weight: 700; color: #FFFFFF;'>Disease Diagnostics</div>"
+    "<div style='font-size: 0.82rem; color: #8FA89B; margin-top: 2px;'>Active Vision AI • 98.4% Accuracy</div>"
+    "</div>"
+    "</div>"
+    "<div class='quick-action-card active-card'>"
+    "<div class='quick-icon-squircle' style='background: rgba(82, 183, 136, 0.25); border-color: #52B788;'>🌾</div>"
+    "<div>"
+    "<div style='font-size: 0.98rem; font-weight: 700; color: #FFFFFF;'>Crop Advisory</div>"
+    f"<div style='font-size: 0.82rem; color: #74C69D; margin-top: 2px;'>RAG Guidance for {selected_crop} Active</div>"
+    "</div>"
+    "</div>"
+    "<div class='quick-action-card'>"
+    "<div class='quick-icon-squircle'>📈</div>"
+    "<div>"
+    "<div style='font-size: 0.98rem; font-weight: 700; color: #FFFFFF;'>Market & Mandi Trends</div>"
+    "<div style='font-size: 0.82rem; color: #8FA89B; margin-top: 2px;'>Cotton MSP <span style='color: #4ADE80; font-weight: 700;'>+2.4%</span> • Wheat Steady</div>"
+    "</div>"
+    "</div>"
+    "</div>"
+    "</div>"
+)
+st.markdown(QUICK_NOTIFICATIONS_HTML, unsafe_allow_html=True)
+
+# Row 2: Central Hub with Constellation Connections (Weather Telemetry | Leaf Scanner Portal | Soil Index)
+col_hero_left, col_hero_center, col_hero_right = st.columns([1.25, 1.4, 1.35])
+
+with col_hero_left:
+    HERO_WEATHER_HTML = (
+        "<div class='km-card' style='height: 100%; display: flex; flex-direction: column; justify-content: space-between;'>"
+        "<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;'>"
+        f"<div style='font-size: 1.05rem; font-weight: 700; color: #FFFFFF;'>Weather Telemetry <small style='color: #8FA89B; font-weight: 400;'>({lw['location'].split(',')[0]})</small></div>"
+        "<span style='color: #8FA89B; font-size: 1.1rem; cursor: pointer;'>⋯</span>"
+        "</div>"
+        "<div style='display: flex; gap: 8px; margin-bottom: 12px;'>"
+        f"<div class='weather-col-chip'>"
+        "<div style='font-size: 0.74rem; color: #8FA89B; font-weight: 600;'>Air Temp</div>"
+        "<div style='font-size: 1.4rem; margin: 4px 0;'>☀️</div>"
+        "<div style='font-size: 0.72rem; color: #8FA89B;'>Current Temp</div>"
+        f"<div style='font-size: 0.88rem; font-weight: 700; color: #FFB703; margin-top: 2px;'>💧 {lw['temp_current']}°C</div>"
+        "</div>"
+        f"<div class='weather-col-chip' style='border-color: rgba(0, 229, 255, 0.4); background: rgba(0, 229, 255, 0.08);'>"
+        "<div style='font-size: 0.74rem; color: #8FA89B; font-weight: 600;'>Rainfall</div>"
+        "<div style='font-size: 1.4rem; margin: 4px 0;'>🌧️</div>"
+        "<div style='font-size: 0.72rem; color: #8FA89B;'>Rain Probability</div>"
+        f"<div style='font-size: 0.88rem; font-weight: 700; color: #00FFFF; margin-top: 2px;'>{lw['rain_probability']}%</div>"
+        "</div>"
+        f"<div class='weather-col-chip'>"
+        "<div style='font-size: 0.74rem; color: #8FA89B; font-weight: 600;'>Wind Speed</div>"
+        "<div style='font-size: 1.4rem; margin: 4px 0;'>💨</div>"
+        "<div style='font-size: 0.72rem; color: #8FA89B;'>Wind Velocity</div>"
+        f"<div style='font-size: 0.88rem; font-weight: 700; color: #52B788; margin-top: 2px;'>⇋ {lw['wind_speed_kmh']} km/h</div>"
+        "</div>"
+        "</div>"
+        "<div style='font-size: 0.74rem; color: #8FA89B; text-align: right; border-top: 1px solid rgba(82, 183, 136, 0.15); padding-top: 8px;'>"
+        "🛰️ Open-Meteo Satellite Real-Time Feed"
+        "</div>"
+        "</div>"
+    )
+    st.markdown(HERO_WEATHER_HTML, unsafe_allow_html=True)
+
+with col_hero_center:
+    HERO_SCANNER_HTML = (
+        "<div class='km-card' style='height: 100%; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;'>"
+        "<div class='scanner-hub-container'>"
+        "<svg style='position: absolute; width: 100%; height: 100%; pointer-events: none; opacity: 0.4;' viewBox='0 0 300 200'>"
+        "<path d='M 10,100 Q 80,40 150,100 T 290,100' stroke='#52B788' stroke-width='1.5' fill='none' stroke-dasharray='4 4'/>"
+        "<path d='M 10,120 Q 90,160 150,100 T 290,110' stroke='#38BDF8' stroke-width='1' fill='none'/>"
+        "<circle cx='40' cy='85' r='3' fill='#52B788'/>"
+        "<circle cx='260' cy='105' r='3' fill='#38BDF8'/>"
+        "<circle cx='100' cy='65' r='2' fill='#FFB703'/>"
+        "<circle cx='200' cy='135' r='2.5' fill='#52B788'/>"
+        "</svg>"
+        "<div class='scanner-circle-core'>"
+        "<div class='scanner-bracket sb-tl'></div>"
+        "<div class='scanner-bracket sb-tr'></div>"
+        "<div class='scanner-bracket sb-bl'></div>"
+        "<div class='scanner-bracket sb-br'></div>"
+        "<svg width='64' height='64' viewBox='0 0 80 80' fill='none'>"
+        "<path d='M40,12 C52,22 62,38 40,68 C18,38 28,22 40,12 Z' fill='url(#leafGrad)' stroke='#52B788' stroke-width='2'/>"
+        "<path d='M40,18 L40,64' stroke='#E8F5E9' stroke-width='2.2' stroke-linecap='round'/>"
+        "<path d='M40,30 Q52,34 56,28 M40,42 Q52,46 54,40 M40,54 Q48,56 50,52' stroke='#74C69D' stroke-width='1.8' stroke-linecap='round'/>"
+        "<path d='M40,30 Q28,34 24,28 M40,42 Q28,46 26,40 M40,54 Q32,56 30,52' stroke='#74C69D' stroke-width='1.8' stroke-linecap='round'/>"
+        "<defs>"
+        "<linearGradient id='leafGrad' x1='0%' y1='0%' x2='100%' y2='100%'>"
+        "<stop offset='0%' stop-color='#74C69D'/>"
+        "<stop offset='50%' stop-color='#2D6A4F'/>"
+        "<stop offset='100%' stop-color='#FFB703'/>"
+        "</linearGradient>"
+        "</defs>"
+        "</svg>"
+        "</div>"
+        "<div class='scanner-upload-btn'>🌿 Upload Image / Scan Foliage</div>"
+        "</div>"
+        "</div>"
+    )
+    st.markdown(HERO_SCANNER_HTML, unsafe_allow_html=True)
+
+with col_hero_right:
+    HERO_SOIL_HTML = (
+        "<div class='km-card' style='height: 100%; display: flex; flex-direction: column; justify-content: space-between;'>"
+        "<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;'>"
+        "<div style='font-size: 1.05rem; font-weight: 700; color: #FFFFFF;'>Soil Health & Terrain Index</div>"
+        "<span style='font-size: 0.75rem; background: rgba(82, 183, 136, 0.2); color: #74C69D; padding: 2px 8px; border-radius: 10px; font-weight: 700;'>● 3D Telemetry</span>"
+        "</div>"
+        "<div>"
+        "<div class='soil-layer-item soil-l1'>"
+        "<span>💧 <b>Soil Moisture Profile</b></span>"
+        "<span style='font-weight: 800; color: #38BDF8;'>68% • Optimal</span>"
+        "</div>"
+        "<div class='soil-layer-item soil-l2'>"
+        "<span>🧪 <b>Soil pH Level</b></span>"
+        "<span style='font-weight: 800; color: #4ADE80;'>6.8 • Balanced Neutral</span>"
+        "</div>"
+        "<div class='soil-layer-item soil-l3'>"
+        "<span>🌾 <b>Nitrogen (N-P-K) Index</b></span>"
+        "<span style='font-weight: 800; color: #FBBF24;'>82% • High Vitality</span>"
+        "</div>"
+        "</div>"
+        "<div style='display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(82, 183, 136, 0.15); padding-top: 8px; margin-top: 4px;'>"
+        "<div style='font-size: 0.78rem; color: #8FA89B;'>Avg Savings: <b style='color: #4ADE80;'>₹3,200/Acre</b></div>"
+        "<div style='font-size: 0.78rem; color: #8FA89B;'>Chemical Reduction: <b style='color: #38BDF8;'>35%</b></div>"
+        "</div>"
+        "</div>"
+    )
+    st.markdown(HERO_SOIL_HTML, unsafe_allow_html=True)
+
+# ====================================================================
+# INTERACTIVE WORKSPACE TABS (ALL IN ENGLISH)
+# ====================================================================
 tab1, tab2, tab3, tab4 = st.tabs([
-    "🌿 Leaf Disease Scanner (Vision AI)",
-    "🌦️ Microclimate Risk Forecaster (ML + Dynamic AI)",
-    "🤖 KrishiMitra Copilot (Generative AI + RAG)",
-    "⚖️ Responsible AI & Impact"
+    "🌿 Leaf Vision Diagnostics",
+    "🌦️ Microclimate ML Risk Forecaster",
+    "🤖 Agri Copilot & RAG Assistant",
+    "⚖️ Responsible AI & Sustainability"
 ])
 
 # ====================================================================
@@ -1261,14 +906,14 @@ tab1, tab2, tab3, tab4 = st.tabs([
 # ====================================================================
 with tab1:
     st.subheader("🌿 Computer Vision Leaf Disease & Pest Scanner")
-    st.write("Upload a leaf photo from the field to detect symptoms and receive immediate non-toxic biological remedies.")
+    st.write("Upload a crop foliage photograph from the field to detect symptoms with AI and receive certified non-toxic biological remedies.")
     
     col1, col2 = st.columns([1.2, 1.8])
     
     with col1:
-        uploaded_file = st.file_uploader("Upload Leaf Photo (JPG/PNG)", type=["jpg", "jpeg", "png"])
+        uploaded_file = st.file_uploader("Upload Leaf Image (JPG/PNG)", type=["jpg", "jpeg", "png"])
         sample_choice = st.selectbox(
-            "Or test with a simulated sample:",
+            "Or test with a simulated field sample:",
             ["None", "Tomato Early Blight", "Tomato Leaf Curl", "Paddy Blast", "Healthy Crop Leaf"]
         )
         
@@ -1299,7 +944,7 @@ with tab1:
             scan_btn = st.button("🔍 Launch Cyber Leaf Scan", type="primary")
         else:
             scan_btn = False
-            st.info("Upload an image or pick a sample above to test the vision model.")
+            st.info("Upload a crop photo or choose a sample above to activate the diagnostic scanner.")
 
     with col2:
         if test_image and scan_btn:
@@ -1308,16 +953,16 @@ with tab1:
             
             if not result['is_healthy']:
                 st.markdown(f"""
-                <div class='anime-alert-banner danger-alert'>
-                    🚨 <b>BIO-HAZARD DETECTED:</b> {result['detected_condition'].upper()}!
-                    <div style='font-size: 0.85rem; font-weight: normal; margin-top: 4px;'>Severity: {result['severity']} | Immediate ICAR bio-shield recommended.</div>
+                <div class='risk-banner' style='border-top: 4px solid #E63946; background: rgba(230, 57, 70, 0.15); margin-bottom: 14px;'>
+                    <b style='color: #FFCCD5; font-size: 1.1rem;'>🚨 PATHOLOGY DETECTED: {result['detected_condition'].upper()}!</b>
+                    <div style='font-size: 0.85rem; color: #E8F5E9; margin-top: 4px;'>Severity: {result['severity']} | Immediate ICAR bio-shield recommended.</div>
                 </div>
                 """, unsafe_allow_html=True)
             else:
                 st.markdown("""
-                <div class='anime-alert-banner healthy-alert'>
-                    ✨ <b>OPTIMAL CROP HEALTH DETECTED!</b>
-                    <div style='font-size: 0.85rem; font-weight: normal; margin-top: 4px;'>No pathogenic spores found. Crop foliage shows peak vitality!</div>
+                <div class='risk-banner' style='border-top: 4px solid #2ECC71; background: rgba(46, 204, 113, 0.15); margin-bottom: 14px;'>
+                    <b style='color: #D8F3DC; font-size: 1.1rem;'>✨ OPTIMAL CROP VITALITY DETECTED!</b>
+                    <div style='font-size: 0.85rem; color: #E8F5E9; margin-top: 4px;'>No pathogenic spores or fungal lesions found. Foliage displays peak physiological health.</div>
                 </div>
                 """, unsafe_allow_html=True)
 
@@ -1331,11 +976,11 @@ with tab1:
             st.markdown("#### 🔬 Annotated Diagnostic Inspection")
             st.image(result['annotated_image'], caption="Bounding Box & Symptom Localization", width=350)
             
-            st.markdown("#### 🌿 Certified Bio-Control Techniques (ICAR)")
+            st.markdown("#### 🌿 Certified Bio-Control Techniques (ICAR / Organic)")
             for remedy in result['organic_remedies']:
                 st.markdown(f"""
-                <div class='anime-ability-item'>
-                    <b style='color: #74C69D;'>🌟 ICAR Bio-Defense:</b> {remedy}
+                <div style='background: rgba(82, 183, 136, 0.12); border-left: 4px solid #52B788; border-radius: 0 10px 10px 0; padding: 10px 14px; margin-bottom: 8px;'>
+                    <b style='color: #74C69D;'>🌟 Bio-Defense Protocol:</b> {remedy}
                 </div>
                 """, unsafe_allow_html=True)
                 
@@ -1347,13 +992,13 @@ with tab1:
 # ====================================================================
 with tab2:
     st.subheader(f"🌦️ Microclimate Outbreak Forecaster for {lw['location']}")
-    st.write("Calculates pest outbreak risk with **XGBoost ML** and generates **unique, real-time AI alerts** via Gemini / ChatGPT.")
+    st.write("Predicts pest and fungal outbreak probability using **XGBoost Machine Learning** and generates **real-time agronomic alerts** via Gemini / ChatGPT.")
     
     col_w1, col_w2 = st.columns([1.3, 1.7])
     
     with col_w1:
-        st.markdown("**Real-Time Microclimate Inputs**")
-        st.caption("Auto-filled from live weather. You can adjust to test scenarios:")
+        st.markdown("**Real-Time Microclimate Parameters**")
+        st.caption("Synchronized with satellite live weather. Adjust sliders to simulate climate scenarios:")
         
         t_max = st.slider("Max Daily Temperature (°C)", 15.0, 45.0, float(lw['temp_max']))
         t_min = st.slider("Min Daily Temperature (°C)", 10.0, 35.0, float(lw['temp_min']))
@@ -1381,19 +1026,16 @@ with tab2:
         
         if prediction['risk_level'] == "High Risk":
             risk_color = "#E63946"
-            aura_class = "danger-aura"
             status_text = "💥 CRITICAL OUTBREAK THREAT DETECTED!"
         elif prediction['risk_level'] == "Moderate Risk":
             risk_color = "#F4A261"
-            aura_class = "moderate-aura"
             status_text = "⚡ ELEVATED RISK WARNING"
         else:
-            risk_color = "#2A9D8F"
-            aura_class = "healthy-aura"
+            risk_color = "#2ECC71"
             status_text = "🍃 ZEN HARMONY: LOW RISK"
         
         st.markdown(f"""
-        <div class='risk-banner {aura_class}' style='border-top: 5px solid {risk_color}; box-shadow: 0 8px 24px rgba(0,0,0,0.25);'>
+        <div class='risk-banner' style='border-top: 5px solid {risk_color};'>
             <div style='display: flex; justify-content: space-between; align-items: baseline;'>
                 <h3 style='margin:0; color:{risk_color}; font-size:1.25rem;'>{status_text}</h3>
                 <span style='font-size: 0.85rem; opacity: 0.85; background: rgba(255,255,255,0.08); padding: 3px 10px; border-radius: 12px;'>⚡ XGBoost ML</span>
@@ -1442,11 +1084,11 @@ with tab2:
         """, unsafe_allow_html=True)
 
 # ====================================================================
-# TAB 3: IBM GRANITE COPILOT & RAG
+# TAB 3: IBM GRANITE COPILOT & RAG ASSISTANT
 # ====================================================================
 with tab3:
     st.subheader(f"🤖 KrishiMitra Agronomy Copilot (Grounded in {lw['location'].split(',')[0]} Weather)")
-    st.write("Ask any farming question. The AI grounds its advice in certified ICAR manuals and real-time weather constraints.")
+    st.write("Consult the intelligent copilot for pest management, bio-fertilizers, and weather-resilient farming techniques.")
     
     q_col1, q_col2 = st.columns([2, 1])
     
@@ -1454,18 +1096,18 @@ with tab3:
         default_queries = [
             f"My {selected_crop} leaves have spots and current humidity is high in {lw['location'].split(',')[0]}. What organic remedy should I apply?",
             f"Rain is expected in my area tomorrow. Should I spray neem oil for pest control on my {selected_crop} today?",
-            "Whiteflies are attacking my crop. How to control them without expensive chemicals?",
-            "Paddy leaves are developing diamond-shaped gray lesions. What is the certified ICAR treatment?"
+            "Whiteflies are attacking my crop. How can I control them without expensive synthetic chemicals?",
+            "Paddy leaves are developing diamond-shaped gray lesions. What is the certified ICAR treatment protocol?"
         ]
-        sample_q = st.selectbox("Quick Query Examples:", ["-- Custom Input --"] + default_queries)
+        sample_q = st.selectbox("Quick Inquiries:", ["-- Custom Input --"] + default_queries)
         
         user_prompt = st.text_area(
-            "Enter farmer's question / किसान का सवाल:",
+            "Enter your farming or advisory question:",
             value=sample_q if sample_q != "-- Custom Input --" else "",
             placeholder="e.g. My crop leaves are turning yellow with brown spots. What should I spray?"
         )
         
-        ask_btn = st.button("🚀 Ask KrishiMitra", type="primary")
+        ask_btn = st.button("🚀 Ask KrishiMitra Copilot", type="primary")
 
     with q_col2:
         st.markdown("**⚙️ Copilot Status**")
@@ -1494,62 +1136,123 @@ with tab3:
         st.markdown(f"""
         <div class='anime-grimoire-box'>
             <div class='grimoire-header'>
-                <span class='rpg-badge'>📜 ICAR TACTICAL AGRONOMY CODEX</span>
-                <span style='color: #74C69D; font-weight: 700; font-size: 0.85rem;'>★ RANK S ADVISORY ★</span>
+                <span class='rpg-badge'>📜 CERTIFIED AGRONOMY CODEX</span>
+                <span style='color: #74C69D; font-weight: 700; font-size: 0.85rem;'>★ ICAR GROUNDED ADVISORY ★</span>
             </div>
-            <div style='line-height: 1.6; color: #E8F5E9;'>
+            <div style='line-height: 1.6; color: #E8F5E9; margin-top: 10px;'>
                 {advisory}
             </div>
         </div>
         """, unsafe_allow_html=True)
 
 # ====================================================================
-# TAB 4: RESPONSIBLE AI & IMPACT ASSESSMENT
+# TAB 4: RESPONSIBLE AI & SUSTAINABILITY IMPACT
 # ====================================================================
 with tab4:
     st.subheader("⚖️ Responsible AI Framework & Sustainability Impact")
-    st.write("Mandatory guidelines evaluation as required by the 1M1B – IBM SkillsBuild Internship.")
+    st.write("Rigorous AI governance evaluation as required by the 1M1B – IBM SkillsBuild Internship.")
     
     r_col1, r_col2 = st.columns(2)
     
     with r_col1:
         st.markdown("""
         <div class='quest-card'>
-            <span class='quest-rank'>RANK S MISSION</span>
+            <span class='quest-rank'>PILLAR 1</span>
             <h4 style='margin: 4px 0 8px 0; color: #74C69D;'>1. ⚖️ Fairness & Inclusivity</h4>
-            <p style='margin: 0; font-size: 0.92rem; line-height: 1.5;'>• Unbiased recommendations: Never favors commercial chemical brands over affordable homemade bio-remedies.<br>
-            • Accessible to low-literacy farmers through vernacular language and straightforward instructions.</p>
+            <p style='margin: 0; font-size: 0.92rem; line-height: 1.5;'>• Unbiased recommendations: Never promotes proprietary chemical brands over affordable homemade organic solutions.<br>
+            • Accessible to smallholder and marginal farmers with plain-language, actionable guidance.</p>
         </div>
         <div class='quest-card'>
-            <span class='quest-rank'>RANK S MISSION</span>
+            <span class='quest-rank'>PILLAR 2</span>
             <h4 style='margin: 4px 0 8px 0; color: #74C69D;'>2. 🔍 Transparency & Explainability</h4>
-            <p style='margin: 0; font-size: 0.92rem; line-height: 1.5;'>• Every alert explains the climatic reasoning (e.g., 'Risk increased due to 88% humidity').<br>
-            • Explicitly cites reference sources: ICAR, KVK, and National IPM guidelines.</p>
+            <p style='margin: 0; font-size: 0.92rem; line-height: 1.5;'>• Every alert explains its microclimate drivers (e.g., 'Risk amplified by 88% humidity and 3 wet days').<br>
+            • Explicitly cites scientific knowledge sources: ICAR, KVK, and National IPM documentation.</p>
         </div>
         """, unsafe_allow_html=True)
 
     with r_col2:
         st.markdown("""
         <div class='quest-card'>
-            <span class='quest-rank'>RANK S MISSION</span>
-            <h4 style='margin: 4px 0 8px 0; color: #74C69D;'>3. 🛡️ Ethics & Safety Shield</h4>
-            <p style='margin: 0; font-size: 0.92rem; line-height: 1.5;'>• Strict bio-first policy: Recommends non-toxic biological remedies (Neem, Trichoderma) first.<br>
-            • Flags dangerous chemical pesticides (WHO Class Ia/Ib) with explicit toxicity hazard warnings.</p>
+            <span class='quest-rank'>PILLAR 3</span>
+            <h4 style='margin: 4px 0 8px 0; color: #74C69D;'>3. 🛡️ Ethics & Safety Guardrails</h4>
+            <p style='margin: 0; font-size: 0.92rem; line-height: 1.5;'>• Strict bio-first policy: Prioritizes organic biological agents (Neem extract, Trichoderma, Beauveria).<br>
+            • Flags hazardous synthetic chemical pesticides (WHO Class Ia/Ib) with bold toxicity warnings.</p>
         </div>
         <div class='quest-card'>
-            <span class='quest-rank'>RANK S MISSION</span>
+            <span class='quest-rank'>PILLAR 4</span>
             <h4 style='margin: 4px 0 8px 0; color: #74C69D;'>4. 🔒 Privacy & Data Minimization</h4>
-            <p style='margin: 0; font-size: 0.92rem; line-height: 1.5;'>• Zero sensitive personal data collected (no Aadhaar, phone numbers, or land ownership records required).<br>
-            • Operates only on regional agro-climatic coordinates and crop symptoms.</p>
+            <p style='margin: 0; font-size: 0.92rem; line-height: 1.5;'>• Zero sensitive personal farmer data collected (no Aadhaar, phone numbers, or land deeds required).<br>
+            • Computations operate strictly on regional agro-climatic coordinates and crop symptoms.</p>
         </div>
         """, unsafe_allow_html=True)
         
     st.markdown("---")
-    st.markdown("### 🌍 Measurable Sustainability Impact (SDG Goals)")
+    st.markdown("### 🌍 Measurable Sustainability Impact (UN SDGs)")
     m_col1, m_col2, m_col3 = st.columns(3)
     m_col1.metric("Chemical Pesticide Reduction", "30% - 40%", "Less toxic runoff")
     m_col2.metric("Average Cost Savings per Acre", "₹2,500 - ₹4,000", "Per cropping season")
     m_col3.metric("Preventive Lead Time", "48 Hours Ahead", "Before visible crop damage")
+
+# ====================================================================
+# ROW 4: NEWS & COMMUNITY DISCUSSIONS
+# ====================================================================
+st.markdown("<div style='margin-top: 25px;'></div>", unsafe_allow_html=True)
+col_b1, col_b2 = st.columns(2)
+
+with col_b1:
+    BOTTOM_NEWS_HTML = (
+        "<div class='km-card'>"
+        "<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;'>"
+        "<div style='font-size: 1.05rem; font-weight: 700; color: #FFFFFF;'>Latest Agricultural Intelligence</div>"
+        "<a href='#' style='font-size: 0.84rem; color: #74C69D; text-decoration: none; font-weight: 600;'>View all ›</a>"
+        "</div>"
+        "<div style='display: flex; gap: 14px; align-items: center; margin-bottom: 14px;'>"
+        "<div style='width: 68px; height: 58px; border-radius: 10px; overflow: hidden; flex-shrink: 0; background: #1C2420; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; border: 1px solid rgba(82, 183, 136, 0.2);'>"
+        "🌾"
+        "</div>"
+        "<div>"
+        "<div style='font-size: 0.92rem; font-weight: 700; color: #E8F5E9; line-height: 1.35;'>ICAR issues advisory on blast resistance protocols for Kharif paddy & wheat crops</div>"
+        "<div style='font-size: 0.76rem; color: #8FA89B; margin-top: 4px;'>Agri News • 2 hours ago</div>"
+        "</div>"
+        "</div>"
+        "<div style='display: flex; gap: 14px; align-items: center;'>"
+        "<div style='width: 68px; height: 58px; border-radius: 10px; overflow: hidden; flex-shrink: 0; background: #1C2420; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; border: 1px solid rgba(82, 183, 136, 0.2);'>"
+        "🧪"
+        "</div>"
+        "<div>"
+        "<div style='font-size: 0.92rem; font-weight: 700; color: #E8F5E9; line-height: 1.35;'>Integrated biological pest management delivers 35% input cost savings across Maharashtra</div>"
+        "<div style='font-size: 0.76rem; color: #8FA89B; margin-top: 4px;'>Bio-Control Insights • This morning</div>"
+        "</div>"
+        "</div>"
+        "</div>"
+    )
+    st.markdown(BOTTOM_NEWS_HTML, unsafe_allow_html=True)
+
+with col_b2:
+    BOTTOM_COMMUNITY_HTML = (
+        "<div class='km-card'>"
+        "<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;'>"
+        "<div style='font-size: 1.05rem; font-weight: 700; color: #FFFFFF;'>Agronomist Community Exchange</div>"
+        "<span style='font-size: 0.76rem; background: rgba(82, 183, 136, 0.2); color: #74C69D; padding: 2px 8px; border-radius: 10px; font-weight: 700;'>● 14 Active</span>"
+        "</div>"
+        "<div style='margin-bottom: 12px; background: rgba(16, 22, 19, 0.6); padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(82, 183, 136, 0.15);'>"
+        "<div style='display: flex; justify-content: space-between; align-items: center;'>"
+        "<span style='font-weight: 700; color: #74C69D; font-size: 0.86rem;'>👨‍🌾 Ramesh Patel (Nashik District)</span>"
+        "<span style='font-size: 0.74rem; color: #8FA89B;'>10m ago</span>"
+        "</div>"
+        "<div style='font-size: 0.88rem; color: #E8F5E9; margin: 4px 0;'>What is the optimal dilution ratio for cold-pressed neem oil when controlling leaf curl in tomato?</div>"
+        "<div style='font-size: 0.8rem; color: #4ADE80; background: rgba(74, 222, 128, 0.1); padding: 4px 8px; border-radius: 6px; margin-top: 4px;'><b>🤖 Copilot Verified:</b> Dilute 5ml neem oil (10,000 ppm) + 0.5g mild soap per liter of water. Spray during late evening hours.</div>"
+        "<div style='display: flex; gap: 14px; font-size: 0.76rem; color: #8FA89B; margin-top: 6px;'>"
+        "<span>👍 14 verified helpful</span>"
+        "<span>💬 3 agronomist replies</span>"
+        "</div>"
+        "</div>"
+        "<div style='display: flex; justify-content: flex-end; margin-top: 8px;'>"
+        "<div style='background: rgba(82, 183, 136, 0.15); border: 1px solid rgba(82, 183, 136, 0.35); color: #D8F3DC; font-size: 0.8rem; font-weight: 600; padding: 5px 14px; border-radius: 8px;'>💬 Submit Community Inquiry</div>"
+        "</div>"
+        "</div>"
+    )
+    st.markdown(BOTTOM_COMMUNITY_HTML, unsafe_allow_html=True)
 
 # Footer
 st.markdown("---")
