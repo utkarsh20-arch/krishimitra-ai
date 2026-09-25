@@ -16,13 +16,22 @@ except ImportError:
 
 class GraniteAgriCopilot:
     def __init__(self, knowledge_base_path=None):
-        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         if knowledge_base_path is None:
-            knowledge_base_path = os.path.join(base_dir, 'data', 'icar_knowledge_base.json')
+            candidates = [
+                os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'icar_knowledge_base.json'),
+                os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data', 'icar_knowledge_base.json'),
+                os.path.join(os.path.dirname(os.path.abspath(__file__)), 'icar_knowledge_base.json'),
+                os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'icar_knowledge_base.json'),
+                'icar_knowledge_base.json'
+            ]
+            for c in candidates:
+                if os.path.exists(c):
+                    knowledge_base_path = c
+                    break
             
         self.knowledge = {}
-        if os.path.exists(knowledge_base_path):
-            with open(knowledge_base_path, 'r') as f:
+        if knowledge_base_path and os.path.exists(knowledge_base_path):
+            with open(knowledge_base_path, 'r', encoding='utf-8') as f:
                 self.knowledge = json.load(f).get('crops', {})
 
     def retrieve_context(self, crop, query_text):
@@ -125,39 +134,39 @@ class GraniteAgriCopilot:
         rain_warning = ""
         if weather_context and weather_context.get('rain_prob', 0) > 40:
             rain_warning = (
-                "⚠️ **Weather Precaution**: Rainfall is predicted in your area within the next 24 hours. "
+                "**[WEATHER PRECAUTION]**: Rainfall is predicted in your area within the next 24 hours. "
                 "**DO NOT spray foliar bio-remedies today**, as rain will wash away the active ingredients. "
                 "Wait until clear weather."
             )
         else:
             rain_warning = (
-                "✅ **Weather Opportunity**: Favorable dry window detected for the next 24 hours. "
+                "**[WEATHER CLEAR WINDOW]**: Favorable dry window detected for the next 24 hours. "
                 "Ideal time for early morning foliar bio-spray."
             )
 
         if language == "Hindi":
             return (
-                f"### 🌾 कृषि-मित्र सलाह (IBM Granite 3.0 RAG द्वारा समर्थित)\n\n"
+                f"### [कृषि-मित्र सलाह] IBM Granite 3.0 RAG द्वारा समर्थित\n\n"
                 f"**फसल**: {crop} | **संभावित रोग / कीट**: {disease_name}\n\n"
                 f"{rain_warning}\n\n"
-                f"#### 🌿 जैविक एवं कम लागत के रोकथाम उपाय:\n"
+                f"#### [जैविक रोकथाम उपाय]:\n"
                 f"1. **नीम आधारित उपचार**: {remedies[0]}\n"
                 f"2. **जैव-नियंत्रण**: {remedies[1] if len(remedies) > 1 else 'ट्राइकोडर्मा विरिडी (5 ग्राम/लीटर पानी) का छिड़काव करें।'}\n"
                 f"3. **खेत प्रबंधन**: {cultural[0]}\n\n"
-                f"#### 🛡️ सुरक्षा चेतावनी (Responsible AI):\n"
+                f"#### [सुरक्षा चेतावनी | Responsible AI]:\n"
                 f"> {warning}\n\n"
                 f"*स्त्रोत: आईसीएआर (ICAR) एवं केंद्रीय कृषि दिशानिर्देश 2024*"
             )
 
         return (
-            f"### 🌾 KrishiMitra Advisory (IBM Granite 3.0 + ICAR RAG)\n\n"
+            f"### [AGRONOMIC ADVISORY] IBM Granite 3.0 + ICAR RAG\n\n"
             f"**Target Crop**: {crop} | **Primary Diagnosis**: **{disease_name}**\n\n"
             f"{rain_warning}\n\n"
-            f"#### 🌿 Actionable Bio-Control Measures:\n"
+            f"#### [Actionable Bio-Control Measures]:\n"
             f"1. **Biological Spray**: {remedies[0]}\n"
             f"2. **Secondary Bio-Agent**: {remedies[1] if len(remedies) > 1 else 'Apply Trichoderma viride bio-fungicide @ 5g/liter.'}\n"
             f"3. **Agronomic Cultural Practice**: {cultural[0]}\n\n"
-            f"#### 🛡️ Responsible AI & Toxicity Safeguard:\n"
-            f"> ⚠️ **Warning**: {warning}\n\n"
+            f"#### [Responsible AI & Toxicity Safeguard]:\n"
+            f"> **Warning**: {warning}\n\n"
             f"*Knowledge Base: Certified ICAR & National IPM Guidelines*"
         )

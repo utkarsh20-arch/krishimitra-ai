@@ -57,6 +57,7 @@ class LiveWeatherService:
                 "longitude": lon,
                 "current": "temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m",
                 "daily": "temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max",
+                "hourly": "soil_temperature_0cm,soil_moisture_0_to_1cm",
                 "timezone": "auto"
             }
             data = self._fetch_json(self.weather_url, weather_params)
@@ -65,6 +66,7 @@ class LiveWeatherService:
 
             curr = data.get("current", {})
             daily = data.get("daily", {})
+            hourly = data.get("hourly", {})
 
             temp_current = curr.get("temperature_2m", 28.0)
             humidity_current = curr.get("relative_humidity_2m", 70.0)
@@ -75,6 +77,14 @@ class LiveWeatherService:
             temp_min = daily.get("temperature_2m_min", [temp_current - 6])[0]
             rain_prob = daily.get("precipitation_probability_max", [20])[0]
             rain_sum = daily.get("precipitation_sum", [precipitation_current])[0]
+
+            # Live Satellite Soil Data
+            soil_moist_list = hourly.get("soil_moisture_0_to_1cm", [])
+            soil_temp_list = hourly.get("soil_temperature_0cm", [])
+            
+            # Use current hour reading or average of latest readings
+            soil_moist_val = round(float(soil_moist_list[0]) * 100, 1) if soil_moist_list else 32.5
+            soil_temp_val = round(float(soil_temp_list[0]), 1) if soil_temp_list else float(temp_current) - 2.0
 
             return {
                 "success": True,
@@ -89,7 +99,9 @@ class LiveWeatherService:
                 "rainfall_mm": float(rain_sum),
                 "rain_probability": int(rain_prob),
                 "wind_speed_kmh": float(wind_speed),
-                "consecutive_wet_days": 2 if rain_prob > 60 else (1 if rain_prob > 30 else 0)
+                "consecutive_wet_days": 2 if rain_prob > 60 else (1 if rain_prob > 30 else 0),
+                "soil_moisture_pct": float(soil_moist_val),
+                "soil_temperature": float(soil_temp_val)
             }
 
         except Exception as e:

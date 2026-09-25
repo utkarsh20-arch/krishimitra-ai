@@ -94,7 +94,7 @@ class DynamicLLMAlertService:
                 if candidates:
                     content_parts = candidates[0].get("content", {}).get("parts", [])
                     if content_parts:
-                        return f"✨ **[Live Google Gemini AI Advisory]**\n\n" + content_parts[0].get("text", "")
+                        return f"**[Live Google Gemini AI Advisory]**\n\n" + content_parts[0].get("text", "")
             except Exception:
                 continue
         return None
@@ -123,7 +123,7 @@ class DynamicLLMAlertService:
             if resp.status_code == 200:
                 data = resp.json()
                 text = data["choices"][0]["message"]["content"]
-                return f"✨ **[Live ChatGPT AI Advisory]**\n\n" + text
+                return f"**[Live ChatGPT AI Advisory]**\n\n" + text
         except Exception:
             pass
         return None
@@ -167,14 +167,14 @@ Guidelines:
         
         # Varied greetings
         greetings_en = [
-            f"🌾 **Field Advisory for {city} farmers growing {crop}:**",
-            f"📢 **Real-Time Climate & Pest Bulletin | {city} ({crop}):**",
-            f"🚜 **KrishiMitra Diagnostic Alert for {crop} in {city}:**"
+            f"**[FIELD ADVISORY] {city} | Crop: {crop}**",
+            f"**[CLIMATE BULLETIN] {city} | Crop: {crop}**",
+            f"**[DIAGNOSTIC ALERT] {crop} in {city}**"
         ]
         greetings_hi = [
-            f"🌾 **{city} के {crop} उत्पादक किसान भाइयों के लिए विशेष मौसम सलाह:**",
-            f"📢 **ताज़ा मौसम व कीट सुरक्षा बुलेटिन | {city} ({crop}):**",
-            f"🚜 **कृषि-मित्र दैनिक फसल सुरक्षा परामर्श ({city}):**"
+            f"**[फसल सलाह] {city} | {crop}**",
+            f"**[मौसम व कीट सुरक्षा बुलेटिन] {city} | {crop}**",
+            f"**[दैनिक फसल सुरक्षा परामर्श] {city} ({crop})**"
         ]
         
         greeting = random.choice(greetings_hi if language == "Hindi" else greetings_en)
@@ -183,18 +183,18 @@ Guidelines:
             # Rain dominant
             if language == "Hindi":
                 action = (
-                    f"⛔ **तत्काल छिड़काव रोकें!**\n"
+                    f"**[चेतावनी: तत्काल छिड़काव रोकें]**\n"
                     f"अगले 24 घंटों में {city} में **{rain_prob}% बारिश की संभावना** है। आज पत्तों पर कोई भी दवा या जैविक घोल न छिड़कें, अन्यथा बारिश से पूरी दवा बह जाएगी।\n\n"
-                    f"🔍 **आज क्या करें:**\n"
+                    f"**[आज की कार्ययोजना]:**\n"
                     f"1. खेत के जल-निकासी (drainage) नालों को साफ करें ताकि जड़ों में पानी न ठहरे।\n"
                     f"2. बारिश थमने के बाद सुबह के समय **नीम तेल (5ml/लीटर)** का छिड़काव शेड्यूल करें।\n"
                     f"3. मिट्टी में फंगस रोकने हेतु जड़ के पास ट्राइकोडर्मा विरिडी का बुरकाव करें।"
                 )
             else:
                 action = (
-                    f"⛔ **HALT SPRAYING IMMEDIATELY!**\n"
+                    f"**[ALERT: HALT SPRAYING IMMEDIATELY]**\n"
                     f"{city} has a **{rain_prob}% probability of rainfall** in the next 24 hours. Any foliar spray applied today will be completely washed away by rainwater, causing wasted input costs.\n\n"
-                    f"🔍 **Recommended Action Plan:**\n"
+                    f"**[RECOMMENDED ACTION PLAN]:**\n"
                     f"1. Clear field drainage channels to prevent waterlogging around {crop} roots.\n"
                     f"2. Prepare a 5% Neem Seed Kernel Extract (NSKE) or cold-pressed Neem Oil (5ml/L) to spray once weather clears on day 2.\n"
                     f"3. Drench root zones with *Trichoderma viride* to resist soil-borne moisture pathogens."
@@ -203,18 +203,18 @@ Guidelines:
             # High humidity dominant
             if language == "Hindi":
                 action = (
-                    f"⚠️ **उच्च आर्द्रता (High Humidity) कीट चेतावनी!**\n"
+                    f"**[कीट चेतावनी] उच्च आर्द्रता (High Humidity)**\n"
                     f"वर्तमान में {city} में सुबह की नमी **{humidity}%** और तापमान **{temp}°C** है। यह मौसम ब्लाइट व फफूंद बीजाणुओं (fungal spores) के पनपने के लिए बेहद अनुकूल है (जोखिम: {risk_pct}%)।\n\n"
-                    f"🌿 **जैविक रोकथाम कदम:**\n"
+                    f"**[जैविक रोकथाम कदम]:**\n"
                     f"1. रोग के लक्षण दिखने से पहले ही **ट्राइकोडर्मा विरिडी (5 ग्राम/लीटर पानी)** का छिड़काव सुबह 7-9 बजे के बीच करें।\n"
                     f"2. यदि रस-चूसक कीट दिखें, तो 15-20 पीले चिपचिपे कार्ड (Yellow Sticky Traps) प्रति एकड़ लगाएं।\n"
                     f"3. हवा के संचार के लिए निचली रोगग्रस्त पत्तियों की छंटाई करें।"
                 )
             else:
                 action = (
-                    f"⚠️ **ELEVATED HUMIDITY SPORE ALERT!**\n"
+                    f"**[ELEVATED HUMIDITY SPORE ALERT]**\n"
                     f"Morning relative humidity in {city} is at **{humidity}%** with a temperature of **{temp}°C**. This specific thermal-moisture band accelerates spore germination in {crop} (Outbreak Risk: {risk_pct}%).\n\n"
-                    f"🌿 **Proactive Bio-Control Actions:**\n"
+                    f"**[PROACTIVE BIO-CONTROL ACTIONS]:**\n"
                     f"1. Apply prophylactic *Trichoderma viride* (5g/L water) or *Pseudomonas fluorescens* during early morning hours.\n"
                     f"2. Install 15–20 Yellow Sticky Traps per acre at canopy height to curb whitefly/aphid vectors.\n"
                     f"3. Prune bottom leaves to improve canopy aeration and limit soil splash."
@@ -223,25 +223,25 @@ Guidelines:
             # Stable dry window
             if language == "Hindi":
                 action = (
-                    f"✅ **अनुकूल छिड़काव खिड़की (Favorable Window)**\n"
+                    f"**[अनुकूल खिड़की] सुरक्षित छिड़काव अवधि (Favorable Window)**\n"
                     f"{city} में आगामी 48 घंटों तक मौसम साफ व स्थिर बना हुआ है (तापमान {temp}°C, नमी {humidity}%)।\n\n"
-                    f"🌱 **सुझाव:**\n"
+                    f"**[कृषि सुझाव]:**\n"
                     f"1. यह नियमित जैविक पोषण (जीवामृत/पंचगव्य) देने का सबसे बेहतरीन समय है।\n"
                     f"2. फसल की नियमित निगरानी (Scouting) करें और मित्र कीटों (लेडीबर्ड बीटल) का संरक्षण करें।"
                 )
             else:
                 action = (
-                    f"✅ **OPTIMAL SPRAYING WINDOW DETECTED**\n"
+                    f"**[OPTIMAL SPRAYING WINDOW DETECTED]**\n"
                     f"Atmospheric conditions across {city} are currently stable with moderate humidity ({humidity}%) and clear skies.\n\n"
-                    f"🌱 **Agronomic Recommendation:**\n"
+                    f"**[AGRONOMIC RECOMMENDATION]:**\n"
                     f"1. Ideal 48-hour window for foliar application of bio-fertilizers or organic plant growth promoters.\n"
                     f"2. Conduct weekly field scouting; protect beneficial predator insects (e.g. ladybird beetles, spiders)."
                 )
 
         footer = (
-            "\n\n🛡️ *सुरक्षा सलाह: रासायनिक कीटनाशकों का अंधाधुंध उपयोग न करें। मित्र कीटों और मिट्टी के सूक्ष्मजीवों की रक्षा करें।*"
+            "\n\n*[सुरक्षा सलाह: रासायनिक कीटनाशकों का अंधाधुंध उपयोग न करें। मित्र कीटों और मिट्टी के सूक्ष्मजीवों की रक्षा करें।]*"
             if language == "Hindi" else
-            "\n\n🛡️ *Safety Guardrail: Avoid prophylactic synthetic chemicals. Safeguard beneficial pollinators and soil microbiome.*"
+            "\n\n*[Safety Guardrail: Avoid prophylactic synthetic chemicals. Safeguard beneficial pollinators and soil microbiome.]*"
         )
 
         return f"{greeting}\n\n{action}{footer}"
