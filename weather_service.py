@@ -33,25 +33,81 @@ class LiveWeatherService:
         with urllib.request.urlopen(req, timeout=6) as response:
             return json.loads(response.read().decode('utf-8'))
 
+    def _geocode_location(self, query):
+        """
+        Multi-tier dynamic geocoding for any locality, street, village, or district worldwide.
+        1. OpenStreetMap Nominatim: Handles compound queries (e.g. 'Nerul, Navi Mumbai', 'Hadapsar, Pune').
+        2. Open-Meteo Geocoding: Fast fallback for single tokens and global cities.
+        """
+        clean_q = query.strip()
+        if not clean_q:
+            clean_q = "Nashik"
+
+        # Tier 1: Nominatim (Handles compound localities with high precision)
+        try:
+            nom_url = f"https://nominatim.openstreetmap.org/search?q={urllib.parse.quote(clean_q)}&format=json&limit=1"
+            req = urllib.request.Request(nom_url, headers={"User-Agent": "KrishiMitraAgri/2.0 (contact@krishimitra.org)"})
+            with urllib.request.urlopen(req, timeout=5) as r:
+                n_data = json.loads(r.read().decode('utf-8'))
+                if n_data and len(n_data) > 0:
+                    first = n_data[0]
+                    raw_name = first.get("display_name", "")
+                    parts = [p.strip() for p in raw_name.split(",")]
+                    short_name = ", ".join(parts[:2] + parts[-2:]) if len(parts) >= 4 else raw_name
+                    return {
+                        "lat": float(first["lat"]),
+                        "lon": float(first["lon"]),
+                        "resolved_name": short_name,
+                        "full_address": raw_name,
+                        "source": "OpenStreetMap Nominatim"
+                    }
+        except Exception:
+            pass
+
+        # Tier 2: Open-Meteo Geocoding (Try full query, then components if comma present)
+        candidates_to_try = [clean_q]
+        if "," in clean_q:
+            parts = [p.strip() for p in clean_q.split(",") if p.strip()]
+            candidates_to_try.extend(parts)
+
+        for candidate in candidates_to_try:
+            try:
+                geo_params = {"name": candidate, "count": 5, "language": "en", "format": "json"}
+                geo_data = self._fetch_json(self.geo_url, geo_params)
+                results = geo_data.get("results", []) if geo_data else []
+                if results:
+                    in_res = [x for x in results if x.get("country_code") == "IN" or x.get("country") == "India"]
+                    loc_data = in_res[0] if in_res else results[0]
+                    lat = float(loc_data["latitude"])
+                    lon = float(loc_data["longitude"])
+                    resolved_name = f"{loc_data.get('name')}, {loc_data.get('admin1', '')} ({loc_data.get('country', '')})"
+                    return {
+                        "lat": lat,
+                        "lon": lon,
+                        "resolved_name": resolved_name,
+                        "full_address": resolved_name,
+                        "source": "Open-Meteo Satellite Geocoder"
+                    }
+            except Exception:
+                continue
+
+        return None
+
     def get_weather_by_city(self, city_name="Nashik"):
         """
-        Geocodes the city name and retrieves real-time temperature, humidity,
-        wind speed, precipitation, and rain probability for the next 24-48 hours.
+        Geocodes any location worldwide in real-time and retrieves live temperature, humidity,
+        wind speed, precipitation, rain probability, and ESA satellite soil moisture/temperature.
         """
         try:
-            # 1. Geocode city name to lat/lon
-            geo_params = {"name": city_name, "count": 1, "language": "en", "format": "json"}
-            geo_data = self._fetch_json(self.geo_url, geo_params)
-            
-            if not geo_data or not geo_data.get("results"):
-                return self._fallback_weather(city_name, error="City not found, using regional baseline.")
-                
-            loc_data = geo_data["results"][0]
-            lat = loc_data["latitude"]
-            lon = loc_data["longitude"]
-            resolved_name = f"{loc_data.get('name')}, {loc_data.get('admin1', '')} ({loc_data.get('country', '')})"
+            geocoded = self._geocode_location(city_name)
+            if not geocoded:
+                return self._fallback_weather(city_name, error="Unable to geocode location.")
 
-            # 2. Fetch live weather & forecast
+            lat = geocoded["lat"]
+            lon = geocoded["lon"]
+            resolved_name = geocoded["resolved_name"]
+
+            # 2. Fetch live weather & satellite forecast from Open-Meteo
             weather_params = {
                 "latitude": lat,
                 "longitude": lon,
@@ -78,17 +134,17 @@ class LiveWeatherService:
             rain_prob = daily.get("precipitation_probability_max", [20])[0]
             rain_sum = daily.get("precipitation_sum", [precipitation_current])[0]
 
-            # Live Satellite Soil Data
+            # Live Satellite Soil Telemetry
             soil_moist_list = hourly.get("soil_moisture_0_to_1cm", [])
             soil_temp_list = hourly.get("soil_temperature_0cm", [])
             
-            # Use current hour reading or average of latest readings
             soil_moist_val = round(float(soil_moist_list[0]) * 100, 1) if soil_moist_list else 32.5
             soil_temp_val = round(float(soil_temp_list[0]), 1) if soil_temp_list else float(temp_current) - 2.0
 
             return {
                 "success": True,
                 "location": resolved_name,
+                "full_address": geocoded.get("full_address", resolved_name),
                 "latitude": lat,
                 "longitude": lon,
                 "temp_current": float(temp_current),
@@ -101,7 +157,8 @@ class LiveWeatherService:
                 "wind_speed_kmh": float(wind_speed),
                 "consecutive_wet_days": 2 if rain_prob > 60 else (1 if rain_prob > 30 else 0),
                 "soil_moisture_pct": float(soil_moist_val),
-                "soil_temperature": float(soil_temp_val)
+                "soil_temperature": float(soil_temp_val),
+                "telemetry_source": f"Live Satellite Feed ({lat:.4f}°N, {lon:.4f}°E)"
             }
 
         except Exception as e:

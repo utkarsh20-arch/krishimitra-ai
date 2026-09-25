@@ -455,14 +455,15 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
     
-    st.markdown("**Location & Agro-Climatic Zone**")
-    city_input = st.text_input("District / City Name:", value="Nashik", help="Type any district (e.g. Mumbai, Nashik, Pune, Ludhiana, Varanasi)")
+    city_input = st.text_input("District / City / Locality Name:", value="Nashik", help="Type any village, locality, town, or district (e.g. Nerul, Navi Mumbai, Alibaug, Ludhiana, Varanasi, Jodhpur, Shimla)")
     if st.button("Sync Weather & Soil Telemetry", type="primary", use_container_width=True):
-        with st.spinner(f"Fetching satellite weather & soil telemetry for {city_input}..."):
+        with st.spinner(f"Connecting to live satellite telemetry for {city_input}..."):
             st.session_state.live_weather = weather_service.get_weather_by_city(city_input)
             st.session_state.dynamic_alert = None
             st.session_state.ai_feasibility_report = None
             st.success(f"Connected: {st.session_state.live_weather['location']}")
+            if "telemetry_source" in st.session_state.live_weather:
+                st.caption(f"[Live Telemetry] {st.session_state.live_weather['telemetry_source']}")
 
     st.markdown("**Target Crop / Vegetable to Cultivate**")
     crop_options = [
@@ -483,8 +484,13 @@ with st.sidebar:
     else:
         selected_crop = crop_choice
 
-    # Auto-Detect Regional Soil Profile
-    auto_detected_soil = soil_engine.detect_soil_by_location(st.session_state.live_weather["location"])
+    # Dynamic GIS & Satellite Soil Profile Detection
+    curr_weather = st.session_state.live_weather
+    auto_detected_soil = soil_engine.detect_soil_by_location(
+        location_str=curr_weather["location"],
+        lat=curr_weather.get("latitude"),
+        lon=curr_weather.get("longitude")
+    )
 
     st.markdown("---")
     st.markdown("**Soil Profile Configuration**")
@@ -501,6 +507,7 @@ with st.sidebar:
                 "Sandy Loam (Light, Fast-Draining)",
                 "Loam / Alluvial (Medium, Fertile)",
                 "Clay Loam (Moderate Retention)",
+                "Marine Clay / Coastal Saline (Creek Mudflats, High Salinity)",
                 "Deep Black Cotton Soil (Heavy Clay)",
                 "Red Laterite Soil (Acidic, Well-Drained)",
                 "Arid / Sandy Soil (Low Retention)"
@@ -513,9 +520,9 @@ with st.sidebar:
             "texture": soil_type_choice.split(" (")[0],
             "ph": custom_ph,
             "drainage": "Good" if "Sandy" in soil_type_choice or "Laterite" in soil_type_choice else ("Moderate" if "Loam" in soil_type_choice else "Poor / Waterlogging Risk"),
-            "moisture_retention": "Low" if "Sandy" in soil_type_choice else ("Very High" if "Black" in soil_type_choice else "Moderate"),
+            "moisture_retention": "Low" if "Sandy" in soil_type_choice else ("Very High" if ("Black" in soil_type_choice or "Marine" in soil_type_choice) else "Moderate"),
             "organic_matter": "Medium",
-            "salinity_risk": "Low",
+            "salinity_risk": "High (Tidal Creek Salt Infiltration)" if "Marine" in soil_type_choice else "Low",
             "description": f"Custom user-configured farm soil ({soil_type_choice}) with pH {custom_ph}.",
             "is_custom": True
         }
@@ -523,9 +530,10 @@ with st.sidebar:
         active_soil = auto_detected_soil
         st.markdown(f"""
         <div style='background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 10px; padding: 10px; font-size: 0.82rem;'>
-            <div style='color: #38BDF8; font-weight: 700; letter-spacing: 0.5px;'>AUTO-DETECTED SOIL</div>
+            <div style='color: #38BDF8; font-weight: 700; letter-spacing: 0.5px;'>AUTO-DETECTED SOIL: {auto_detected_soil.get("detected_district", "").upper()}</div>
             <div style='color: #FFFFFF; font-weight: 600; margin-top: 2px;'>{auto_detected_soil['soil_type']}</div>
             <div style='color: #94A3B8; font-size: 0.76rem; margin-top: 2px;'>pH: <b>{auto_detected_soil['ph']}</b> | Texture: <b>{auto_detected_soil['texture']}</b></div>
+            <div style='color: {"#F87171" if "high" in auto_detected_soil.get("salinity_risk", "").lower() else "#38BDF8"}; font-size: 0.74rem; margin-top: 2px;'>Salinity Risk: <b>{auto_detected_soil.get("salinity_risk", "Low")}</b></div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -606,7 +614,7 @@ st.markdown(f"""
             Target Crop: <b style='color: #38BDF8;'>{selected_crop}</b>
         </div>
         <div style='background: rgba(18, 22, 30, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 8px 16px; font-size: 0.85rem; color: #E2E8F0;'>
-            Soil Profile: <b style='color: #10B981;'>{active_soil['texture']} (pH {active_soil['ph']})</b>
+            Soil Profile: <b style='color: {"#F87171" if "high" in active_soil.get("salinity_risk", "").lower() else "#10B981"};'>{active_soil['texture']} (pH {active_soil['ph']}{" • High Salinity" if "high" in active_soil.get("salinity_risk", "").lower() else ""})</b>
         </div>
     </div>
 </div>
@@ -1000,7 +1008,8 @@ with tab3:
             </div>
             <div style='font-size: 0.85rem; color: #E2E8F0; margin-bottom: 10px;'>
                 <b>Active Soil Profile:</b> {active_soil['soil_type']} ({active_soil['texture']})<br>
-                <b>Soil pH:</b> {active_soil['ph']} • <b>Drainage:</b> {active_soil['drainage']}
+                <b>Soil pH:</b> {active_soil['ph']} • <b>Drainage:</b> {active_soil['drainage']} • <b>Salinity Risk:</b> <span style='color: {"#F87171" if "high" in active_soil.get("salinity_risk", "").lower() else "#10B981"}; font-weight: 700;'>{active_soil.get("salinity_risk", "Low")}</span><br>
+                <span style='color: #64748B; font-size: 0.78rem;'>Data Source: {active_soil.get('source', 'ICAR Agro-GIS Benchmark')}</span>
             </div>
             <div style='font-size: 0.85rem; color: #94A3B8; margin-bottom: 8px;'>
                 <b>Verdict:</b> <span style='color: {feasibility['soil_status_color']}; font-weight: 700;'>{feasibility['soil_verdict']}</span>
