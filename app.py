@@ -1126,154 +1126,127 @@ with st.sidebar:
     )
 
 # --- MAIN CONTENT HEADER ---
-st.markdown("""
-<div class='farm-hero-banner'>
-    <!-- Dynamic Sky Layer with Flying Birds -->
-    <div class='hero-sky-layer'>
-        <!-- Bird 1 (High, Gliding smoothly) -->
-        <div class='animated-bird bird-1'>
-            <svg viewBox='0 0 36 20' width='36' height='20'>
-                <path class='wing-l' d='M 18,10 Q 9,1 2,4 Q 9,10 18,10 Z' fill='#74C69D'/>
-                <path class='wing-r' d='M 18,10 Q 27,1 34,4 Q 27,10 18,10 Z' fill='#52B788'/>
-                <ellipse cx='18' cy='10' rx='3' ry='1.6' fill='#D8F3DC'/>
-            </svg>
-        </div>
-        <!-- Bird 2 (Mid-sky, Flapping) -->
-        <div class='animated-bird bird-2'>
-            <svg viewBox='0 0 30 18' width='30' height='18'>
-                <path class='wing-l' d='M 15,9 Q 7,1 1,3 Q 7,9 15,9 Z' fill='#95D5B2'/>
-                <path class='wing-r' d='M 15,9 Q 23,1 29,3 Q 23,9 15,9 Z' fill='#74C69D'/>
-                <ellipse cx='15' cy='9' rx='2.6' ry='1.4' fill='#FFFFFF'/>
-            </svg>
-        </div>
-        <!-- Bird 3 (Lower Horizon) -->
-        <div class='animated-bird bird-3'>
-            <svg viewBox='0 0 26 15' width='26' height='15'>
-                <path class='wing-l' d='M 13,8 Q 6,1 1,3 Q 6,8 13,8 Z' fill='#52B788'/>
-                <path class='wing-r' d='M 13,8 Q 20,1 25,3 Q 20,8 13,8 Z' fill='#40916C'/>
-                <ellipse cx='13' cy='8' rx='2.2' ry='1.2' fill='#D8F3DC'/>
-            </svg>
-        </div>
-    </div>
-
-    <!-- Animated Farmer Silhouette & Swaying Crops Scene (Right/Bottom) -->
-    <div class='hero-farmer-scene'>
-        <svg viewBox='0 0 380 125' width='100%' height='100%' preserveAspectRatio='none'>
-            <defs>
-                <linearGradient id='hillGradient' x1='0%' y1='0%' x2='0%' y2='100%'>
-                    <stop offset='0%' stop-color='#163B29' stop-opacity='0.9'/>
-                    <stop offset='100%' stop-color='#08180E' stop-opacity='0.98'/>
-                </linearGradient>
-            </defs>
-
-            <!-- Rolling Green Hills Backdrop -->
-            <path d='M 0,85 Q 90,55 200,75 T 380,68 L 380,125 L 0,125 Z' fill='url(#hillGradient)'/>
-
-            <!-- Left Swaying Crop Cluster -->
-            <g class='crop-cluster-1' transform='translate(60, 0)'>
-                <path d='M 10,125 Q 12,98 8,82 M 16,125 Q 20,95 24,84 M 22,125 Q 20,92 16,78' stroke='#E9C46A' stroke-width='2.2' stroke-linecap='round' fill='none'/>
-                <circle cx='8' cy='81' r='3.2' fill='#FFE3A8'/>
-                <circle cx='24' cy='83' r='3' fill='#FFE3A8'/>
-                <circle cx='16' cy='77' r='3' fill='#FFE3A8'/>
-            </g>
-            <g class='crop-cluster-2' transform='translate(130, 0)'>
-                <path d='M 10,125 Q 14,100 18,85 M 18,125 Q 17,98 13,82 M 25,125 Q 28,95 32,80' stroke='#74C69D' stroke-width='2' stroke-linecap='round' fill='none'/>
-                <circle cx='18' cy='84' r='2.8' fill='#A7D7C5'/>
-                <circle cx='13' cy='81' r='2.8' fill='#A7D7C5'/>
-                <circle cx='32' cy='79' r='2.8' fill='#A7D7C5'/>
-            </g>
-
-            <!-- Mid/Right Swaying Crops Surrounding Farmer -->
-            <g class='crop-cluster-1' transform='translate(230, 0)'>
-                <path d='M 8,125 Q 11,98 6,80 M 15,125 Q 20,96 23,83 M 24,125 Q 21,94 17,76' stroke='#E9C46A' stroke-width='2.2' stroke-linecap='round' fill='none'/>
-                <circle cx='6' cy='79' r='3.2' fill='#FFD166'/>
-                <circle cx='23' cy='82' r='3' fill='#FFD166'/>
-                <circle cx='17' cy='75' r='3' fill='#FFD166'/>
-            </g>
-            <g class='crop-cluster-2' transform='translate(330, 0)'>
-                <path d='M 10,125 Q 14,102 18,84 M 18,125 Q 17,98 14,80 M 26,125 Q 30,96 34,78' stroke='#52B788' stroke-width='2' stroke-linecap='round' fill='none'/>
-                <circle cx='18' cy='83' r='2.8' fill='#95D5B2'/>
-                <circle cx='14' cy='79' r='2.8' fill='#95D5B2'/>
-                <circle cx='34' cy='77' r='2.8' fill='#95D5B2'/>
-            </g>
-
-            <!-- ANIMATED INDIAN FARMER HARVESTING IN THE FIELD -->
-            <g class='farmer-working-group' transform='translate(285, 42)'>
-                <!-- Legs / Dhoti -->
-                <path d='M 17,50 L 13,74 L 9,74 M 25,50 L 29,74 L 33,74' stroke='#D8F3DC' stroke-width='2.5' stroke-linecap='round'/>
-                <!-- Torso in traditional Kurta -->
-                <path d='M 11,28 Q 21,26 29,28 L 31,50 Q 21,52 11,50 Z' fill='#2D6A4F' stroke='#52B788' stroke-width='1.2'/>
-                
-                <!-- Head -->
-                <ellipse cx='20' cy='19' rx='6' ry='6.5' fill='#FFE5D9'/>
-                
-                <!-- Saffron/Terracotta Traditional Turban (Pagri) -->
-                <ellipse cx='20' cy='15' rx='8.5' ry='5.5' fill='#F4A261'/>
-                <path d='M 11,15 Q 20,8 29,15 Q 25,11 16,11 Z' fill='#E76F51'/>
-                <path d='M 26,15 L 30,24 L 28,25 L 25,17 Z' fill='#E76F51'/> <!-- Pagri tail -->
-
-                <!-- Left Arm Support -->
-                <path d='M 13,31 Q 7,38 11,46' stroke='#FFE5D9' stroke-width='2.6' stroke-linecap='round' fill='none'/>
-
-                <!-- Harvesting Arm with Sickle/Daranti (Animated Swing Motion) -->
-                <g class='farmer-sickle-arm'>
-                    <!-- Arm -->
-                    <path d='M 26,30 Q 36,34 39,45' stroke='#FFE5D9' stroke-width='3' stroke-linecap='round' fill='none'/>
-                    <!-- Handle -->
-                    <rect x='37' y='44' width='3.2' height='7.5' rx='1' fill='#8D5B4C'/>
-                    <!-- Curved Sickle (Daranti) Blade -->
-                    <path d='M 39,45 Q 50,42 45,31 Q 40,27 38,38' fill='#FFD166' stroke='#FFFFFF' stroke-width='1.2'/>
-                </g>
-            </g>
-        </svg>
-    </div>
-
-    <!-- Header Text & Credentials -->
-    <div style='position: relative; z-index: 2;'>
-        <div style='display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;'>
-            <div style='display: flex; align-items: center; gap: 14px;'>
-                <span style='font-size: 2.8rem; filter: drop-shadow(0 0 12px rgba(82, 183, 136, 0.8));'>🌾</span>
-                <div>
-                    <h1 class='main-title' style='margin: 0; font-size: 2.25rem;'>KrishiMitra AI</h1>
-                    <div style='font-size: 0.96rem; color: #94D2BD; font-weight: 500; margin-top: 2px;'>
-                        Resilient Microclimate & Bio-Pest Advisory Copilot
-                    </div>
-                </div>
-            </div>
-            <div style='display: flex; gap: 8px; flex-wrap: wrap;'>
-                <span class='pill-icar'>🌿 ICAR CERTIFIED KB</span>
-                <span class='pill-sat'>🛰️ SATELLITE TELEMETRY</span>
-                <span class='pill-ai'>⚡ GEMINI 3.6 FLASH</span>
-            </div>
-        </div>
-        <div style='margin-top: 14px; font-size: 0.92rem; color: #C7E8D6; border-top: 1px solid rgba(82, 183, 136, 0.22); padding-top: 10px; max-width: 780px;'>
-            Empowering smallholder farmers with proactive bio-control advisories grounded in real-time microclimate feeds, automated XGBoost outbreak forecasting, and responsible AI safety rails.
-        </div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
+MAIN_HEADER_HTML = (
+    "<div class='farm-hero-banner'>"
+    "<div class='hero-sky-layer'>"
+    "<div class='animated-bird bird-1'>"
+    "<svg viewBox='0 0 36 20' width='36' height='20'>"
+    "<path class='wing-l' d='M 18,10 Q 9,1 2,4 Q 9,10 18,10 Z' fill='#74C69D'/>"
+    "<path class='wing-r' d='M 18,10 Q 27,1 34,4 Q 27,10 18,10 Z' fill='#52B788'/>"
+    "<ellipse cx='18' cy='10' rx='3' ry='1.6' fill='#D8F3DC'/>"
+    "</svg>"
+    "</div>"
+    "<div class='animated-bird bird-2'>"
+    "<svg viewBox='0 0 30 18' width='30' height='18'>"
+    "<path class='wing-l' d='M 15,9 Q 7,1 1,3 Q 7,9 15,9 Z' fill='#95D5B2'/>"
+    "<path class='wing-r' d='M 15,9 Q 23,1 29,3 Q 23,9 15,9 Z' fill='#74C69D'/>"
+    "<ellipse cx='15' cy='9' rx='2.6' ry='1.4' fill='#FFFFFF'/>"
+    "</svg>"
+    "</div>"
+    "<div class='animated-bird bird-3'>"
+    "<svg viewBox='0 0 26 15' width='26' height='15'>"
+    "<path class='wing-l' d='M 13,8 Q 6,1 1,3 Q 6,8 13,8 Z' fill='#52B788'/>"
+    "<path class='wing-r' d='M 13,8 Q 20,1 25,3 Q 20,8 13,8 Z' fill='#40916C'/>"
+    "<ellipse cx='13' cy='8' rx='2.2' ry='1.2' fill='#D8F3DC'/>"
+    "</svg>"
+    "</div>"
+    "</div>"
+    "<div class='hero-farmer-scene'>"
+    "<svg viewBox='0 0 380 125' width='100%' height='100%' preserveAspectRatio='none'>"
+    "<defs>"
+    "<linearGradient id='hillGradient' x1='0%' y1='0%' x2='0%' y2='100%'>"
+    "<stop offset='0%' stop-color='#163B29' stop-opacity='0.9'/>"
+    "<stop offset='100%' stop-color='#08180E' stop-opacity='0.98'/>"
+    "</linearGradient>"
+    "</defs>"
+    "<path d='M 0,85 Q 90,55 200,75 T 380,68 L 380,125 L 0,125 Z' fill='url(#hillGradient)'/>"
+    "<g class='crop-cluster-1' transform='translate(60, 0)'>"
+    "<path d='M 10,125 Q 12,98 8,82 M 16,125 Q 20,95 24,84 M 22,125 Q 20,92 16,78' stroke='#E9C46A' stroke-width='2.2' stroke-linecap='round' fill='none'/>"
+    "<circle cx='8' cy='81' r='3.2' fill='#FFE3A8'/>"
+    "<circle cx='24' cy='83' r='3' fill='#FFE3A8'/>"
+    "<circle cx='16' cy='77' r='3' fill='#FFE3A8'/>"
+    "</g>"
+    "<g class='crop-cluster-2' transform='translate(130, 0)'>"
+    "<path d='M 10,125 Q 14,100 18,85 M 18,125 Q 17,98 13,82 M 25,125 Q 28,95 32,80' stroke='#74C69D' stroke-width='2' stroke-linecap='round' fill='none'/>"
+    "<circle cx='18' cy='84' r='2.8' fill='#A7D7C5'/>"
+    "<circle cx='13' cy='81' r='2.8' fill='#A7D7C5'/>"
+    "<circle cx='32' cy='79' r='2.8' fill='#A7D7C5'/>"
+    "</g>"
+    "<g class='crop-cluster-1' transform='translate(230, 0)'>"
+    "<path d='M 8,125 Q 11,98 6,80 M 15,125 Q 20,96 23,83 M 24,125 Q 21,94 17,76' stroke='#E9C46A' stroke-width='2.2' stroke-linecap='round' fill='none'/>"
+    "<circle cx='6' cy='79' r='3.2' fill='#FFD166'/>"
+    "<circle cx='23' cy='82' r='3' fill='#FFD166'/>"
+    "<circle cx='17' cy='75' r='3' fill='#FFD166'/>"
+    "</g>"
+    "<g class='crop-cluster-2' transform='translate(330, 0)'>"
+    "<path d='M 10,125 Q 14,102 18,84 M 18,125 Q 17,98 14,80 M 26,125 Q 30,96 34,78' stroke='#52B788' stroke-width='2' stroke-linecap='round' fill='none'/>"
+    "<circle cx='18' cy='83' r='2.8' fill='#95D5B2'/>"
+    "<circle cx='14' cy='79' r='2.8' fill='#95D5B2'/>"
+    "<circle cx='34' cy='77' r='2.8' fill='#95D5B2'/>"
+    "</g>"
+    "<g class='farmer-working-group' transform='translate(285, 42)'>"
+    "<path d='M 17,50 L 13,74 L 9,74 M 25,50 L 29,74 L 33,74' stroke='#D8F3DC' stroke-width='2.5' stroke-linecap='round'/>"
+    "<path d='M 11,28 Q 21,26 29,28 L 31,50 Q 21,52 11,50 Z' fill='#2D6A4F' stroke='#52B788' stroke-width='1.2'/>"
+    "<ellipse cx='20' cy='19' rx='6' ry='6.5' fill='#FFE5D9'/>"
+    "<ellipse cx='20' cy='15' rx='8.5' ry='5.5' fill='#F4A261'/>"
+    "<path d='M 11,15 Q 20,8 29,15 Q 25,11 16,11 Z' fill='#E76F51'/>"
+    "<path d='M 26,15 L 30,24 L 28,25 L 25,17 Z' fill='#E76F51'/>"
+    "<path d='M 13,31 Q 7,38 11,46' stroke='#FFE5D9' stroke-width='2.6' stroke-linecap='round' fill='none'/>"
+    "<g class='farmer-sickle-arm'>"
+    "<path d='M 26,30 Q 36,34 39,45' stroke='#FFE5D9' stroke-width='3' stroke-linecap='round' fill='none'/>"
+    "<rect x='37' y='44' width='3.2' height='7.5' rx='1' fill='#8D5B4C'/>"
+    "<path d='M 39,45 Q 50,42 45,31 Q 40,27 38,38' fill='#FFD166' stroke='#FFFFFF' stroke-width='1.2'/>"
+    "</g>"
+    "</g>"
+    "</svg>"
+    "</div>"
+    "<div style='position: relative; z-index: 2;'>"
+    "<div style='display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;'>"
+    "<div style='display: flex; align-items: center; gap: 14px;'>"
+    "<span style='font-size: 2.8rem; filter: drop-shadow(0 0 12px rgba(82, 183, 136, 0.8));'>🌾</span>"
+    "<div>"
+    "<h1 class='main-title' style='margin: 0; font-size: 2.25rem;'>KrishiMitra AI</h1>"
+    "<div style='font-size: 0.96rem; color: #94D2BD; font-weight: 500; margin-top: 2px;'>"
+    "Resilient Microclimate & Bio-Pest Advisory Copilot"
+    "</div>"
+    "</div>"
+    "</div>"
+    "<div style='display: flex; gap: 8px; flex-wrap: wrap;'>"
+    "<span class='pill-icar'>🌿 ICAR CERTIFIED KB</span>"
+    "<span class='pill-sat'>🛰️ SATELLITE TELEMETRY</span>"
+    "<span class='pill-ai'>⚡ GEMINI 3.6 FLASH</span>"
+    "</div>"
+    "</div>"
+    "<div style='margin-top: 14px; font-size: 0.92rem; color: #C7E8D6; border-top: 1px solid rgba(82, 183, 136, 0.22); padding-top: 10px; max-width: 780px;'>"
+    "Empowering smallholder farmers with proactive bio-control advisories grounded in real-time microclimate feeds, automated XGBoost outbreak forecasting, and responsible AI safety rails."
+    "</div>"
+    "</div>"
+    "</div>"
+)
+st.markdown(MAIN_HEADER_HTML, unsafe_allow_html=True)
 
 # Live Weather Banner with Animated Chips & Live Radar Dot
 lw = st.session_state.live_weather
-st.markdown(f"""
-<div class='weather-live-box'>
-    <div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;'>
-        <div>
-            <span class='pulse-dot'></span>
-            <b style='letter-spacing: 0.5px;'>LIVE CLIMATE RADAR:</b> {lw['location']}
-        </div>
-        <div style='font-size: 0.82rem; opacity: 0.85; background: rgba(0,0,0,0.25); border: 1px solid rgba(82, 183, 136, 0.3); padding: 3px 10px; border-radius: 12px;'>
-            🛰️ Open-Meteo Satellite Feed
-        </div>
-    </div>
-    <div class='weather-chips-container'>
-        <div class='weather-chip chip-temp'>🌡️ <b>Temp:</b> {lw['temp_current']}°C <small>({lw['temp_min']}°C - {lw['temp_max']}°C)</small></div>
-        <div class='weather-chip chip-hum'>💧 <b>Morning Humidity:</b> {lw['humidity_morning']}%</div>
-        <div class='weather-chip chip-rain'>🌧️ <b>Rain Chance:</b> {lw['rain_probability']}% ({lw['rainfall_mm']} mm)</div>
-        <div class='weather-chip chip-wind'>💨 <b>Wind:</b> {lw['wind_speed_kmh']} km/h</div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
+WEATHER_BANNER_HTML = (
+    "<div class='weather-live-box'>"
+    "<div style='display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;'>"
+    "<div>"
+    "<span class='pulse-dot'></span>"
+    f"<b style='letter-spacing: 0.5px;'>LIVE CLIMATE RADAR:</b> {lw['location']}"
+    "</div>"
+    "<div style='font-size: 0.82rem; opacity: 0.85; background: rgba(0,0,0,0.25); border: 1px solid rgba(82, 183, 136, 0.3); padding: 3px 10px; border-radius: 12px;'>"
+    "🛰️ Open-Meteo Satellite Feed"
+    "</div>"
+    "</div>"
+    "<div class='weather-chips-container'>"
+    f"<div class='weather-chip chip-temp'>🌡️ <b>Temp:</b> {lw['temp_current']}°C <small>({lw['temp_min']}°C - {lw['temp_max']}°C)</small></div>"
+    f"<div class='weather-chip chip-hum'>💧 <b>Morning Humidity:</b> {lw['humidity_morning']}%</div>"
+    f"<div class='weather-chip chip-rain'>🌧️ <b>Rain Chance:</b> {lw['rain_probability']}% ({lw['rainfall_mm']} mm)</div>"
+    f"<div class='weather-chip chip-wind'>💨 <b>Wind:</b> {lw['wind_speed_kmh']} km/h</div>"
+    "</div>"
+    "</div>"
+)
+st.markdown(WEATHER_BANNER_HTML, unsafe_allow_html=True)
 
 # Four Feature Tabs
 tab1, tab2, tab3, tab4 = st.tabs([
