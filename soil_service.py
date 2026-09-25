@@ -551,13 +551,20 @@ class SoilSuitabilityEngine:
     def __init__(self):
         pass
 
-    def detect_soil_by_location(self, location_str, lat=None, lon=None):
+    def detect_soil_by_location(self, location_str, *args, **kwargs):
         """
         Dynamically classifies soil type, texture, pH, drainage, and salinity
         for ANY latitude/longitude and location worldwide using
         ICAR, NBSS&LUP, and FAO Agro-Ecological Zone (AEZ) GIS standards.
+        Supports flexible calling:
+        - detect_soil_by_location(loc)
+        - detect_soil_by_location(loc, lat, lon)
+        - detect_soil_by_location(loc, lat=lat, lon=lon)
+        - detect_soil_by_location(location_str=loc, lat=lat, lon=lon)
         """
-        clean_loc = location_str.lower()
+        lat = kwargs.get("lat") if "lat" in kwargs else (args[0] if len(args) > 0 else None)
+        lon = kwargs.get("lon") if "lon" in kwargs else (args[1] if len(args) > 1 else None)
+        clean_loc = str(location_str).lower()
         
         # 1. Match specific city/district keywords if in curated regional DB
         sorted_keys = sorted(REGIONAL_SOIL_DATA.keys(), key=lambda k: len(k), reverse=True)

@@ -486,11 +486,15 @@ with st.sidebar:
 
     # Dynamic GIS & Satellite Soil Profile Detection
     curr_weather = st.session_state.live_weather
-    auto_detected_soil = soil_engine.detect_soil_by_location(
-        location_str=curr_weather["location"],
-        lat=curr_weather.get("latitude"),
-        lon=curr_weather.get("longitude")
-    )
+    try:
+        auto_detected_soil = soil_engine.detect_soil_by_location(
+            curr_weather["location"],
+            lat=curr_weather.get("latitude"),
+            lon=curr_weather.get("longitude")
+        )
+    except TypeError:
+        # Backward compatibility if models/soil_service.py on GitHub is an older revision
+        auto_detected_soil = soil_engine.detect_soil_by_location(curr_weather["location"])
 
     st.markdown("---")
     st.markdown("**Soil Profile Configuration**")
