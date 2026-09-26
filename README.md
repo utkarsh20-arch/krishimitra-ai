@@ -1,4 +1,4 @@
-# 🌾 KrishiMitra AI: Climate-Resilient Agricultural Advisory Copilot
+ KrishiMitra AI: Climate-Resilient Agricultural Advisory Copilot
 
 [![Python Version](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Framework](https://img.shields.io/badge/UI-Streamlit-FF4B4B.svg)](https://streamlit.io/)
@@ -17,7 +17,7 @@
 
 Smallholder farmers in developing nations face severe crop loss caused by sudden, unseasonal weather events (humidity spikes, unseasonal rainfall, heatwaves) which trigger rapid pest infestations and fungal diseases. Due to a lack of immediate scientific advisory, farmers often panic and dump hazardous chemical pesticides into their fields. This causes severe soil degradation, groundwater poisoning, and deep financial debt.
 
-### 🎯 Official Problem Statement:
+###  Official Problem Statement:
 > *"How might we use AI to analyze local weather forecasts and crop symptoms so that smallholder farmers can take timely, eco-friendly pest prevention measures and make their farming practices more sustainable?"*
 
 ---
