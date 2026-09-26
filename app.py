@@ -757,7 +757,7 @@ with tab1:
     with col2:
         if test_image and scan_btn:
             with st.spinner("Analyzing spectral patterns & lesion distribution..."):
-                result = vision_model.analyze_image(test_image, selected_crop=selected_crop, api_key=user_api_key)
+                result = vision_model.analyze_image(test_image, selected_crop=selected_crop)
             
             if not result['is_healthy']:
                 st.markdown(f"""
